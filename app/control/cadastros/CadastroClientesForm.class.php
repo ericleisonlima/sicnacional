@@ -13,6 +13,9 @@ class CadastroClientesForm extends TPage
         $this->form->setFormTitle( 'Cadastro de Clientes' );
         $this->form->class = 'tform';
 
+        $this->form->addAction( 'Voltar para a listagem',
+        new TAction( [ 'CadastroClientesList', 'onReload' ] ), 'fa:table blue' );
+
         // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = 'width: 90%';
@@ -21,7 +24,7 @@ class CadastroClientesForm extends TPage
 
         parent::add( $container );
     }
-    
+
     public function onEdit( $param )
     {
 
