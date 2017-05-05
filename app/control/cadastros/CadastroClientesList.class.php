@@ -49,28 +49,14 @@ class CadastroClientesList extends TPage
         $column_nome = new TDataGridColumn( 'nome', 'Nome', 'left' );
         $column_cpf = new TDataGridColumn( 'cpf', 'CPF', 'left' );
         $column_rg = new TDataGridColumn( 'rg', 'RG', 'left' );
-        $column_situacao = new TDataGridColumn( 'situacao', 'Situação', 'center' );
+        $column_email = new TDataGridColumn( 'email', 'E-mail', 'center' );
 
         //Insercao das colunas no datagrid
         $this->datagrid->addColumn( $column_id );
         $this->datagrid->addColumn( $column_nome );
         $this->datagrid->addColumn( $column_cpf );
         $this->datagrid->addColumn( $column_rg );
-        $this->datagrid->addColumn( $column_situacao );
-
-        $column_situacao->setTransformer( function($value, $object, $row)
-        {
-            $class = ( $value=='I' ) ? 'danger' : 'success';
-
-            $label = ( $value=='I' ) ? 'Inativo' : 'Ativo';
-
-            $div = new TElement( 'span' );
-            $div->class = "label label-{$class}";
-            $div->style = "text-shadow:none; font-size:12px; font-weight:lighter";
-            $div->add( $label );
-
-            return $div;
-        });
+        $this->datagrid->addColumn( $column_email );
 
         //Insercao das acoes de ordenacao nas colunas do datagrid
         $order_id = new TAction( [ $this, 'onReload' ] );
@@ -89,9 +75,9 @@ class CadastroClientesList extends TPage
         $order_rg->setParameter( 'order', 'rg' );
         $column_rg->setAction( $order_rg );
 
-        $order_situacao = new TAction( [ $this, 'onReload' ] );
-        $order_situacao->setParameter( 'order', 'situacao' );
-        $column_situacao->setAction( $order_situacao );
+        $order_email = new TAction( [ $this, 'onReload' ] );
+        $order_email->setParameter( 'order', 'situacao' );
+        $column_email->setAction( $order_email );
 
         //Criacao da acao de edicao no datagrid
         $action_edit = new TDataGridAction( [ 'CadastroClientesForm', 'onEdit' ] );
@@ -109,20 +95,13 @@ class CadastroClientesList extends TPage
         $action_del->setField( 'id' );
         $this->datagrid->addAction( $action_del );
 
-        //Criacao da acao de ativa/desativa no datagrid
-        $action_onoff = new TDataGridAction( [ $this, 'onTurnOnOff' ] );
-        $action_onoff->setButtonClass( 'btn btn-default' );
-        $action_onoff->setLabel( 'Ativa/Desativar' );
-        $action_onoff->setImage( 'fa:power-off fa-lg orange' );
-        $action_onoff->setField( 'id' );
-        $this->datagrid->addAction( $action_onoff );
-
         //Exibicao do datagrid
         $this->datagrid->createModel();
         // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
         $container->add( $this->form );
+        $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
 
         // Adicionando o container com o form a pagina
         parent::add( $container );
@@ -134,6 +113,16 @@ class CadastroClientesList extends TPage
     }
 
     public function onReload()
+    {
+
+    }
+
+    public function onDelete()
+    {
+
+    }
+
+    public function onTurnOnOff()
     {
 
     }
