@@ -1,9 +1,9 @@
 <menu>
   <menuitem label='Cadastros'>
-      <icon>fa:sign-out fa-fw</icon>
+      <icon>fa:list-ul fa-fw</icon>
       <menu>
             <menuitem label='Clientes'>
-                <icon>fa:user</icon>
+                <icon>fa:users</icon>
                 <action>CadastroClientesList</action>
             </menuitem>
       </menu>
