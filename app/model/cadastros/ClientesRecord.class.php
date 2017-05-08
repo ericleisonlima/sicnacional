@@ -1,4 +1,8 @@
 <?php
+/*
+ * @author Pedro Henrique
+ * @date 06/05/2017
+ */
 
 class ClientesRecord extends TRecord
 {
