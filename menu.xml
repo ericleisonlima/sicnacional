@@ -1,13 +1,23 @@
 <menu>
 
   <menuitem label='Cadastros'>
+      
     <icon>fa:list-ul fa-fw</icon>
+      
     <menu>
       <menuitem label='Clientes'>
         <icon>fa:users</icon>
         <action>CadastroClientesList</action>
       </menuitem>
+        
+        <menuitem label='Municipios'>
+        <icon>fa:users</icon>
+        <action>MunicipioList</action>
+      </menuitem>
+        
     </menu>
+
+      
   </menuitem>
 
   <menuitem label='_t{Administration}'>
