@@ -7,6 +7,10 @@
         <icon>fa:users</icon>
         <action>CadastroClientesList</action>
       </menuitem>
+        <menuitem label='Estabelecimento'>
+                  <icon>fa:home"</icon>
+                  <action>EstabelecimentoList</action>
+              </menuitem>
     </menu>
   </menuitem>
 
