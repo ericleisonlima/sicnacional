@@ -36,7 +36,7 @@ class SystemNotificationFormView extends TPage
                         $array_object['checked_string'] = ($array_object['checked'] == 'Y' ? _t('Yes') : _t('No'));
                         $array_object['action_encoded'] = base64_encode($array_object['action_url']);
                         
-                        TTransaction::open('permission');
+                        TTransaction::open('dbsic');
                         $user = SystemUser::find($array_object['system_user_id']);
                         if ($user instanceof SystemUser)
                         {

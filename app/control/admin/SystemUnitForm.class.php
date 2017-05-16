@@ -15,7 +15,7 @@ class SystemUnitForm extends TStandardForm
     {
         parent::__construct();
         
-        $this->setDatabase('permission');              // defines the database
+        $this->setDatabase('dbsic');              // defines the database
         $this->setActiveRecord('SystemUnit');     // defines the active record
         
         // creates the form

@@ -65,7 +65,7 @@ class SystemNotificationList extends TStandardList
         $column_message->setTransformer( function($value, $object, $row) {
             try
             {
-                TTransaction::open('permission');
+                TTransaction::open('dbsic');
                 $user = SystemUser::find($object->system_user_id);
                 $name = $user->name;
                 TTransaction::close();

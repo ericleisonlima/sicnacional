@@ -98,7 +98,7 @@ class SystemDocumentForm extends TPage
             {
                 foreach ($data->user_ids as $user_id => $user_name)
                 {
-                    TTransaction::open('permission');
+                    TTransaction::open('dbsic');
                     $system_user = SystemUser::find($user_id);
                     TTransaction::close();
                     $object->addSystemUser( $system_user );
@@ -109,7 +109,7 @@ class SystemDocumentForm extends TPage
             {
                 foreach ($data->group_ids as $group_id)
                 {
-                    TTransaction::open('permission');
+                    TTransaction::open('dbsic');
                     $system_group = SystemGroup::find($group_id);
                     TTransaction::close();
                     $object->addSystemGroup( $system_group );

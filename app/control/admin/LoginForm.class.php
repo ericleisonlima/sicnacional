@@ -87,7 +87,7 @@ class LoginForm extends TPage
     {
         try
         {
-            TTransaction::open('permission');
+            TTransaction::open('dbsic');
             $data = $this->form->getData('StdClass');
             $this->form->validate();
             $user = SystemUser::authenticate( $data->login, $data->password );
@@ -140,7 +140,7 @@ class LoginForm extends TPage
     {
         try
         {
-            TTransaction::open('permission');
+            TTransaction::open('dbsic');
             $user = SystemUser::newFromLogin( TSession::getValue('login') );
             if ($user)
             {

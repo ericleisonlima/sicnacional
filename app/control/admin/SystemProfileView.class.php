@@ -10,7 +10,7 @@ class SystemProfileView extends TPage
         
         try
         {
-            TTransaction::open('permission');
+            TTransaction::open('dbsic');
             
             $user= SystemUser::newFromLogin(TSession::getValue('login'));
             $replaces = $user->toArray();

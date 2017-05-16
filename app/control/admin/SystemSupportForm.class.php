@@ -66,7 +66,7 @@ class SystemSupportForm extends TWindow
             $this->form->validate();
             
             // open a transaction with database
-            TTransaction::open('permission');
+            TTransaction::open('dbsic');
             
             $preferences = SystemPreference::getAllPreferences();
             

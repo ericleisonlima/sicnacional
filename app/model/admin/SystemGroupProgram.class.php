@@ -5,10 +5,10 @@
  */
 class SystemGroupProgram extends TRecord
 {
-    const TABLENAME = 'system_group_program';
+    const TABLENAME = 'grupos_programas';
     const PRIMARYKEY= 'id';
     const IDPOLICY =  'max'; // {max, serial}
-    
+
     /**
      * Constructor method
      */

@@ -143,7 +143,7 @@ class SystemUserForm extends TPage
         try
         {
             // open a transaction with database 'permission'
-            TTransaction::open('permission');
+            TTransaction::open('dbsic');
             
             $object = new SystemUser;
             $object->fromArray( $param );
@@ -236,7 +236,7 @@ class SystemUserForm extends TPage
                 $key=$param['key'];
                 
                 // open a transaction with database 'permission'
-                TTransaction::open('permission');
+                TTransaction::open('dbsic');
                 
                 // instantiates object System_user
                 $object = new SystemUser($key);
@@ -312,7 +312,7 @@ class SystemUserForm extends TPage
             
             if (!empty($id) AND empty($program_list[$id]))
             {
-                TTransaction::open('permission');
+                TTransaction::open('dbsic');
                 $program = SystemProgram::find($id);
                 $program_list[$id] = $program->toArray();
                 TSession::setValue('program_list', $program_list);

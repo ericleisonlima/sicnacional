@@ -26,7 +26,7 @@ class MessageList extends TElement
                 $a->add( TElement::tag('i',    '', array('class'=>"fa fa-caret-down")) );
                 $a->show();
                 
-                TTransaction::open('permission');
+                TTransaction::open('dbsic');
                 foreach ($system_messages as $system_message)
                 {
                     $name    = SystemUser::find($system_message->system_user_id)->name;
@@ -94,7 +94,7 @@ class MessageList extends TElement
                 $li_master->add($ul_wrapper);
                 parent::add($li_master);
                 
-                TTransaction::open('permission');
+                TTransaction::open('dbsic');
                 foreach ($system_messages as $system_message)
                 {
                     $name    = SystemUser::find($system_message->system_user_id)->name;

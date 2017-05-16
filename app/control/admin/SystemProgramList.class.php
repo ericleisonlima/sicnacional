@@ -19,7 +19,7 @@ class SystemProgramList extends TStandardList
     {
         parent::__construct();
         
-        parent::setDatabase('permission');            // defines the database
+        parent::setDatabase('dbsic');            // defines the database
         parent::setActiveRecord('SystemProgram');   // defines the active record
         parent::setDefaultOrder('id', 'asc');         // defines the default order
         // parent::setCriteria($criteria) // define a standard filter
