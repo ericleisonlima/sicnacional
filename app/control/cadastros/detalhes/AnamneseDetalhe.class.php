@@ -37,7 +37,7 @@ class AnamneseDetalhe extends TPage
         $diagnosticonutricional = new TText( "diagnosticonutricional" );
 
 
-        TTransaction::open('db_sic');
+        TTransaction::open('sicnacional');
         $estabelecimento_medico_id = new AnamneseRecord( filter_input( INPUT_GET, 'fk' ) );
         $estabelecimentonome = new TLabel( $estabelecimento_medico_id->nome );
         $paciente_id = new AnamneseRecord( filter_input( INPUT_GET, 'fk' ) );
