@@ -102,8 +102,8 @@ class NutricaoParenteralList extends TStandardList
         {
             if( !empty( $data->opcao ) && !empty( $data->dados ) )
             {
-                TTransaction::open( "sicnacional" );
-                $repository = new TRepository( "NutricaoParenteralRecord" ); // SERA A BUSCA EM PACIENTE!!!
+                TTransaction::open( "sic_nacional" );
+                $repository = new TRepository( "PacienteRecord" ); // SERA A BUSCA EM PACIENTE!!!
                 if ( empty( $param[ "order" ] ) )
                 {
                     $param[ "order" ] = "id";
@@ -136,9 +136,9 @@ class NutricaoParenteralList extends TStandardList
                 }
                 $criteria->resetProperties();
                 $count = $repository->count( $criteria );
-                $this->pageNavigation->setCount( $count ); // count of records
-                $this->pageNavigation->setProperties( $param ); // order, page
-                $this->pageNavigation->setLimit( $limit ); //Limita a quantidade de registros
+                $this->pageNavigation->setCount( $count );
+                $this->pageNavigation->setProperties( $param );
+                $this->pageNavigation->setLimit( $limit );
                 TTransaction::close();
                 $this->form->setData( $data );
                 $this->loaded = true;
