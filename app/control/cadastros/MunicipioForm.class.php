@@ -32,11 +32,7 @@ class MunicipioForm extends TPage{
         $uf->setSize('30%');
 
         $uf->addItems( [ 'RN' => 'Rio Grande do Norte', 'BA' => 'Bahia'] );
-<<<<<<< HEAD:app/control/cadastros/MunicipioForm.class.php
-//
-=======
 
->>>>>>> 758c1aba4c8269a6e4e2cc38900596cfd4e71f3d:app/control/cadastros/MunicipioForm.class.php
         $this->form->addFields( [ new TLabel( 'Nome:' )  ], [ $nome ] );
         $this->form->addFields( [ new TLabel( 'Código IBGE: ' )], [$codibge] );
         $this->form->addFields( [ new TLabel( 'Estado:' ) ], [ $uf ] );

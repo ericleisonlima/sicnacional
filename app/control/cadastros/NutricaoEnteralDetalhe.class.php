@@ -23,11 +23,6 @@ class NutricaoEnteralDetalhe extends TPage
         $totalcaloria              = new TEntry( "totalcalorias" );
         $percentualdiario          = new TEntry( "percentualdiario" );
       
-
-<<<<<<< HEAD
-     
-=======
->>>>>>> 758c1aba4c8269a6e4e2cc38900596cfd4e71f3d
         
         $administracao->setDefaultOption( "..::SELECIONE::.." );
         $tiponutricao->setDefaultOption("..::SELECIONE::..");

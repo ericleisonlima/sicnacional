@@ -15,10 +15,6 @@ class CadastroCidList extends TPage
         $this->form->setFormTitle( "Classificação Internacional de Doenças" );
         $this->form->class = "tform";
         
-<<<<<<< HEAD
-        // Criacao dos campos do fomulario
-=======
->>>>>>> 758c1aba4c8269a6e4e2cc38900596cfd4e71f3d
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
         
