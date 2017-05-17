@@ -28,9 +28,9 @@ class EstabelecimentoForm extends TPage
         $longitude        = new TEntry('longitude');
 
 
+ 
 
-
-        TTransaction::open('db_sic');
+        TTransaction::open('dbsic');
         $repository = new TRepository('MunicipioRecord');
 
         $criteria = new TCriteria();
@@ -119,7 +119,7 @@ class EstabelecimentoForm extends TPage
             //Validacao do formulario
             $this->form->validate();
 
-            TTransaction::open( "db_sic" );
+            TTransaction::open( "dbsic" );
 
             //Resgata os dados inseridos no formulario a partir do modelo
             $object = $this->form->getData( "EstabelecimentoRecord" );

@@ -1,133 +1,136 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
-
-class PacienteList extends TPage
+class CadastroCidList extends TPage
 {
     private $form;
     private $datagrid;
     private $pageNavigation;
     private $loaded;
+     
     public function __construct()
     {
         parent::__construct();
-
-        $this->form = new BootstrapFormBuilder( "form_list_cadastro_paciente" );
-        $this->form->setFormTitle( "Listagem de Pacientes" );
+        // Criacao do formulario
+        $this->form = new BootstrapFormBuilder( "form_list_cadastro_cid" );
+        $this->form->setFormTitle( "Classificação Internacional de Doenças" );
         $this->form->class = "tform";
-
+        
+        // Criacao dos campos do fomulario
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
-       
+        
+        // Definicao de propriedades dos campos
         $opcao->setDefaultOption( "..::SELECIONE::.." );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
         $dados->forceUpperCase();
         
+        // Definicao dos tamanhos do campos
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
-      
-        $opcao->addItems( [ "nome" => "Nome"] );
+        
+        // Definicao das opções dos combos
+        $opcao->addItems( [ "nome" => "Doença", "codigocid" => "Classificação" ] );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
         
-        $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
-        $this->form->addAction( "Novo", new TAction( [ "PacienteForm", "onEdit" ] ), "bs:plus-sign green" );
+
         
+        // Criacao dos botoes com sua determinada acoes no fomulario
+        $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
+        $this->form->addAction( "Novo", new TAction( [ "CadastroCidForm", "onEdit" ] ), "bs:plus-sign green" );
+        
+        //Criacao do datagrid de listagem de dados
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
         
+        //Criacao das colunas do datagrid
         $column_id = new TDataGridColumn( "id", "ID", "center", 50 );
-        $column_nome = new TDataGridColumn( "nome", "Nome", "left" );
-        $column_tiposanguineo = new TDataGridColumn( "tiposanguineo", "Tipo Sanguíneo", "left" );
-        $column_nome_municipio = new TDataGridColumn( "nome_municipio", "Municipio", "center" );
-        $column_data_diagnostico = new TDataGridColumn( "data_diagnostico", "Data Diagnostico", "center" );
+        $column_codigocid = new TDataGridColumn( "codigocid", "Classificação", "left" );
+        $column_nome = new TDataGridColumn( "nome", "Doença", "left" );
+
         
+        //Insercao das colunas no datagrid
         $this->datagrid->addColumn( $column_id );
+        $this->datagrid->addColumn( $column_codigocid );
         $this->datagrid->addColumn( $column_nome );
-        $this->datagrid->addColumn( $column_tiposanguineo);
-        $this->datagrid->addColumn(  $column_nome_municipio );
-        $this->datagrid->addColumn($column_data_diagnostico );
-     
+
+
+        
+        //Insercao das acoes de ordenacao nas colunas do datagrid
         $order_id = new TAction( [ $this, "onReload" ] );
         $order_id->setParameter( "order", "id" );
         $column_id->setAction( $order_id );
-
+        
+        $order_codigocid = new TAction( [ $this, "onReload" ] );
+        $order_codigocid->setParameter( "order", "codigocid" );
+        $column_codigocid->setAction( $order_codigocid );
+        
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
-
-        $order_tiposanguineo = new TAction( [ $this, "onReload" ] );
-        $order_tiposanguineo->setParameter( "order", "tiposanguineo" );
-        $column_tiposanguineo->setAction( $order_tiposanguineo );
-   
-        $action_nutparen = new TDataGridAction( [ "NutricaoParenteralForm", "onEdit" ] );
-        $action_nutparen->setButtonClass( "btn btn-default" );
-        $action_nutparen->setLabel( "Nutrição Parenteral" );
-        $action_nutparen->setImage( "fa:check-square fa-fw" );
-        $action_nutparen->setField( "id" );
-        $this->datagrid->addAction( $action_nutparen );
-
-        $action_edit = new TDataGridAction( [ "PacienteForm", "onEdit" ] );
+        
+        
+        //Criacao da acao de edicao no datagrid
+        $action_edit = new TDataGridAction( [ "CadastroCidForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
         
+        
+        //Criacao da acao de delecao no datagrid
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
-
+        
+        //Exibicao do datagrid
         $this->datagrid->createModel();
-      
+        
+        //Criacao do navedor de paginas do datagrid
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-  
-
+        
+        // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
         $container->add( new TXMLBreadCrumb( "menu.xml", __CLASS__ ) );
         $container->add( $this->form );
         $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
         $container->add( $this->pageNavigation );
-        
-
+        // Adicionando o container com o form a pagina
         parent::add( $container );
     }
+    
     public function onReload( $param = NULL )
     {
         try
         {
-            
+            // Abrindo a conexao com o banco de dados
             TTransaction::open( "dbsic" );
-          
-
-            $repository = new TRepository( "PacienteRecord" );
+            // Criando um repositorio para armazenar temporariamente os dados do banco
+            $repository = new TRepository( "CidRecord" );
             if ( empty( $param[ "order" ] ) )
             {
                 $param[ "order" ] = "id";
                 $param[ "direction" ] = "asc";
             }
             $limit = 10;
-            
-
+            // Criando um criterio de busca no banco de dados
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-            
+            // Buscando os dados no banco de acordo com os criterios passados
             $objects = $repository->load( $criteria, FALSE );
-           
+            // Limpando o datagrid
             $this->datagrid->clear();
- 
-
+            // Se existirem dados no banco, o datagrid sera prenchido por esse foreach
             if ( !empty( $objects ) )
             {
                 foreach ( $objects as $object )
@@ -136,12 +139,12 @@ class PacienteList extends TPage
                 }
             }
             $criteria->resetProperties();
-           
+            // Salvando a contagem dos registros que estam no repositorio
             $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
-            $this->pageNavigation->setLimit($limit);
-
+            $this->pageNavigation->setCount($count); // Definindo quantos registros tera por pagina do datagrid
+            $this->pageNavigation->setProperties($param); // Definindo os paramentros de organizacao dos dados por pagina
+            $this->pageNavigation->setLimit($limit); // Definindo o limite de registros por pagina do datagrid
+            // Fechando a conexao com o banco de dados
             TTransaction::close();
             $this->loaded = true;
         }
@@ -151,6 +154,7 @@ class PacienteList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
+    
     public function onSearch()
     {
         $data = $this->form->getData();
@@ -159,7 +163,7 @@ class PacienteList extends TPage
             if( !empty( $data->opcao ) && !empty( $data->dados ) )
             {
                 TTransaction::open( "dbsic" );
-                $repository = new TRepository( "PacienteRecord" );
+                $repository = new TRepository( "CidRecord" );
                 if ( empty( $param[ "order" ] ) )
                 {
                     $param[ "order" ] = "id";
@@ -169,9 +173,13 @@ class PacienteList extends TPage
                 $criteria = new TCriteria();
                 $criteria->setProperties( $param );
                 $criteria->setProperty( "limit", $limit );
-                if( $data->opcao == "nome" && ( is_numeric( $data->dados ) ) )
+                if( $data->opcao == "nome" )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
+                }
+                else if ( ( $data->opcao == "codigocid" ) && ( is_numeric( $data->dados ) ) )
+                {
+                    $criteria->add( new TFilter( $data->opcao, "LIKE", $data->dados . "%" ) );
                 }
                 else
                 {
@@ -188,9 +196,9 @@ class PacienteList extends TPage
                 }
                 $criteria->resetProperties();
                 $count = $repository->count( $criteria );
-                $this->pageNavigation->setCount( $count );
-                $this->pageNavigation->setProperties( $param ); 
-                $this->pageNavigation->setLimit( $limit ); 
+                $this->pageNavigation->setCount( $count ); // count of records
+                $this->pageNavigation->setProperties( $param ); // order, page
+                $this->pageNavigation->setLimit( $limit ); //Limita a quantidade de registros
                 TTransaction::close();
                 $this->form->setData( $data );
                 $this->loaded = true;
@@ -209,24 +217,27 @@ class PacienteList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
+    
     public function onDelete( $param = NULL )
     {
         if( isset( $param[ "key" ] ) )
         {
-            
+            //Criacao das acoes a serem executadas na mensagem de exclusao
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
-           
+            
+            //Definicao sos parametros de cada acao
             $action1->setParameter( "key", $param[ "key" ] );
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
         }
     }
+    
     function Delete( $param = NULL )
     {
         try
         {
             TTransaction::open( "dbsic" );
-            $object = new ClientesRecord( $param[ "key" ] );
+            $object = new CidRecord( $param[ "key" ] );
             $object->delete();
             TTransaction::close();
             $this->onReload();
@@ -238,6 +249,7 @@ class PacienteList extends TPage
             new TMessage("error", $ex->getMessage());
         }
     }
+    
     public function show()
     {
         $this->onReload();

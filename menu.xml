@@ -104,7 +104,7 @@
     <menu>
       <menuitem label='Common page 1'>
         <icon></icon>
-        <action>CommonPage</action>
+       <action>CommonPage</action>
       </menuitem>
       <menuitem label='Common page 2'>
         <icon></icon>
