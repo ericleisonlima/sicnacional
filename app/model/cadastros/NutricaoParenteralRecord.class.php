@@ -28,4 +28,17 @@ class NutricaoParenteralRecord extends TRecord
         parent::addAttribute('apresntouinfeccaoacessovenoso');
         parent::addAttribute('vezesinfeccaoacessovenosso');
     }
+
+    private $paciente;
+    
+    function get_paciente_nome()
+    {
+        //instancia saldoRecord
+        //carrega na memoria a empresa de codigo $this->empresa_id
+        if (empty ($this->paciente)){
+            $this->paciente = new PacienteRecord($this->paciente_id);
+        }
+        //retorna o objeto instanciado
+        return $this->paciente->nome;
+    }
 }
