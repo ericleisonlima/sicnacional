@@ -30,7 +30,6 @@ class TipoNutricaoList extends TStandardList
         //$id = new TEntry('id');
         $nome = new TEntry('nome');
 
-        // add the fields
         //$this->form->addFields( [new TLabel('Id')], [$id] );
         $this->form->addFields( [new TLabel('Nome')], [$nome] );
 

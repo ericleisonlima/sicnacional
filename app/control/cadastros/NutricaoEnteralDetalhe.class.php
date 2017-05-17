@@ -29,9 +29,7 @@ class NutricaoEnteralDetalhe extends TPage
         $administracao->setDefaultOption( "..::SELECIONE::.." );
         $tiponutricao->setDefaultOption("..::SELECIONE::..");
         $paciente->setEditable(FALSE);
-        //$nome->setProperty( "title", "O campo é obrigatório" );
-        //$cpf->setProperty( "title", "O campos é obrigatório" );
-
+ 
       
         $administracao->setSize( "38%" );
         $tiponutricao->setSize( "38%" );

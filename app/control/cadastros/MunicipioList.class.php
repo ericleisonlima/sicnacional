@@ -29,7 +29,7 @@ class MunicipioList extends TPage{
 
         $this->form->addAction( 'Buscar', new TAction( [$this, 'onSearch'] ), 'fa:search' );
         $this->form->addAction( 'Novo', new TAction( ["MunicipioForm", 'onShow'] ), 'fa:save' );
-
+//
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";

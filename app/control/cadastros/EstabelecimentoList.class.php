@@ -20,7 +20,6 @@ class EstabelecimentoList extends TPage
         $this->form->setFormTitle( "Listagem de Estabelecimento" );
         $this->form->class = "tform";
 
-        // Criacao dos campos do fomulario
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
 

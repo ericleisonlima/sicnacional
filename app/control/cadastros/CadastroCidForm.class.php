@@ -6,7 +6,7 @@ class CadastroCidForm extends TPage
     
     public function __construct()
     {
-        parent::__construct();
+        pare nt::__construct();
         
         //Criacao do formulario
         $this->form = new BootstrapFormBuilder( "form_cadastro_cid" );

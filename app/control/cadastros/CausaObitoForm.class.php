@@ -11,7 +11,7 @@ class CausaObitoForm extends TPage
     public function __construct()
     {
         parent::__construct();
-
+ 
         $this->form = new BootstrapFormBuilder( "form_causa_obito" );
         $this->form->setFormTitle( "Causa Óbito" );
         $this->form->class = "tform";

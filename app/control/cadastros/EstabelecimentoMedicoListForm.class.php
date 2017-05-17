@@ -136,21 +136,38 @@ class EstabelecimentoMedicoListForm extends TPage{
     
     public function onSave() 
     {
+
+        $object = $this->form->getData('EstabelecimentoMedicoRecord');
         
         try{
-            //ini and records
+
+
+
             TTransaction::open('dbsic');
-            $object = $this->form->getData('EstabelecimentoMedicoRecord');
+
+          if($msg == '') {
+
+                $cadastro->store();
+                $msg = 'Dados armazenados com sucesso';
+                
+                TTransaction::close();
+                
+            
+            
             $object->store();
             
             TTransaction::close();
             
             new TMessage( 'info', 'Sucess');
 
-            $this->onReload();
-
-            parent::show();
+                                
+            $param = array();
+            $param ['id'] = $dados['id'];
+                                
+            new TMessage("info", "Registro salvo com sucesso!");
+            TApplication::gotoPage('EstabelecimentoMedicoListForm','onReload', $param ); 
         }
+          
         catch (Exception $se){
             new TMessage('erro', $se->getMessage());
             TTransaction::rollback();

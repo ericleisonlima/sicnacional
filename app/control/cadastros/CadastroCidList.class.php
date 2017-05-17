@@ -6,7 +6,7 @@ class CadastroCidList extends TPage
     private $datagrid;
     private $pageNavigation;
     private $loaded;
-    
+     
     public function __construct()
     {
         parent::__construct();
