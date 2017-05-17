@@ -12,7 +12,7 @@ class NutricaoParenteralList extends TStandardList
     {
         parent::__construct();
         
-        parent::setDatabase('sic_nacional');
+        parent::setDatabase('dbsic');
         parent::setActiveRecord('NutricaoParenteralRecord');
         parent::setDefaultOrder('id', 'asc');
 
@@ -102,7 +102,7 @@ class NutricaoParenteralList extends TStandardList
         {
             if( !empty( $data->opcao ) && !empty( $data->dados ) )
             {
-                TTransaction::open( "sic_nacional" );
+                TTransaction::open( "dbsic" );
                 $repository = new TRepository( "PacienteRecord" ); // SERA A BUSCA EM PACIENTE!!!
                 if ( empty( $param[ "order" ] ) )
                 {

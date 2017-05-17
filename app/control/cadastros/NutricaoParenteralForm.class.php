@@ -8,7 +8,7 @@ class NutricaoParenteralForm extends TStandardForm{
         $this->form = new BootstrapFormBuilder('form_nutricao_parenteral');
         $this->form->setFormTitle('Nutrição Parenteral');
         
-        parent::setDatabase('sic_nacional');
+        parent::setDatabase('dbsic');
         parent::setActiveRecord('NutricaoParenteralRecord');
         
         $id                                 = new THidden('id');
@@ -16,7 +16,7 @@ class NutricaoParenteralForm extends TStandardForm{
         //$paciente_id = filter_input('INPUT_GET', 'id');
         $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
 
-        TTransaction::open('sic_nacional');
+        TTransaction::open('dbsic');
         $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'id' ) );
         
         if( $tempVisita ){
@@ -88,7 +88,7 @@ class NutricaoParenteralForm extends TStandardForm{
         if (isset($param['id'])) {
 
             $key = $param['id'];
-            TTransaction::open('sic_nacional');
+            TTransaction::open('dbsic');
             $object = new NutricaoParenteralRecord($key);
 
             $this->form->setData($object);
@@ -104,7 +104,7 @@ class NutricaoParenteralForm extends TStandardForm{
 }
 /*
     function onSave() {
-        TTransaction::open('sic_nacional');
+        TTransaction::open('dbsic');
         $msg = '';
         $cadastro = $this->form->getData('NutricaoParenteralRecord');
         $dados = $cadastro->toArray();
@@ -148,7 +148,7 @@ class NutricaoParenteralForm extends TStandardForm{
    public function onSave(){
         try{
 
-            TTransaction::open('sic_nacional');
+            TTransaction::open('dbsic');
             $cadastro = $this->form->getData('NutricaoParenteralRecord');
             var_dump($cadastro->paciente_id);
             exit();

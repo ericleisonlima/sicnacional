@@ -103,7 +103,7 @@ class MunicipioList extends TPage{
         {
             TTransaction::open( "dbsic" );
 
-            $repository = new TRepository( "ClientesRecord" );
+            $repository = new TRepository( "MunicipioRecord" );
 
             if ( empty( $param[ "order" ] ) )
             {
@@ -159,7 +159,7 @@ class MunicipioList extends TPage{
             {
                 TTransaction::open( "dbsic" );
 
-                $repository = new TRepository( "ClientesRecord" );
+                $repository = new TRepository( "MunicipioRecord" );
 
                 if ( empty( $param[ "order" ] ) )
                 {
