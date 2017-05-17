@@ -27,7 +27,6 @@ class NutricaoParenteralForm extends TStandardList{
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
         }
-
         TTransaction::close(); 
 
         $inicio                             = new TDate('datainicio');

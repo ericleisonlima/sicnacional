@@ -1,8 +1,5 @@
 <?php
-/*
- * @author Pedro Henrique
- * @date 06/05/2017
- */
+
 
 class EstabelecimentoList extends TPage
 {

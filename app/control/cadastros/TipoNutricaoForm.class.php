@@ -31,7 +31,6 @@ class TipoNutricaoForm extends TStandardForm
         $nome->setSize('70%');
         $nome->addValidation('Nome', new TRequiredValidator );
 
-        // create the form actions
         $this->form->addAction('Salvar', new TAction(array($this, 'onSave')), 'fa:floppy-o');
         $this->form->addAction('Novo',  new TAction(array($this, 'onEdit')), 'fa:eraser red');
         $this->form->addAction('Voltar',new TAction(array('TipoNutricaoList','onReload')),'fa:table blue');

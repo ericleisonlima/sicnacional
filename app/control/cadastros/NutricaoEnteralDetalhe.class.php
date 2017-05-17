@@ -24,7 +24,6 @@ class NutricaoEnteralDetalhe extends TPage
         $percentualdiario          = new TEntry( "percentualdiario" );
       
 
-     
         
         $administracao->setDefaultOption( "..::SELECIONE::.." );
         $tiponutricao->setDefaultOption("..::SELECIONE::..");

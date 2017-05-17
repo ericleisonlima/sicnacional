@@ -32,7 +32,7 @@ class MunicipioForm extends TPage{
         $uf->setSize('30%');
 
         $uf->addItems( [ 'RN' => 'Rio Grande do Norte', 'BA' => 'Bahia'] );
-//
+
         $this->form->addFields( [ new TLabel( 'Nome:' )  ], [ $nome ] );
         $this->form->addFields( [ new TLabel( 'Código IBGE: ' )], [$codibge] );
         $this->form->addFields( [ new TLabel( 'Estado:' ) ], [ $uf ] );

@@ -29,8 +29,7 @@ class PacienteForm extends TPage
         $datadiagnostico              = new TDate( "datadiagnostico" );
         $condicoes_diagnostico_id     = new TCombo("condicoes_diagnostico_id");
         $estabelecimento_medico_id    = new TCombo( "estabelecimento_medico_id" );
-        
-      
+            
         $nascimento->setMask( "dd/mm/yyyy" );
 
 

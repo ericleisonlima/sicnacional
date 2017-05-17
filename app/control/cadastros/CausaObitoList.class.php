@@ -1,9 +1,6 @@
 <?php
-/*
-* @author Neto Nogueira
-* @date 15/05/2017
 
-*/
+
 
 class CausaObitoList extends TPage
 {

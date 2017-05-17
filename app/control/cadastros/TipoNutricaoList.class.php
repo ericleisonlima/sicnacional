@@ -26,7 +26,6 @@ class TipoNutricaoList extends TStandardList
         $this->form = new BootstrapFormBuilder('form_search_TipoNutricaoRecord');
         $this->form->setFormTitle('Tipos de nutrição');
 
-        // create the form fields
         //$id = new TEntry('id');
         $nome = new TEntry('nome');
 
