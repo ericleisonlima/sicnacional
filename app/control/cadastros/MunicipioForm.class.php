@@ -1,6 +1,8 @@
 <?php
 
-class CadastroMunicipioForm extends TPage{
+
+
+class MunicipioForm extends TPage{
     
     private $form;
     private $datagrid;
@@ -29,11 +31,14 @@ class CadastroMunicipioForm extends TPage{
         $codibge->setSize('30%');
         $uf->setSize('30%');
 
-        $uf->addItems( [ 'M' => 'Masculino', 'F' => 'Feminino'] );
+        $uf->addItems( [ 'RN' => 'Rio Grande do Norte', 'BA' => 'Bahia'] );
+
         $this->form->addFields( [ new TLabel( 'Nome:' )  ], [ $nome ] );
-        $this->form->addFields( [ new TLabel( 'IBGE: ' )], [$codibge] );
+        $this->form->addFields( [ new TLabel( 'Código IBGE: ' )], [$codibge] );
         $this->form->addFields( [ new TLabel( 'Estado:' ) ], [ $uf ] );
         $this->form->addFields( [ new TLabel( '' ) ], [ $id ] ); 
+
+        $nome->addValidation( "Nome", new TRequiredValidator );
 
         $this->form->addAction('Voltar', new TAction( ["MunicipioList", 'onReload'] ), 'ico_back.png');
         $this->form->addAction( 'Cadastrar', new TAction( [$this, 'onSave'] ), 'fa:save' );
@@ -48,19 +53,44 @@ class CadastroMunicipioForm extends TPage{
     public function onSave() 
     {
         
-        try{
-            TTransaction::open('dbsic');
-            $object = $this->form->getData('MunicipioRecord');
+        try
+        {
+            $this->form->validate();
+
+            TTransaction::open( "dbsic" );
+
+            $object = $this->form->getData( "MunicipioRecord" );
+
+            //$object->cpf = preg_replace( "/[^0-9]/", "", $object->cpf );
+            //$object->nascimento = TDate::date2us( $object->nascimento );
+
+            //$object->usuarioalteracao = TSession::getValue("login");/
+            //$object->dataalteracao = date( "Y-m-d H:i:s" );
+
             $object->store();
-            
+
             TTransaction::close();
-            
-            new TMessage( 'info', 'Sucess');
+
+            $action = new TAction( [ "MunicipioList", "onReload" ] );
+
+            new TMessage( "info", "Registro salvo com sucesso!", $action );
+
         }
-        catch (Exception $se){
-            new TMessage('erro', $se->getMessage());
+        catch ( Exception $ex )
+        {
             TTransaction::rollback();
+
+            new TMessage( "error", "Ocorreu um erro ao tentar salvar o registro!<br><br>" . $ex->getMessage() );
         }
     }
     
+
+    function onShow() {
+
+        $this->onReload();
+
+        parent::show();
+    }
+    
 }
+
