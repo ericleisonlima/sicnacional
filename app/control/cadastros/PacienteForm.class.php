@@ -19,7 +19,7 @@ class PacienteForm extends TPage
         $id               = new THidden( "id" );
         $nome             = new TEntry( "nome" );
         $municipio_id     = new TCombo( "municipio_id" );
-        $causa_obito      = new TCombo( "causa_obito" );        
+        $causa_obito      = new TCombo( "causa_obito_id" );        
         $nascimento       = new TDate( "datanascimento" );
         $tiposanguineo    = new TCombo( "tiposanguineo" );
         $dataobito        = new TDate( "dataobito" );
@@ -72,7 +72,7 @@ class PacienteForm extends TPage
         $tiposanguineo->addItems( [ "A" => "A", "B" => "B", "AB" => "AB", "O" => "O" ] );    
         $fatorsanguineo->addItems( [ "P" => "Positivo", "N" => "Negativo" ] );
 
-
+/*
         $nome->addValidation( "Nome", new TRequiredValidator );
         $municipio_id->addValidation( "Municipio", new TRequiredValidator );
         $causa_obito->addValidation( "Causa Obito", new TRequiredValidator );
@@ -85,7 +85,7 @@ class PacienteForm extends TPage
         $datadiagnostico->addValidation( "Data Diagnostico", new TRequiredValidator );
         $condicoes_diagnostico_id->addValidation( "Condicoes Diagnostico", new TRequiredValidator );
         $estabelecimento_medico_id->addValidation( "Estabelecimento Medico", new TRequiredValidator );
- 
+ */ 
 
         $this->form->addFields( [ new TLabel( "Nome:", "#FF0000" ) ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Nascimento:" ) ], [ $nascimento ] );
@@ -122,10 +122,10 @@ class PacienteForm extends TPage
 
             $object = $this->form->getData( "PacienteRecord" );
 
-            $object->nascimento = TDate::date2br( $object->nascimento );
+            //$object->nascimento = TDate::date2br( $object->nascimento );
 
-            $object->usuarioalteracao = TSession::getValue("login");
-            $object->dataalteracao = date( "Y-m-d H:i:s" );
+            //$object->usuarioalteracao = TSession::getValue("login");
+            //$object->dataalteracao = date( "Y-m-d H:i:s" );
             $object->store();
            TTransaction::close();
             $action = new TAction( [ "PacienteList", "onReload" ] );

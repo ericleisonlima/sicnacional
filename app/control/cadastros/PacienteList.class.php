@@ -64,6 +64,12 @@ class PacienteList extends TPage
         $order_tiposanguineo->setParameter( "order", "tiposanguineo" );
         $column_tiposanguineo->setAction( $order_tiposanguineo );
    
+        $action_nutparen = new TDataGridAction( [ "NutricaoParenteralForm", "onEdit" ] );
+        $action_nutparen->setButtonClass( "btn btn-default" );
+        $action_nutparen->setLabel( "Nutrição Parenteral" );
+        $action_nutparen->setImage( "fa:pencil-square-o blue fa-lg" );
+        $action_nutparen->setField( "id" );
+        $this->datagrid->addAction( $action_nutparen );
 
         $action_edit = new TDataGridAction( [ "PacienteForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
@@ -72,18 +78,15 @@ class PacienteList extends TPage
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
         
-
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
-       
 
         $this->datagrid->createModel();
       
-
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );

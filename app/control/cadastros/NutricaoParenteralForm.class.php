@@ -12,8 +12,7 @@ class NutricaoParenteralForm extends TStandardForm{
         parent::setActiveRecord('NutricaoParenteralRecord');
         
         $id                                 = new THidden('id');
-        $paciente_id                        = new THidden('paciente_id');
-        //$paciente_id = filter_input('INPUT_GET', 'id');
+        $paciente_id                        = new THidden('paciente_id'); 
         $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
 
         TTransaction::open('dbsic');
@@ -38,13 +37,6 @@ class NutricaoParenteralForm extends TStandardForm{
         $numerodeacessovenoso               = new TEntry('numerodeacessovenoso');
         $apresentouinfeccaoacessovenoso     = new TEntry('apresentouinfeccaoacessovenoso');
         $vezesinfeccaoacessovenoso         = new TEntry('vezesinfeccaoacessovenoso');
-
-
-        //$controller    = new TMultiSearch('controller');
-        //$controller->addItems($this->getPrograms());
-        //$controller->setMaxSize(1);
-        //$controller->setMinLength(0);
-        //$id->setEditable(false);
 
         $inicio->setMask('dd/mm/yyyy');
         $fim->setMask('dd/mm/yyyy');
@@ -73,21 +65,27 @@ class NutricaoParenteralForm extends TStandardForm{
         //$name->setSize('70%');
         //$controller->setSize('70%');  
 
-        $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'fa:floppy-o');
+        $action = new TAction(array($this, 'onSave'));
+        $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+
+        $this->form->addAction('Salvar', $action, 'fa:floppy-o');
+
+        //$this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'fa:floppy-o');
+
         $this->form->addAction('Voltar',new TAction(array('PacienteList','onReload')),'fa:table blue');
 
         $container = new TVBox;
         $container->style = 'width: 90%';
-        $container->add(new TXMLBreadCrumb('menu.xml','NutricaoParenteralList'));
+        $container->add(new TXMLBreadCrumb('menu.xml','PacienteList'));
         $container->add($this->form);
         
         parent::add($container);
     }
     function onEdit($param) {
     try {
-        if (isset($param['id'])) {
+        if (isset($param['key'])) {
 
-            $key = $param['id'];
+            $key = $param['key'];
             TTransaction::open('dbsic');
             $object = new NutricaoParenteralRecord($key);
 
@@ -102,56 +100,12 @@ class NutricaoParenteralForm extends TStandardForm{
         TTransaction::rollback();
     }
 }
-/*
-    function onSave() {
-        TTransaction::open('dbsic');
-        $msg = '';
-        $cadastro = $this->form->getData('NutricaoParenteralRecord');
-        $dados = $cadastro->toArray();
-        var_dump($cadastro);
-        exit();
-        $icone = 'info';
-
-        try {
-
-            if ($msg == '') {
-                $cadastro->store();
-                $msg = 'Dados armazenados com sucesso';
-
-                TTransaction::close();
-            } else {
-                $icone = 'error';
-            }
-
-            if ($icone == 'error') {
-                new TMessage($icone, $msg);
-                $this->form->setData($cadastro); 
-            } else {
-                
-                new TMessage("info", "Registro salvo com sucesso!");
-                TApplication::gotoPage('PacienteList', 'onReload'); // reload
-            }
-        } catch (Exception $e) { 
-            new TMessage('error', $e->getMessage());
-            TTransaction::rollback();
-            $this->form->setData($cadastro);
-        }
-    }
-*/
-
-
-
-
-
-
-
    public function onSave(){
         try{
 
             TTransaction::open('dbsic');
             $cadastro = $this->form->getData('NutricaoParenteralRecord');
-            var_dump($cadastro->paciente_id);
-            exit();
+            $cadastro->paciente_id =  filter_input(INPUT_GET, 'id');
 
             $this->form->validate();
             $cadastro->store();
