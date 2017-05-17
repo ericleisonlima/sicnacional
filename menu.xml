@@ -5,18 +5,27 @@
     <icon>fa:list-ul fa-fw</icon>
       
     <menu>
+
       <menuitem label='Pacientes'>
         <icon>fa:users</icon>
         <action>PacienteList</action>
       </menuitem>    
+      
         <menuitem label='Municipios'>
         <icon>fa:users</icon>
         <action>MunicipioList</action>
       </menuitem>
+
         <menuitem label='Estabelecimento'>
         <icon>fa:home"</icon>
         <action>EstabelecimentoList</action>
       </menuitem>
+
+        <menuitem label='Estabelecimento Medico'>
+        <icon>fa:home"</icon>
+        <action>EstabelecimentoMedicoListForm</action>
+      </menuitem>
+  
     </menu>
 
       

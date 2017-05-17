@@ -17,7 +17,10 @@ class CadastroCidForm extends TPage
         $id = new THidden( "id" );
         $codigoCID = new TEntry( "codigocid" );
         $nome = new TEntry( "nome" );
+<<<<<<< HEAD
 
+=======
+>>>>>>> 758c1aba4c8269a6e4e2cc38900596cfd4e71f3d
         
         //Definicao das mascaras dos campos especiais
         $codigoCID->setMask( "S99.9" );

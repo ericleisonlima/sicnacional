@@ -29,8 +29,7 @@ class PacienteForm extends TPage
         $datadiagnostico              = new TDate( "datadiagnostico" );
         $condicoes_diagnostico_id     = new TCombo("condicoes_diagnostico_id");
         $estabelecimento_medico_id    = new TCombo( "estabelecimento_medico_id" );
-        
-      
+            
         $nascimento->setMask( "dd/mm/yyyy" );
 
 
@@ -51,10 +50,10 @@ class PacienteForm extends TPage
         $condicoes_diagnostico_id->setSize( "38%" );
         $estabelecimento_medico_id->setSize( "38%" );
 
-
+        //----------------------------------------------------------------------------------------------------
         $items = array();
         TTransaction::open('dbsic');
-       $repository = new TRepository('MunicipioRecord');
+        $repository = new TRepository('MunicipioRecord');
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'nome');
@@ -68,7 +67,63 @@ class PacienteForm extends TPage
         $municipio_id->addItems($items);
         TTransaction::close(); 
 
+
+        //----------------------------------------------------------------------------------------------------
+
+        $items = array();
+        TTransaction::open('dbsic');
+        $repository = new TRepository('CausaObitoRecord');
+
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'descricao');
         
+        $cadastros = $repository->load($criteria);
+  
+        foreach ($cadastros as $object) {
+            $items[$object->id] = $object->descricao;
+        }
+
+        $causa_obito->addItems($items);
+        TTransaction::close(); 
+
+        //----------------------------------------------------------------------------------------------------
+
+        $items = array();
+        TTransaction::open('dbsic');
+        $repository = new TRepository('CondicoesDiagnosticoRecord');
+
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'descricao');
+        
+        $cadastros = $repository->load($criteria);
+  
+        foreach ($cadastros as $object) {
+            $items[$object->id] = $object->descricao;
+        }
+
+        $condicoes_diagnostico_id->addItems($items);
+        TTransaction::close(); 
+
+        //----------------------------------------------------------------------------------------------------
+
+        $items = array();
+        TTransaction::open('dbsic');
+        $repository = new TRepository('EstabelecimentoMedicoRecord');
+
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'nome');
+        
+        $cadastros = $repository->load($criteria);
+  
+        foreach ($cadastros as $object) {
+            $items[$object->id] = $object->nome;
+        }
+
+        $estabelecimento_medico_id->addItems($items);
+        TTransaction::close(); 
+
+        //----------------------------------------------------------------------------------------------------
+
         $tiposanguineo->addItems( [ "A" => "A", "B" => "B", "AB" => "AB", "O" => "O" ] );    
         $fatorsanguineo->addItems( [ "P" => "Positivo", "N" => "Negativo" ] );
 
@@ -87,18 +142,18 @@ class PacienteForm extends TPage
         $estabelecimento_medico_id->addValidation( "Estabelecimento Medico", new TRequiredValidator );
  */ 
 
-        $this->form->addFields( [ new TLabel( "Nome:", "#FF0000" ) ], [ $nome ] );
+        $this->form->addFields( [ new TLabel( "Nome: <font color=red><b>*</b></font> ") ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Nascimento:" ) ], [ $nascimento ] );
-        $this->form->addFields( [ new TLabel( "Municipio:", "#FF0000" ) ], [ $municipio_id ]);
+        $this->form->addFields( [ new TLabel( "Municipio:<font color=red><b>*</b></font>" ) ], [ $municipio_id ]);
         $this->form->addFields( [ new TLabel( "E-Mail:" ) ], [ $email ] );
         $this->form->addFields( [ new TLabel( "Telefone:" ) ], [ $telefone ] );
         $this->form->addFields( [ new TLabel( "Tipo Sanguineo:") ], [ $tiposanguineo ] );
         $this->form->addFields( [ new TLabel( "Fator Sanguineo:" ) ], [ $fatorsanguineo ] );
-        $this->form->addFields( [ new TLabel( "Causa Obito:" ) ], [ $causa_obito ]);
+        $this->form->addFields( [ new TLabel( "Causa Obito: <font color=red><b>*</b></font>") ], [ $causa_obito ]);
         $this->form->addFields( [ new TLabel( "Data Obito:" ) ], [ $dataobito ] );
-        $this->form->addFields( [ new TLabel( "Data Diagnostico:", "#FF0000" ) ], [ $datadiagnostico ] );
-        $this->form->addFields( [ new TLabel( "Condições Diagnostico:" ) ], [ $condicoes_diagnostico_id ] );
-        $this->form->addFields( [ new TLabel( "Estabelecimento Medico:" ) ], [ $estabelecimento_medico_id ] );
+        $this->form->addFields( [ new TLabel( "Data Diagnostico:" ) ], [ $datadiagnostico ] );
+        $this->form->addFields( [ new TLabel( "Condições Diagnostico:<font color=red><b>*</b></font>") ], [ $condicoes_diagnostico_id ] );
+        $this->form->addFields( [ new TLabel( "Estabelecimento Medico:<font color=red><b>*</b></font>") ], [ $estabelecimento_medico_id ] );
         $this->form->addFields( [ $id ] );
        
 
