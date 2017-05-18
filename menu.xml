@@ -30,7 +30,7 @@
         <icon>fa:users</icon>
         <action>EstabelecimentoList</action>
       </menuitem>
-      <menuitem label='Históricos médicos'>
+     <menuitem label='Históricos médicos'>
         <icon>fa:users</icon>
         <action>EstabelecimentoMedicoList</action>
       </menuitem>
