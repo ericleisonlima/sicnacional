@@ -20,9 +20,6 @@ class CidForm extends TPage
         $codigocid = new TEntry( "codigocid" );
         $nome = new TEntry( "nome" );
 
-        //Definicao das mascaras dos campos especiais
-        $codigocid->setMask( "S99.9" );
-
         //definicao de tipo de caixa das letras
         $codigocid->forceUpperCase();
         //$nome->forceUpperCase();

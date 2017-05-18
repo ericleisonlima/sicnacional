@@ -1,6 +1,7 @@
 <?php
 
 
+
 class EstabelecimentoForm extends TPage
 {
     private $form;
@@ -11,7 +12,7 @@ class EstabelecimentoForm extends TPage
 
         //Criacao do formulario
         $this->form = new BootstrapFormBuilder( "form_estabelecimento" );
-        $this->form->setFormTitle( "Cadastro de Estabelecimentos" );
+        $this->form->setFormTitle( "Formulário de Estabelecimentos" );
         $this->form->class = "tform";
 
         //Criacao dos campos do fomulario
@@ -25,7 +26,7 @@ class EstabelecimentoForm extends TPage
         $longitude        = new TEntry('longitude');
 
 
- 
+
 
         TTransaction::open('dbsic');
         $repository = new TRepository('MunicipioRecord');
@@ -51,7 +52,7 @@ class EstabelecimentoForm extends TPage
         $endereco->forceUpperCase();
         $bairro->forceUpperCase();
 
-      
+
 
         //Definicao de propriedades dos campos
         $municipio->setDefaultOption( "..::SELECIONE::.." );
@@ -59,9 +60,9 @@ class EstabelecimentoForm extends TPage
         $endereco->setProperty("title",'Informe o seu endereço');
         $bairro->setProperty("title",'Informe o seu bairro');
         $cep->placeholder = "Exemplo 99999-999";
-       
 
-      
+
+
 
         //Definicao dos tamanhos de alguns campos do formulario
         $municipio->setSize("38%");
@@ -71,7 +72,7 @@ class EstabelecimentoForm extends TPage
         $cep->setSize( "38%" );
         $latitude->setSize( "38%" );
         $longitude->setSize( "38%" );
-      
+
 
         //Definicao de campos obrigatorios e requeridos especiais
 
@@ -91,10 +92,6 @@ class EstabelecimentoForm extends TPage
 
 
 
-     
-
-       
-
         //Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         $this->form->addAction( "Voltar para a listagem", new TAction( [ "EstabelecimentoList", "onReload" ] ), "fa:table blue" );
@@ -110,7 +107,7 @@ class EstabelecimentoForm extends TPage
 
     public function onSave()
     {
-     
+
          try
         {
             //Validacao do formulario
@@ -123,7 +120,7 @@ class EstabelecimentoForm extends TPage
 
             //Remove as mascaras dos campos especiais
             $object->cep = preg_replace( "/[^0-9]/", "", $object->cep );
-        
+
 
             $object->store();
 
@@ -167,5 +164,5 @@ class EstabelecimentoForm extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
-    
+
 }

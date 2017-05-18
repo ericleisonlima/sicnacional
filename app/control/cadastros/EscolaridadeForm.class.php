@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 18.05.17
+
 class EscolaridadeForm extends TPage
 {
     private $form;
@@ -7,9 +9,9 @@ class EscolaridadeForm extends TPage
     public function __construct()
     {
         parent::__construct();
- 
+
         $this->form = new BootstrapFormBuilder( "form_escolaridade" );
-        $this->form->setFormTitle( "Formulario de Escolaridade" );
+        $this->form->setFormTitle( "Formulário de Escolaridade" );
         $this->form->class = "tform";
         $id        = new THidden( "id" );
         $descricao = new TText( "descricao" );
@@ -17,15 +19,16 @@ class EscolaridadeForm extends TPage
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
         $this->form->addFields( [ $id ] );
-        $this->form->addFields( [new TLabel('Escolaridade<font color=red><b>*</b></font>')], [$descricao ]);
+        $this->form->addFields( [new TLabel('<font color=red><b>Escolaridade</b></font>')], [$descricao ]);
 
         $descricao->setSize('50%', 80);
 
         $this->form->addAction( "Voltar para listagem", new TAction( [ "EscolaridadeList", "onReload" ] ), "fa:table blue" );
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        
+
         $container = new TVBox();
         $container->style = "width: 90%";
+        $container->add( new TXMLBreadCrumb( "menu.xml", "EscolaridadeList") );
         $container->add( $this->form );
         parent::add( $container );
     }
