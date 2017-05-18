@@ -17,7 +17,7 @@ class SystemSqlLogList extends TStandardList
     {
         parent::__construct();
         
-        parent::setDatabase('log');            // defines the database
+        parent::setDatabase('dbsic');            // defines the database
         parent::setActiveRecord('SystemSqlLog');   // defines the active record
         parent::setDefaultOrder('id', 'asc');         // defines the default order
         parent::addFilterField('login', 'like'); // add a filter field

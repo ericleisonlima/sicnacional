@@ -5,11 +5,11 @@
  */
 class SystemNotification extends TRecord
 {
-    const TABLENAME = 'system_notification';
+    const TABLENAME = 'notificacoes';
     const PRIMARYKEY= 'id';
     const IDPOLICY =  'max'; // {max, serial}
-    
-    
+
+
     /**
      * Constructor method
      */
@@ -32,7 +32,7 @@ class SystemNotification extends TRecord
      */
     public static function register( $user_to, $subject, $message, $action, $label, $icon = null)
     {
-        TTransaction::open('communication');
+        TTransaction::open('dbsic');
         $object = new self;
         $object->system_user_id    = TSession::getValue('userid');
         $object->system_user_to_id = $user_to;

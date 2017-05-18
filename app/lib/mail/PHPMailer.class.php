@@ -274,7 +274,7 @@ class PHPMailer
             'allow_self_signed' => true
         )
     );
-    
+
     /**
      * SMTP username.
      * @type string

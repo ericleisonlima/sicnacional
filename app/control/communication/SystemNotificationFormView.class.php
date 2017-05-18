@@ -22,7 +22,7 @@ class SystemNotificationFormView extends TPage
             // load CSS styles
             parent::include_css('app/resources/styles.css');
             
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             if (isset($data->id))
             {
                 // load customer identified in the form
@@ -80,7 +80,7 @@ class SystemNotificationFormView extends TPage
     {
         try
         {
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             
             $notification = SystemNotification::find($param['id']);
             if ($notification)

@@ -22,7 +22,7 @@ class SystemMessageFormView extends TPage
             // load CSS styles
             parent::include_css('app/resources/styles.css');
             
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             if (isset($data->id))
             {
                 // load customer identified in the form
@@ -106,7 +106,7 @@ class SystemMessageFormView extends TPage
     {
         try
         {
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             $message = SystemMessage::find($param['id']);
             if ($message)
             {
@@ -137,7 +137,7 @@ class SystemMessageFormView extends TPage
     {
         try
         {
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             $message = SystemMessage::find($param['id']);
             if ($message)
             {

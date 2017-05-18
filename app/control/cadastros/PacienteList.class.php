@@ -40,22 +40,17 @@ class PacienteList extends TPage
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
         
-        $column_id = new TDataGridColumn( "id", "ID", "center", 50 );
         $column_nome = new TDataGridColumn( "nome", "Nome", "left" );
         $column_tiposanguineo = new TDataGridColumn( "tiposanguineo", "Tipo Sanguíneo", "left" );
         $column_nome_municipio = new TDataGridColumn( "nome_municipio", "Municipio", "center" );
         $column_data_diagnostico = new TDataGridColumn( "data_diagnostico", "Data Diagnostico", "center" );
         
-        $this->datagrid->addColumn( $column_id );
         $this->datagrid->addColumn( $column_nome );
         $this->datagrid->addColumn( $column_tiposanguineo);
         $this->datagrid->addColumn(  $column_nome_municipio );
         $this->datagrid->addColumn($column_data_diagnostico );
      
-        $order_id = new TAction( [ $this, "onReload" ] );
-        $order_id->setParameter( "order", "id" );
-        $column_id->setAction( $order_id );
-
+    
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
@@ -64,7 +59,7 @@ class PacienteList extends TPage
         $order_tiposanguineo->setParameter( "order", "tiposanguineo" );
         $column_tiposanguineo->setAction( $order_tiposanguineo );
    
-
+       
         $action_edit = new TDataGridAction( [ "PacienteForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
@@ -72,18 +67,30 @@ class PacienteList extends TPage
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
         
-
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
-       
+
+        $action_nutparen = new TDataGridAction( [ "NutricaoParenteralForm", "onEdit" ] );
+        $action_nutparen->setButtonClass( "btn btn-default" );
+        $action_nutparen->setLabel( "Nutrição Parenteral" );
+        $action_nutparen->setImage( "fa:check-square fa-fw" );
+        $action_nutparen->setField( "id" );
+        $this->datagrid->addAction( $action_nutparen );
+
+        $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
+        $action_doencabase->setButtonClass( "btn btn-default" );
+        $action_doencabase->setLabel( "Doenca Base" );
+        $action_doencabase->setImage( "fa:check-square fa-fw" );
+        $action_doencabase->setField( "id" );
+        $this->datagrid->addAction( $action_doencabase );
+
 
         $this->datagrid->createModel();
       
-
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );

@@ -20,7 +20,7 @@ class SystemMessageList extends TStandardList
     {
         parent::__construct();
         
-        parent::setDatabase('communication');            // defines the database
+        parent::setDatabase('dbsic');            // defines the database
         parent::setActiveRecord('SystemMessage');   // defines the active record
         parent::setDefaultOrder('id', 'desc');         // defines the default order
         parent::addFilterField('checked', 'like', 'checked'); // filterField, operator, formField

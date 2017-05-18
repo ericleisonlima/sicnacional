@@ -19,7 +19,7 @@ class SystemNotificationList extends TStandardList
     {
         parent::__construct();
         
-        parent::setDatabase('communication');            // defines the database
+        parent::setDatabase('dbsic');            // defines the database
         parent::setActiveRecord('SystemNotification');   // defines the active record
         parent::setDefaultOrder('id', 'desc');         // defines the default order
         
@@ -155,7 +155,7 @@ class SystemNotificationList extends TStandardList
     {
         try
         {
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             
             $message = SystemNotification::find($param['id']);
             if ($message)
@@ -188,7 +188,7 @@ class SystemNotificationList extends TStandardList
     {
         try
         {
-            TTransaction::open('communication');
+            TTransaction::open('dbsic');
             
             $message = SystemNotification::find($param['id']);
             if ($message)

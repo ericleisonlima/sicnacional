@@ -1,8 +1,5 @@
 <?php
-/*
- * @author Pedro Henrique
- * @date 06/05/2017
- */
+
 
 class EstabelecimentoList extends TPage
 {
@@ -20,7 +17,6 @@ class EstabelecimentoList extends TPage
         $this->form->setFormTitle( "Listagem de Estabelecimento" );
         $this->form->class = "tform";
 
-        // Criacao dos campos do fomulario
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
 
@@ -41,7 +37,7 @@ class EstabelecimentoList extends TPage
 
         // Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
-        $this->form->addAction( "Novo", new TAction( [ "EstabelecimentoForm", "onSave" ] ), "bs:plus-sign green" );
+        $this->form->addAction( "Novo", new TAction( [ "EstabelecimentoForm", "onEdit" ] ), "bs:plus-sign green" );
 
         //Criacao do datagrid de listagem de dados
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
@@ -116,7 +112,7 @@ class EstabelecimentoList extends TPage
         try
         {
             // Abrindo a conexao com o banco de dados
-            TTransaction::open( "db_sic" );
+            TTransaction::open( "dbsic" );
 
             // Criando um repositorio para armazenar temporariamente os dados do banco
             $repository = new TRepository( "EstabelecimentoRecord" );
@@ -179,7 +175,7 @@ class EstabelecimentoList extends TPage
         {
             if( !empty( $data->opcao ) && !empty( $data->dados ) )
             {
-                TTransaction::open( "db_sic" );
+                TTransaction::open( "dbsic" );
 
                 $repository = new TRepository( "EstabelecimentoRecord" );
 
@@ -277,7 +273,7 @@ class EstabelecimentoList extends TPage
 
         try
         {
-            TTransaction::open( "db_sic" );
+            TTransaction::open( "dbsic" );
 
             $object = new EstabelecimentoRecord( $param[ "key" ] );
 

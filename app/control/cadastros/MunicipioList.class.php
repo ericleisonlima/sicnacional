@@ -15,27 +15,27 @@ class MunicipioList extends TPage{
         $this->form->setFormTitle( "Listagem de Municipio" );
         $this->form->class = "tform";
 
-        $id  = new TEntry( "id" );
-        $nome = new TEntry( "nome" );
+        $opcao  = new TCombo( "opcao" );
+        $dados = new TEntry( "dados" );
 
-        $id->setProperty ( 'title', 'Digitar ID' );
-        $nome->setProperty ( 'title', 'Digite o Nome' );
+       // $id->setProperty ( 'title', 'Digitar ID' );
+        $dados->setProperty ( 'title', '"Informe os dados de acordo com a opção" ' );
 
-        $id->setSize( '30%' );
-        $nome->setSize( '30%' );
+        $opcao->setSize( '30%' );
+        $dados->setSize( '30%' );
  
-        $this->form->addFields( [ new TLabel( 'ID:' ) ], [ $id ] );        
-        $this->form->addFields( [ new TLabel( 'NOME:' )  ], [ $nome ] );
+        $this->form->addFields( [ new TLabel( 'Opção de filtro:' ) ], [ $opcao ] );        
+        $this->form->addFields( [ new TLabel( 'Dados da busca:' )  ], [ $dados ] );
 
         $this->form->addAction( 'Buscar', new TAction( [$this, 'onSearch'] ), 'fa:search' );
-        $this->form->addAction( 'Novo', new TAction( ["CadastroMunicipioForm", 'onSave'] ), 'fa:save' );
+        $this->form->addAction( 'Novo', new TAction( ["MunicipioForm", 'onShow'] ), 'fa:save' );
 
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
 
-        $column_id = new TDataGridColumn( "codibge", "ID", "center", 50 );
+        $column_id = new TDataGridColumn( "codibge", "Cod. IBGE", "center", 50);
         $column_nome = new TDataGridColumn( "nome", "Nome", "center" );
         $column_uf = new TDataGridColumn( "uf", "Estado", "center" );
 
@@ -103,7 +103,7 @@ class MunicipioList extends TPage{
         {
             TTransaction::open( "dbsic" );
 
-            $repository = new TRepository( "ClientesRecord" );
+            $repository = new TRepository( "MunicipioRecord" );
 
             if ( empty( $param[ "order" ] ) )
             {
@@ -111,7 +111,7 @@ class MunicipioList extends TPage{
                 $param[ "direction" ] = "asc";
             }
 
-            $limit = 10;
+            $limit = 30;
 
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
@@ -159,7 +159,7 @@ class MunicipioList extends TPage{
             {
                 TTransaction::open( "dbsic" );
 
-                $repository = new TRepository( "ClientesRecord" );
+                $repository = new TRepository( "MunicipioRecord" );
 
                 if ( empty( $param[ "order" ] ) )
                 {
@@ -252,7 +252,7 @@ class MunicipioList extends TPage{
         {
             TTransaction::open( "dbsic" );
 
-            $object = new ClientesRecord( $param[ "key" ] );
+            $object = new MunicipioRecord( $param[ "key" ] );
 
             $object->delete();
 

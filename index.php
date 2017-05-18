@@ -27,7 +27,7 @@ $css      = TPage::getLoadedCSS();
 $js       = TPage::getLoadedJS();
 $content  = str_replace('{HEAD}', $css.$js, $content);
 
-echo $content;
+echo PageDetails::putting( $content );
 
 if (TSession::getValue('logged') OR $public)
 {

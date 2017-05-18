@@ -9,7 +9,7 @@ class ApplicationTranslator
 {
     private static $instance; // singleton instance
     private $lang;            // target language
-    
+
     /**
      * Class Constructor
      */
@@ -124,7 +124,7 @@ class ApplicationTranslator
         $this->messages['en'][] = 'Download';
         $this->messages['en'][] = 'Next';
         $this->messages['en'][] = 'Documents';
-        $this->messages['en'][] = 'Permission';
+        $this->messages['en'][] = 'permission';
         $this->messages['en'][] = 'Unit';
         $this->messages['en'][] = 'Units';
         $this->messages['en'][] = 'Add';
@@ -153,7 +153,7 @@ class ApplicationTranslator
         $this->messages['en'][] = 'Archived';
         $this->messages['en'][] = 'Archive';
         $this->messages['en'][] = 'Recover';
-        
+
         $this->messages['pt'][] = 'Arquivo não encontrado';
         $this->messages['pt'][] = 'Buscar';
         $this->messages['pt'][] = 'Cadastrar';
@@ -293,7 +293,7 @@ class ApplicationTranslator
         $this->messages['pt'][] = 'Arquivar';
         $this->messages['pt'][] = 'Recuperar';
     }
-    
+
     /**
      * Returns the singleton instance
      * @return  Instance of self
@@ -309,7 +309,7 @@ class ApplicationTranslator
         // returns the created instance
         return self::$instance;
     }
-    
+
     /**
      * Define the target language
      * @param $lang     Target language index
@@ -319,7 +319,7 @@ class ApplicationTranslator
         $instance = self::getInstance();
         $instance->lang = $lang;
     }
-    
+
     /**
      * Returns the target language
      * @return Target language index
@@ -329,7 +329,7 @@ class ApplicationTranslator
         $instance = self::getInstance();
         return $instance->lang;
     }
-    
+
     /**
      * Translate a word to the target language
      * @param $word     Word to be translated
@@ -347,7 +347,7 @@ class ApplicationTranslator
             $language = self::getLanguage();
             // returns the translated word
             $message = $instance->messages[$language][$key];
-            
+
             if (isset($param1))
             {
                 $message = str_replace('^1', $param1, $message);
@@ -367,7 +367,7 @@ class ApplicationTranslator
             return 'Message not found: '. $word;
         }
     }
-    
+
     /**
      * Translate a template file
      */

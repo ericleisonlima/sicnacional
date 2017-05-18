@@ -26,7 +26,7 @@ class SystemSharedDocumentList extends TPage
         
         // create the form fields
         $title       = new TEntry('title');
-        $category_id = new TDBCombo('category_id', 'communication', 'SystemDocumentCategory', 'id', 'name');
+        $category_id = new TDBCombo('category_id', 'dbsic', 'SystemDocumentCategory', 'id', 'name');
         $filename    = new TEntry('filename');
 
         $this->form->addFields( [new TLabel(_t('Title'))], [$title] );
@@ -122,7 +122,7 @@ class SystemSharedDocumentList extends TPage
             if (isset($param['id']))
             {
                 $id = $param['id'];  // get the parameter $key
-                TTransaction::open('communication'); // open a transaction
+                TTransaction::open('dbsic'); // open a transaction
                 $object = new SystemDocument($id); // instantiates the Active Record
                 
                 //system_user_id
@@ -206,8 +206,8 @@ class SystemSharedDocumentList extends TPage
     {
         try
         {
-            // open a transaction with database 'communication'
-            TTransaction::open('communication');
+            // open a transaction with database 'dbsic'
+            TTransaction::open('dbsic');
             
             // creates a repository for SystemDocument
             $repository = new TRepository('SystemDocument');

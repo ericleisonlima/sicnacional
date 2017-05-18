@@ -13,7 +13,7 @@ class SystemChangeLog extends TRecord
         $table = $activeRecord->getEntity();
         $pk    = $activeRecord->getPrimaryKey();
         
-        TTransaction::open('log');
+        TTransaction::open('dbsic');
         
         foreach ($lastState as $key => $value)
         {

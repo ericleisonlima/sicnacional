@@ -24,7 +24,7 @@ class SystemChangeLogView extends TStandardList
     {
         parent::__construct();
         
-        parent::setDatabase('log');
+        parent::setDatabase('dbsic');
         parent::setActiveRecord('SystemChangeLog');
         parent::addFilterField('tablename');
         parent::addFilterField('login');

@@ -34,11 +34,11 @@ class SystemSqlLog extends TRecord implements AdiantiLoggerInterface
         $dbname = TTransaction::getDatabase();
         
         // avoid log of log
-        if ($dbname !== 'log' AND (in_array(substr($message,0,6), array('INSERT', 'UPDATE', 'DELETE') ) ) )
+        if ($dbname !== 'dbsic' AND (in_array(substr($message,0,6), array('INSERT', 'UPDATE', 'DELETE') ) ) )
         {
             $time = date("Y-m-d H:i:s");
             
-            TTransaction::open('log');
+            TTransaction::open('dbsic');
             $object = new self;
             $object->logdate = $time;
             $object->login = TSession::getValue('login');

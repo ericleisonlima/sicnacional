@@ -37,7 +37,7 @@ class AnamneseDetalhe extends TPage
         $diagnosticonutricional = new TText( "diagnosticonutricional" );
 
 
-        TTransaction::open('sicnacional');
+        TTransaction::open('dbsic');
         $estabelecimento_medico_id = new AnamneseRecord( filter_input( INPUT_GET, 'fk' ) );
         $estabelecimentonome = new TLabel( $estabelecimento_medico_id->nome );
         $paciente_id = new AnamneseRecord( filter_input( INPUT_GET, 'fk' ) );
@@ -159,7 +159,7 @@ class AnamneseDetalhe extends TPage
         {
             //Validacao do formulario
             $this->form->validate();
-            TTransaction::open( "sicnacional" );
+            TTransaction::open( "dbsic" );
             //Resgata os dados inseridos no formulario a partir do modelo
             $object = $this->form->getData( "AnamneseRecord" );
             //Remove as mascaras dos campos especiais
@@ -191,7 +191,7 @@ class AnamneseDetalhe extends TPage
         {
             if( isset( $param[ "key" ] ) )
             {
-                TTransaction::open( "sicnacional" );
+                TTransaction::open( "dbsic" );
                 $object = new AnamneseRecord( $param[ "key" ] );
                 $object->dataregistro = TDate::date2us( $object->dataregistro );
                 $object->datacirurgia = TDate::date2us( $object->datacirurgia );
@@ -214,7 +214,7 @@ class AnamneseDetalhe extends TPage
         try
         {
             // Abrindo a conexao com o banco de dados
-            TTransaction::open( "sicnacional" );
+            TTransaction::open( "dbsic" );
             // Criando um repositorio para armazenar temporariamente os dados do banco
             $repository = new TRepository( "AnamneseRecord" );
             if ( empty( $param[ "order" ] ) )
@@ -273,7 +273,7 @@ class AnamneseDetalhe extends TPage
     {
         try
         {
-            TTransaction::open( "sicnacional" );
+            TTransaction::open( "dbsic" );
             $object = new AnamneseRecord( $param[ "key" ] );
             $object->delete();
             TTransaction::close();
