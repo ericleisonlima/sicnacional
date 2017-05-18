@@ -28,7 +28,7 @@ class EstabelecimentoList extends TPage{
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "EstabelecimentoForm", "onEdit" ] ), "bs:plus-sign green" );
 
-        $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
+        $this->datagrid = new BootstrapDatagridWrapper( new DataGridCustom() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
@@ -62,7 +62,7 @@ class EstabelecimentoList extends TPage{
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
 
-        $action_estab_med = new TDataGridAction( [ "EstabelecimentoMedicoDetalhe", "onReload" ] );
+        $action_estab_med = new DataGridActionCustom( [ "EstabelecimentoMedicoDetalhe", "onReload" ] );
         $action_estab_med->setButtonClass( "btn btn-default" );
         $action_estab_med->setLabel( "Editar" );
         $action_estab_med->setImage( "fa:pencil-square-o blue fa-lg" );
@@ -151,16 +151,12 @@ class EstabelecimentoList extends TPage{
 
                 else if ( is_numeric($data->dados)){
                     $criteria->add( new TFilter($data->opcao,'=',$data->dados) );
-<<<<<<< HEAD
+
                 }
                 else
                 {
                     // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
-=======
 
-                }else{
-                    new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
->>>>>>> 008545f98aa336fa8591910f4da40c124db39602
                 }
 
                 $objects = $repository->load( $criteria, FALSE );

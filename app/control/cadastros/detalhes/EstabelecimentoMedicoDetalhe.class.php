@@ -70,11 +70,11 @@ class EstabelecimentoMedicoDetalhe extends TPage
         $this->form->addFields( [ $id ] );
        
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        $this->form->addAction( "Voltar para a listagem", new TAction( [ "EstabelecimentoMedicoList", "onReload" ] ), "fa:table blue" );
+        $this->form->addAction( "Voltar para a listagem", new TAction( [ "EstabelecimentoList", "onReload" ] ), "fa:table blue" );
       
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "EstabelecimentoMedicoList" ) );
+        $container->add( new TXMLBreadCrumb( "menu.xml", "EstabelecimentoList" ) );
         $container->add( $this->form );
         parent::add( $container );
     }
@@ -97,6 +97,9 @@ class EstabelecimentoMedicoDetalhe extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar salvar o registro!<br><br>" . $ex->getMessage() );
         }
     }
+    public function onReload( $param ){
+
+    }
     public function onEdit( $param )
     {
         try
@@ -116,4 +119,5 @@ class EstabelecimentoMedicoDetalhe extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
+
 }
