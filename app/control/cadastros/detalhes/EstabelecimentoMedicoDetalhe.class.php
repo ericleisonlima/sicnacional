@@ -1,5 +1,5 @@
 <?php
-class EstabelecimentoMedicoForm extends TPage
+class EstabelecimentoMedicoDetalhe extends TPage
 {
     private $form;
     public function __construct()
