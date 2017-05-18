@@ -17,11 +17,11 @@ class EscolaridadeForm extends TPage
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
         $this->form->addFields( [ $id ] );
-        $this->form->addFields( [new TLabel('Escolaridade<font color=red><b>*</b></font> ')], [$descricao ]);
+        $this->form->addFields( [new TLabel('Escolaridade<font color=red><b>*</b></font>')], [$descricao ]);
 
         $descricao->setSize('50%', 80);
 
-        $this->form->addAction( "Voltar", new TAction( [ "EscolaridadeList", "onReload" ] ), "fa:table blue" );
+        $this->form->addAction( "Voltar para listagem", new TAction( [ "EscolaridadeList", "onReload" ] ), "fa:table blue" );
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         
         $container = new TVBox();

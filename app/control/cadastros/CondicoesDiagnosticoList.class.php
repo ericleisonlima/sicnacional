@@ -1,5 +1,6 @@
-
 <?php
+
+// Revisado 18.05.17
 
 class CondicoesDiagnosticoList extends TPage
 {
@@ -7,7 +8,7 @@ class CondicoesDiagnosticoList extends TPage
     private $datagrid;
     private $pageNavigation;
     private $loaded;
-     
+
     public function __construct()
     {
         parent::__construct();
@@ -15,48 +16,49 @@ class CondicoesDiagnosticoList extends TPage
         $this->form = new BootstrapFormBuilder( "form_list_condicoes_diagnostico" );
         $this->form->setFormTitle( "Listagem de Condições de Diagnostico" );
         $this->form->class = "tform";
-        
+
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
-        
+
         // Definicao de propriedades dos campos
         $opcao->setDefaultOption( "..::SELECIONE::.." );
+        $opcao->setValue( "descricao" );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
-        $dados->forceUpperCase();
-        
+        // $dados->forceUpperCase();
+
         // Definicao dos tamanhos do campos
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
-        
+
         // Definicao das opções dos combos
-        $opcao->addItems( [ "descricao" => "Escolaridade" ] );
+        $opcao->addItems( [ "descricao" => "Nome" ] );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
-        
 
-        
+
+
         // Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "CondicoesDiagnosticoForm", "onEdit" ] ), "bs:plus-sign green" );
-        
+
         //Criacao do datagrid de listagem de dados
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
-        
-        $column_diagnostico = new TDataGridColumn( "descricao", "Diagnostico", "left" );
 
-        
+        $column_diagnostico = new TDataGridColumn( "descricao", "Condição", "left" );
+
+
         $this->datagrid->addColumn( $column_diagnostico);
 
 
-        
+
         $order_diagnostico = new TAction( [ $this, "onReload" ] );
         $order_diagnostico->setParameter( "order", "descricao" );
         $column_diagnostico->setAction( $order_diagnostico );
-        
-        
+
+
         //Criacao da acao de edicao no datagrid
         $action_edit = new TDataGridAction( [ "CondicoesDiagnosticoForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
@@ -64,8 +66,8 @@ class CondicoesDiagnosticoList extends TPage
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
-        
-        
+
+
         //Criacao da acao de delecao no datagrid
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
@@ -73,15 +75,15 @@ class CondicoesDiagnosticoList extends TPage
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
-        
+
         //Exibicao do datagrid
         $this->datagrid->createModel();
-        
+
         //Criacao do navedor de paginas do datagrid
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-        
+
         // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
@@ -92,7 +94,7 @@ class CondicoesDiagnosticoList extends TPage
         // Adicionando o container com o form a pagina
         parent::add( $container );
     }
-    
+
     public function onReload( $param = NULL )
     {
         try
@@ -124,12 +126,11 @@ class CondicoesDiagnosticoList extends TPage
                 }
             }
             $criteria->resetProperties();
-            // Salvando a contagem dos registros que estam no repositorio
+
             $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); // Definindo quantos registros tera por pagina do datagrid
-            $this->pageNavigation->setProperties($param); // Definindo os paramentros de organizacao dos dados por pagina
-            $this->pageNavigation->setLimit($limit); // Definindo o limite de registros por pagina do datagrid
-            // Fechando a conexao com o banco de dados
+            $this->pageNavigation->setCount($count);
+            $this->pageNavigation->setProperties($param);
+            $this->pageNavigation->setLimit($limit);
             TTransaction::close();
             $this->loaded = true;
         }
@@ -139,7 +140,7 @@ class CondicoesDiagnosticoList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
-    
+
     public function onSearch()
     {
         $data = $this->form->getData();
@@ -162,13 +163,9 @@ class CondicoesDiagnosticoList extends TPage
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
                 }
-                else if ( ( $data->opcao == "descricao" ) && ( is_numeric( $data->dados ) ) )
-                {
-                    $criteria->add( new TFilter( $data->opcao, "LIKE", $data->dados . "%" ) );
-                }
                 else
                 {
-                    new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
+                    // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
                 }
                 $objects = $repository->load( $criteria, FALSE );
                 $this->datagrid->clear();
@@ -192,7 +189,7 @@ class CondicoesDiagnosticoList extends TPage
             {
                 $this->onReload();
                 $this->form->setData( $data );
-                new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
+                // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
             }
         }
         catch ( Exception $ex )
@@ -202,7 +199,7 @@ class CondicoesDiagnosticoList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
-    
+
     public function onDelete( $param = NULL )
     {
         if( isset( $param[ "key" ] ) )
@@ -210,13 +207,13 @@ class CondicoesDiagnosticoList extends TPage
             //Criacao das acoes a serem executadas na mensagem de exclusao
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
-            
+
             //Definicao sos parametros de cada acao
             $action1->setParameter( "key", $param[ "key" ] );
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
         }
     }
-    
+
     function Delete( $param = NULL )
     {
         try
@@ -234,7 +231,7 @@ class CondicoesDiagnosticoList extends TPage
             new TMessage("error", $ex->getMessage());
         }
     }
-    
+
     public function show()
     {
         $this->onReload();

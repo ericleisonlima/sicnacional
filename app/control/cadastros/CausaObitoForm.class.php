@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 18.05.17
+
 class CausaObitoForm extends TPage
 {
     private $form;
@@ -7,26 +9,29 @@ class CausaObitoForm extends TPage
     public function __construct()
     {
         parent::__construct();
- 
+
         $this->form = new BootstrapFormBuilder( "form_causa_obito" );
-        $this->form->setFormTitle( "Formulario Causa Óbito" );
+        $this->form->setFormTitle( "Formulário de Causas de Óbitos" );
         $this->form->class = "tform";
+
         $id        = new THidden( "id" );
         $descricao = new TText( "descricao" );
 
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
+        $this->form->addFields( [new TLabel('<font color=red>Descricão</font>')], [$descricao ]);
         $this->form->addFields( [ $id ] );
-        $this->form->addFields( [new TLabel('Causa de Obito<font color=red><b>*</b></font> ')], [$descricao ]);
 
         $descricao->setSize('50%', 80);
 
-        $this->form->addAction( "Voltar", new TAction( [ "CausaObitoList", "onReload" ] ), "fa:table blue" );
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        
+        $this->form->addAction( "Voltar para listagem", new TAction( [ "CausaObitoList", "onReload" ] ), "fa:table blue" );
+
         $container = new TVBox();
         $container->style = "width: 90%";
+        $container->add( new TXMLBreadCrumb("menu.xml", "CausaObitoList"));
         $container->add( $this->form );
+
         parent::add( $container );
     }
 
@@ -65,8 +70,6 @@ class CausaObitoForm extends TPage
                 TTransaction::open( "dbsic" );
 
                 $object = new CausaObitoRecord( $param[ "key" ] );
-
-                //$object->descricao = TText( $object->descricao );
 
                 $this->form->setData( $object );
 

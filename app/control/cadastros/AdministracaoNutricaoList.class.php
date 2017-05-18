@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 18.05.17
+
 // ini_set('display_errors', 1);
 // ini_set('display_startup_erros', 1);
 // error_reporting(E_ALL);
@@ -26,8 +28,9 @@ class AdministracaoNutricaoList extends TPage
         $dados = new TEntry( "dados" );
 
         $opcao->setDefaultOption( "..::SELECIONE::.." );
+        $opcao->setValue( "nome" );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
-        $dados->forceUpperCase();
+        // $dados->forceUpperCase();
 
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
@@ -173,7 +176,7 @@ class AdministracaoNutricaoList extends TPage
                 }
                 else
                 {
-                    new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
+                    // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
                 }
 
                 $objects = $repository->load( $criteria, FALSE );
@@ -209,7 +212,7 @@ class AdministracaoNutricaoList extends TPage
 
                 $this->form->setData( $data );
 
-                new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
+                // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
             }
         }
         catch ( Exception $ex )
@@ -251,6 +254,8 @@ class AdministracaoNutricaoList extends TPage
             TTransaction::close();
 
             $this->onReload();
+
+            //TApplication::gotoPage("AdministracaoNutricaoList", "onReload");
 
             new TMessage("info", "Registro apagado com sucesso!");
         }

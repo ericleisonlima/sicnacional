@@ -1,36 +1,38 @@
 <?php
 
+// Revisado 18.05.17
+
 class ComorbidadesForm extends TPage
 {
     private $form;
-    
+
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->form = new BootstrapFormBuilder( "form_cadastro_comorbidade" );
-        $this->form->setFormTitle( "Cadastro Comorbidades" );
+        $this->form->setFormTitle( "Formulário de Comorbidades" );
         $this->form->class = "tform";
-        
+
         $id = new THidden( "id" );
         $nome = new TEntry( "nome" );
-       
-        $nome->forceUpperCase();
-        
+
+        //$nome->forceUpperCase();
+
         $nome->setProperty('title', 'O campo e obrigatorio');
-        
+
         $nome->setSize('38%');
-        
+
         $nome->addValidation( "Nome", new TRequiredValidator );
-        
+
         //Insercao dos campos no formulario
         $this->form->addFields( [ $id ] );
-        $this->form->addFields([new TLabel('Nome: <font color=red><b>*</b></font> ')], [$nome]);
-        
+        $this->form->addFields([new TLabel('<font color=red>Nome</font>')], [$nome]);
+
         //Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         $this->form->addAction( "Voltar para a listagem", new TAction( [ "ComorbidadesList", "onReload" ] ), "fa:table blue" );
-        
+
         //Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
@@ -44,14 +46,14 @@ class ComorbidadesForm extends TPage
         {
             //Validacao do formulario
             $this->form->validate();
-            
+
             TTransaction::open( "dbsic" );
-            
+
             $object = $this->form->getData('ComorbidadesRecord');
             $object->store();
-            
+
             TTransaction::close();
-            
+
             $action = new TAction( [ "ComorbidadesList", "onReload" ] );
             new TMessage( "info", "Registro salvo com sucesso!", $action );
         }
@@ -69,7 +71,7 @@ class ComorbidadesForm extends TPage
             {
                 TTransaction::open( "dbsic" );
                 $object = new ComorbidadesRecord($param['key']);
-                $this->form->setData($object);       
+                $this->form->setData($object);
 
                 TTransaction::close();
             }

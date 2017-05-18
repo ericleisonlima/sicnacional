@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 18.05.17
+
 class AdministracaoNutricaoForm extends TPage
 {
     private $form;
@@ -8,7 +10,7 @@ class AdministracaoNutricaoForm extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_administracaonutricao" );
+        $this->form = new BootstrapFormBuilder( "form_administracao_nutricao" );
         $this->form->setFormTitle( "Formulário de Administração Nutricional" );
         $this->form->class = "tform";
 
@@ -16,19 +18,15 @@ class AdministracaoNutricaoForm extends TPage
         $id = new THidden('id');
         $nome = new TEntry('nome');
 
-        // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel('Administra&ccedil;&atilde;o Nutr&ccedil;&atilde;o')], [$nome] );
+        $this->form->addFields( [new TLabel('Nome')], [$nome] );
+        $this->form->addFields( [$id] );
 
-
-        $id->setEditable(FALSE);
-        $id->setSize('38%');
-        $nome->setSize('70%');
-        $nome->addValidation('Administra&ccedil;&atilde;o Nutr&ccedil;&atilde;o', new TRequiredValidator );
+        $nome->setSize('38%');
+        $nome->addValidation('Nome', new TRequiredValidator );
 
         // create the form actions
-       $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        $this->form->addAction( "Voltar", new TAction( [ "AdministracaoNutricaoList", "onReload" ] ), "fa:table blue" );
+        $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
+        $this->form->addAction( "Voltar para listagem", new TAction( [ "AdministracaoNutricaoList", "onReload" ] ), "fa:table blue" );
 
         // vertical box container
         $container = new TVBox;
@@ -48,12 +46,7 @@ class AdministracaoNutricaoForm extends TPage
 
             TTransaction::open( "dbsic" );
 
-            //Resgata os dados inseridos no formulario a partir do modelo
             $object = $this->form->getData( "AdministraNutricaoRecord" );
-
-            //Resgata o usuario a data e hora da alteracao do registro
-            //$object->usuarioalteracao = TSession::getValue("login");
-            //$object->dataalteracao = date( "Y-m-d H:i:s" );
 
             $object->store();
 

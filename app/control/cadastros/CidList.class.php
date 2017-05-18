@@ -1,101 +1,87 @@
 <?php
 
+// Revisado 18.05.17
+
 class CidList extends TPage
 {
     private $form;
     private $datagrid;
     private $pageNavigation;
     private $loaded;
-     
+
     public function __construct()
     {
         parent::__construct();
         // Criacao do formulario
-        $this->form = new BootstrapFormBuilder( "form_list_cadastro_cid" );
-        $this->form->setFormTitle( "Classificação Internacional de Doenças" );
+        $this->form = new BootstrapFormBuilder( "form_list_cid" );
+        $this->form->setFormTitle( "Listagem de C.I.D." );
         $this->form->class = "tform";
-        
+
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
-        
+
         // Definicao de propriedades dos campos
         $opcao->setDefaultOption( "..::SELECIONE::.." );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
-        $dados->forceUpperCase();
-        
+        // $dados->forceUpperCase();
+
         // Definicao dos tamanhos do campos
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
-        
+
         // Definicao das opções dos combos
-        $opcao->addItems( [ "nome" => "Doença", "codigocid" => "Classificação" ] );
+        $opcao->addItems( [ "codigocid" => "Código", "nome" => "Nome" ] );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
-        
 
-        
+
+
         // Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "CidForm", "onEdit" ] ), "bs:plus-sign green" );
-        
+
         //Criacao do datagrid de listagem de dados
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
-        
-        //Criacao das colunas do datagrid
-        $column_id = new TDataGridColumn( "id", "ID", "center", 50 );
-        $column_codigocid = new TDataGridColumn( "codigocid", "Classificação", "left" );
-        $column_nome = new TDataGridColumn( "nome", "Doença", "left" );
 
-        
-        //Insercao das colunas no datagrid
-        $this->datagrid->addColumn( $column_id );
+        $column_codigocid = new TDataGridColumn( "codigocid", "Código", "left" );
+        $column_nome = new TDataGridColumn( "nome", "Nome", "left" );
+
         $this->datagrid->addColumn( $column_codigocid );
         $this->datagrid->addColumn( $column_nome );
 
-
-        
-        //Insercao das acoes de ordenacao nas colunas do datagrid
-        $order_id = new TAction( [ $this, "onReload" ] );
-        $order_id->setParameter( "order", "id" );
-        $column_id->setAction( $order_id );
-        
         $order_codigocid = new TAction( [ $this, "onReload" ] );
         $order_codigocid->setParameter( "order", "codigocid" );
         $column_codigocid->setAction( $order_codigocid );
-        
+
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
-        
-        
-        //Criacao da acao de edicao no datagrid
+
         $action_edit = new TDataGridAction( [ "CidForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
-        
-        
-        //Criacao da acao de delecao no datagrid
+
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
-        
+
         //Exibicao do datagrid
         $this->datagrid->createModel();
-        
+
         //Criacao do navedor de paginas do datagrid
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-        
+
         // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
@@ -106,7 +92,7 @@ class CidList extends TPage
         // Adicionando o container com o form a pagina
         parent::add( $container );
     }
-    
+
     public function onReload( $param = NULL )
     {
         try
@@ -153,7 +139,7 @@ class CidList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
-    
+
     public function onSearch()
     {
         $data = $this->form->getData();
@@ -176,13 +162,13 @@ class CidList extends TPage
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
                 }
-                else if ( ( $data->opcao == "codigocid" ) && ( is_numeric( $data->dados ) ) )
+                else if ( $data->opcao == "codigocid" )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", $data->dados . "%" ) );
                 }
                 else
                 {
-                    new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
+                    // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
                 }
                 $objects = $repository->load( $criteria, FALSE );
                 $this->datagrid->clear();
@@ -206,7 +192,7 @@ class CidList extends TPage
             {
                 $this->onReload();
                 $this->form->setData( $data );
-                new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
+                // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
             }
         }
         catch ( Exception $ex )
@@ -216,7 +202,7 @@ class CidList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
-    
+
     public function onDelete( $param = NULL )
     {
         if( isset( $param[ "key" ] ) )
@@ -224,13 +210,13 @@ class CidList extends TPage
             //Criacao das acoes a serem executadas na mensagem de exclusao
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
-            
+
             //Definicao sos parametros de cada acao
             $action1->setParameter( "key", $param[ "key" ] );
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
         }
     }
-    
+
     function Delete( $param = NULL )
     {
         try
@@ -248,7 +234,7 @@ class CidList extends TPage
             new TMessage("error", $ex->getMessage());
         }
     }
-    
+
     public function show()
     {
         $this->onReload();

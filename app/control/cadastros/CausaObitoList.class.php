@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 18.05.17
+
 class CausaObitoList extends TPage
 {
   private $form;
@@ -10,9 +12,9 @@ class CausaObitoList extends TPage
   public function __construct()
   {
     parent::__construct();
-     
+
     $this->form = new BootstrapFormBuilder("form_list_causa_obito");
-    $this->form->setFormTitle ( "Listagem de Óbitos");
+    $this->form->setFormTitle ( "Listagem de Causas de Óbitos");
     $this->form->class = "tform";
     $id = new THidden ("id");
 
@@ -20,28 +22,26 @@ class CausaObitoList extends TPage
     $dados = new TEntry( "dados" );
 
     $opcao->setDefaultOption( "..::SELECIONE::.." );
+    $opcao->setValue( "descricao" );
     $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
-    $dados->forceUpperCase();
-        
-        // Definicao dos tamanhos do campos
+    // $dados->forceUpperCase();
+
     $opcao->setSize( "38%" );
     $dados->setSize( "38%" );
-        
 
-        $opcao->addItems( [ "descricao" => "Causa Obito"] );
-        $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
-        $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
+    $opcao->addItems( [ "descricao" => "Descrição"] );
+    $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
+    $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
 
     $this->form->addAction ("Buscar", new TAction([$this, "onSearch"]), "fa:search" );
     $this->form->addAction ( "Novo", new TAction( ['CausaObitoForm', "onEdit"]), "bs:plus-sign green");
 
     $this->datagrid = new BootstrapDatagridWrapper (new TDataGrid());
     $this->datagrid->datatable = "true";
-    $this->datagrid->style = "width: 10
-    0%";
+    $this->datagrid->style = "width: 100%";
     $this->datagrid->setHeight (320);
     //$column_id = new TDataGridColumn("id", "ID", "center", 50);
-    $column_descricao = new TDataGridColumn ("descricao", "Causa Obito", "left");
+    $column_descricao = new TDataGridColumn ("descricao", "Descrição", "left");
 
     //$this->datagrid->addColumn ($column_id);
     $this->datagrid->addColumn ($column_descricao);
@@ -117,7 +117,7 @@ public function onReload ($param = NULL ) {
 
   } catch (Exception $e) {
     TTransaction::rollback();
-    new TMessage ("Erro: ", $e->getMessage() );
+    new TMessage ("error", $e->getMessage() );
   }
 
 
@@ -144,14 +144,10 @@ public function onSearch()
                 if( $data->opcao == "descricao" )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
-                }
-                else if ( ( $data->opcao == "descricao" ) && ( is_numeric( $data->dados ) ) )
-                {
-                    $criteria->add( new TFilter( $data->opcao, "LIKE", $data->dados . "%" ) );
-                }
+                  }
                 else
                 {
-                    new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
+                    // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
                 }
                 $objects = $repository->load( $criteria, FALSE );
                 $this->datagrid->clear();
@@ -175,7 +171,7 @@ public function onSearch()
             {
                 $this->onReload();
                 $this->form->setData( $data );
-                new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
+                // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
             }
         }
         catch ( Exception $ex )
@@ -193,13 +189,13 @@ public function onDelete( $param = NULL )
             //Criacao das acoes a serem executadas na mensagem de exclusao
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
-            
+
             //Definicao sos parametros de cada acao
             $action1->setParameter( "key", $param[ "key" ] );
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
         }
     }
-    
+
     function Delete( $param = NULL )
     {
         try
@@ -217,7 +213,7 @@ public function onDelete( $param = NULL )
             new TMessage("error", $ex->getMessage());
         }
     }
-    
+
     public function show()
     {
         $this->onReload();

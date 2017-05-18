@@ -140,7 +140,7 @@ class AnamneseDetalhe extends TPage
         //Criacao dos botoes com sua determinada acoes no fomulario
 
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        $this->form->addAction( "Voltar", new TAction( [ "PacienteList", "onReload" ] ), "fa:table blue" );
+        $this->form->addAction( "Voltar para listagem", new TAction( [ "PacienteList", "onReload" ] ), "fa:table blue" );
 
 
         //Criacao do container que recebe o formulario

@@ -30,7 +30,7 @@ class TipoNutricaoForm extends TPage
 
         // create the form actions
        $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        $this->form->addAction( "Voltar", new TAction( [ "TipoNutricaoList", "onReload" ] ), "fa:table blue" );
+        $this->form->addAction( "Voltar para listagem", new TAction( [ "TipoNutricaoList", "onReload" ] ), "fa:table blue" );
        
         // vertical box container
         $container = new TVBox;

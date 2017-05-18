@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 18.05.17
+
 class CondicoesDiagnosticoForm extends TPage
 {
     private $form;
@@ -7,7 +9,7 @@ class CondicoesDiagnosticoForm extends TPage
     public function __construct()
     {
         parent::__construct();
- 
+
         $this->form = new BootstrapFormBuilder( "form_condicoes_diagnostico" );
         $this->form->setFormTitle( "Formulario de Condições de Diagnostico" );
         $this->form->class = "tform";
@@ -17,15 +19,16 @@ class CondicoesDiagnosticoForm extends TPage
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
         $this->form->addFields( [ $id ] );
-        $this->form->addFields( [new TLabel('Escolaridade<font color=red><b>*</b></font> ')], [$descricao ]);
+        $this->form->addFields( [new TLabel('<font color=red><b>Diagnóstico</b></font>')], [$descricao ]);
 
         $descricao->setSize('50%', 80);
 
-        $this->form->addAction( "Voltar", new TAction( [ "EscolaridadeList", "onReload" ] ), "fa:table blue" );
+        $this->form->addAction( "Voltar para listagem", new TAction( [ "CondicoesDiagnosticoList", "onReload" ] ), "fa:table blue" );
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
-        
+
         $container = new TVBox();
         $container->style = "width: 90%";
+        $container->add( new TXMLBreadCrumb( "menu.xml", "CondicoesDiagnosticoList" ) );
         $container->add( $this->form );
         parent::add( $container );
     }
@@ -37,13 +40,13 @@ class CondicoesDiagnosticoForm extends TPage
             $this->form->validate();
             TTransaction::open( "dbsic" );
 
-            $object = $this->form->getData( "EscolaridadeRecord" );
+            $object = $this->form->getData( "CondicoesDiagnosticoRecord" );
 
             $object->store();
 
             TTransaction::close();
 
-            $action = new TAction( [ "EscolaridadeList", "onReload" ] );
+            $action = new TAction( [ "CondicoesDiagnosticoList", "onReload" ] );
 
             new TMessage( "info", "Registro salvo com sucesso!", $action );
 
@@ -64,7 +67,7 @@ class CondicoesDiagnosticoForm extends TPage
             {
                 TTransaction::open( "dbsic" );
 
-                $object = new EscolaridadeRecord( $param[ "key" ] );
+                $object = new CondicoesDiagnosticoRecord( $param[ "key" ] );
 
                 //$object->descricao = TText( $object->descricao );
 

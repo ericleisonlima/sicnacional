@@ -33,7 +33,7 @@ class TipoNutricaoList extends TPage
        
         $opcao->setDefaultOption( "..::SELECIONE::.." );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
-        $dados->forceUpperCase();
+        // $dados->forceUpperCase();
         
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
@@ -201,7 +201,7 @@ class TipoNutricaoList extends TPage
                 }
                 else
                 {
-                    new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
+                    // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
                 }
 
                 $objects = $repository->load( $criteria, FALSE );
@@ -237,7 +237,7 @@ class TipoNutricaoList extends TPage
 
                 $this->form->setData( $data );
 
-                new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
+                // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
             }
         }
         catch ( Exception $ex )

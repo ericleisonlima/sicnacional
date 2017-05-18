@@ -1,50 +1,52 @@
 <?php
 
+// Revisado 18.05.17
+
 class CidForm extends TPage
 {
     private $form;
-    
+
     public function __construct()
     {
         parent::__construct();
-        
+
         //Criacao do formulario
-        $this->form = new BootstrapFormBuilder( "form_cadastro_cid" );
-        $this->form->setFormTitle( "Cadastro CID" );
+        $this->form = new BootstrapFormBuilder( "form_cid" );
+        $this->form->setFormTitle( "Formulário de C.I.D." );
         $this->form->class = "tform";
-        
+
         //Criacao dos campos do fomulario
         $id = new THidden( "id" );
-        $codigoCID = new TEntry( "codigocid" );
+        $codigocid = new TEntry( "codigocid" );
         $nome = new TEntry( "nome" );
-        
+
         //Definicao das mascaras dos campos especiais
-        $codigoCID->setMask( "S99.9" );
-        
+        $codigocid->setMask( "S99.9" );
+
         //definicao de tipo de caixa das letras
-        $codigoCID->forceUpperCase();
-        $nome->forceUpperCase();
-        
+        $codigocid->forceUpperCase();
+        //$nome->forceUpperCase();
+
         //Definicao de propriedades dos campos
-        $codigoCID->setProperty('title', 'O campo e obrigatorio');
+        $codigocid->setProperty('title', 'O campo e obrigatorio');
         $nome->setProperty('title', 'O campo e obrigatorio');
-        
-        $codigoCID->setSize('38%');
+
+        $codigocid->setSize('38%');
         $nome->setSize('38%');
-        
+
         //Definicao de campos obrigatorios e requeridos especiais
-        $codigoCID->addValidation( "Classificacao", new TRequiredValidator );
-        $nome->addValidation( "Doenca", new TRequiredValidator );
-        
+        $codigocid->addValidation( "Código", new TRequiredValidator );
+        $nome->addValidation( "Nome", new TRequiredValidator );
+
         //Insercao dos campos no formulario
+        $this->form->addFields([new TLabel('<font color=red>Código</font>')], [$codigocid]);
+        $this->form->addFields([new TLabel('<font color=red>Nome</font>')], [$nome]);
         $this->form->addFields( [ $id ] );
-        $this->form->addFields([new TLabel('Classificacao:<font color=red><b>*</b></font> ')], [$codigoCID]);
-        $this->form->addFields([new TLabel('Doenca: <font color=red><b>*</b></font> ')], [$nome]);
-        
+
         //Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         $this->form->addAction( "Voltar para a listagem", new TAction( [ "CidList", "onReload" ] ), "fa:table blue" );
-        
+
         //Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
@@ -58,14 +60,14 @@ class CidForm extends TPage
         {
             //Validacao do formulario
             $this->form->validate();
-            
+
             TTransaction::open( "dbsic" );
-            
+
             $object = $this->form->getData('CidRecord');
             $object->store();
-            
+
             TTransaction::close();
-            
+
             $action = new TAction( [ "CidList", "onReload" ] );
             new TMessage( "info", "Registro salvo com sucesso!", $action );
         }
@@ -83,7 +85,7 @@ class CidForm extends TPage
             {
                 TTransaction::open( "dbsic" );
                 $object = new CidRecord($param['key']);
-                $this->form->setData($object);       
+                $this->form->setData($object);
 
                 TTransaction::close();
             }
