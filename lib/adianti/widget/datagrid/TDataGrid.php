@@ -799,6 +799,15 @@ class TDataGrid extends TTable
     {
         $field  = $action->getField();
         
+        $fieldfk = $action->getFk();
+        if (isset($fieldfk)) {
+            if (!isset($object->$fieldfk)) {
+                throw new Exception(AdiantiCoreTranslator::translate('FK ^1 not exists', $field));
+            }
+            $fk = isset($object->$fieldfk) ? $object->$fieldfk : NULL;
+            $action->setParameter('fk', $fk);
+        }
+        
         if ( is_null( $field ) )
         {
             throw new Exception(AdiantiCoreTranslator::translate('Field for action ^1 not defined', $label) . '.<br>' . 
@@ -809,6 +818,7 @@ class TDataGrid extends TTable
         {
             throw new Exception(AdiantiCoreTranslator::translate('Field ^1 not exists or contains NULL value', $field));
         }
+
         
         // get the object property that will be passed ahead
         $action->setParameter('key', isset($object->$field) ? $object->$field : NULL);

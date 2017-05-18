@@ -32,11 +32,8 @@ class EstabelecimentoList extends TPage{
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "EstabelecimentoForm", "onEdit" ] ), "bs:plus-sign green" );
 
-<<<<<<< HEAD
         $this->datagrid = new BootstrapDatagridWrapper( new DataGridCustom() );
-=======
-        $this->datagrid = new BootstrapDatagridWrapper( new DataGridWithFk() );
->>>>>>> 137f9b11090d190c145516512cba4b742e1affd0
+
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
@@ -70,11 +67,7 @@ class EstabelecimentoList extends TPage{
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
 
-<<<<<<< HEAD
         $action_estab_med = new DataGridActionCustom( [ "EstabelecimentoMedicoDetalhe", "onReload" ] );
-=======
-        $action_estab_med = new TDataGridAction( [ "EstabelecimentoMedicoList", "onReload" ] );
->>>>>>> 137f9b11090d190c145516512cba4b742e1affd0
         $action_estab_med->setButtonClass( "btn btn-default" );
         $action_estab_med->setLabel( "Editar" );
         $action_estab_med->setImage( "fa:pencil-square-o blue fa-lg" );
@@ -160,14 +153,12 @@ class EstabelecimentoList extends TPage{
                 if( $data->opcao == "nome" ){
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
                 }
-<<<<<<< HEAD
+
 
                 else if ( is_numeric($data->dados)){
                     $criteria->add( new TFilter($data->opcao,'=',$data->dados) );
 
                 }
-=======
->>>>>>> 137f9b11090d190c145516512cba4b742e1affd0
                 else
                 {
                     // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );

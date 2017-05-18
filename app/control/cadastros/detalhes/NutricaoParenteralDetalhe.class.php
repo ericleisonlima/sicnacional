@@ -149,7 +149,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction( $action_edit );
 
-        $action_del = new TDataGridActionWithFK(array($this, 'onDelete'));
+        $action_del = new DataGridActionCustom(array($this, 'onDelete'));
         $action_del->setButtonClass('btn btn-default');
         $action_del->setLabel(_t('Delete'));
         $action_del->setImage('fa:trash-o red fa-lg');

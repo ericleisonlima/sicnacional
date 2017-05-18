@@ -21,6 +21,18 @@ class TDataGridAction extends TAction
     private $displayCondition;
     private $buttonClass;
     private $useButton;
+    private $fk;
+
+
+    public function setFk($field)
+    {
+        $this->fk = $field;
+    }
+
+    public function getFk()
+    {
+        return $this->fk;
+    }
 
     /**
      * Define an icon for the action

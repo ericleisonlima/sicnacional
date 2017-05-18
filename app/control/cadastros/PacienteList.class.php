@@ -35,7 +35,7 @@ class PacienteList extends TPage
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "PacienteForm", "onEdit" ] ), "bs:plus-sign green" );
         
-        $this->datagrid = new BootstrapDatagridWrapper( new DataGridCustom() );
+        $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
@@ -74,7 +74,7 @@ class PacienteList extends TPage
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
 
-        $action_nutparen = new DataGridActionCustom( [ "NutricaoParenteralDetalhe", "onReload" ] );
+        $action_nutparen = new TDataGridAction( [ "NutricaoParenteralDetalhe", "onReload" ] );
         $action_nutparen->setButtonClass( "btn btn-default" );
         $action_nutparen->setLabel( "Nutrição Parenteral" );
         $action_nutparen->setImage( "fa:check-square fa-fw" );

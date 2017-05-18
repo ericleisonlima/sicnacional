@@ -2,8 +2,8 @@
 
 class DataGridActionCustom extends TDataGridAction
 {
+    
 	private $fk;
-    private $did;
 
 
     public function setFk($field)
@@ -14,15 +14,5 @@ class DataGridActionCustom extends TDataGridAction
     public function getFk()
     {
         return $this->fk;
-    }
-
-    public function setDid($field)
-    {
-        $this->did = $field;
-    }
-
-    public function getDid()
-    {
-        return $this->did;
     }
 }
