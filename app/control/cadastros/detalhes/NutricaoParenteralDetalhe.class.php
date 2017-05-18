@@ -75,7 +75,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $inicio->addValidation( "Início", new TRequiredValidator );
         $tipoparenteral->addValidation( "Tipo Parenteral", new TRequiredValidator );
 
-        $this->form->addFields( [new TLabel('Paciente'), $paciente_nome ], [] );
+        $this->form->addFields( [new TLabel('Paciente'), $paciente_nome] );
         $this->form->addFields( [new TLabel('Inicio')], [$inicio] );
         $this->form->addFields( [new TLabel('Fim')], [$fim] );
         $this->form->addFields( [new TLabel('Tipo da NTP')], [$tipoparenteral] );
@@ -90,8 +90,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $this->form->addFields( [new TLabel('Quantidade de Acessos Venosos de longa permanência')], [$numerodeacessovenoso] );
         $this->form->addFields( [new TLabel('Apresentou Infecção no Acesso Venoso')], [$apresentouinfeccaoacessovenoso] );
         $this->form->addFields( [new TLabel('Quantidade de Infecções no Acesso Venoso')], [$vezesinfeccaoacessovenoso] );
-        $this->form->addFields( [ $id ] );
-        $this->form->addFields( [ $paciente_id ] );
+        $this->form->addFields( [ $id, $paciente_id ] );
 
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
@@ -171,21 +170,22 @@ class NutricaoParenteralDetalhe extends TStandardList{
 
         parent::add($container);
     }
-    function onEdit($param) {
-        try {
-            if (isset($param['key'])) {
-                $key = $param['key'];
-                TTransaction::open('dbsic');
-                $object = new NutricaoParenteralRecord($key);  
-                $this->form->setData($object);
+    function onEdit( $param ){
+        try{
+            if( isset( $param[ "key" ] ) ){
+                TTransaction::open( "dbsic" );
+                $object = new NutricaoParenteralRecord( $param[ "key" ] );
+                //$object->nascimento = TDate::date2br( $object->nascimento );
+                $this->form->setData( $object );
                 TTransaction::close();
-                
             }
-            
-        } catch (Exception $e) {
-            new TMessage('error', '<b>Error</b> ' . $e->getMessage());
-            TTransaction::rollback();
         }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
+        }
+
         /*
         TTransaction::open('dbsic');
         if (isset($param['key'])) {
@@ -236,6 +236,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
             $limit = 10;
             
             $criteria = new TCriteria();
+            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
             

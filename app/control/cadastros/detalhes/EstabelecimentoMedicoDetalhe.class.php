@@ -43,16 +43,17 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
 
         $responsavel->addItems(array('S'=>'SIM', 'N'=>'NAO'));
         $responsavel->setLayout('horizontal');
+        $responsavel->setValue('N');
 
         $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('MedicoRecord');
 
-        $criteria = new TCriteria;
+        $criteria = new TCriteria; 
         $criteria->setProperty('order', 'nome');
         
         $cadastros = $repository->load($criteria);
-  
+
         foreach ($cadastros as $object) {
             $items[$object->id] = $object->nome;
         }
@@ -71,7 +72,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
         $this->form->addFields( [ new TLabel( "Data Início: <font color=red><b>*</b></font>" ) ], [ $datainicio ] );
         $this->form->addFields( [ new TLabel( "Data Fim:" ) ], [ $datafim ] );
         $this->form->addFields( [ $id, $estabelecimento_id ] );
-       
+
 
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
@@ -105,7 +106,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
         $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction( $action_edit );
 
-        $action_del = new TDataGridAction(array($this, 'onDelete'));
+        $action_del = new TDataGridAction(array($this, 'onDelete2'));
         $action_del->setButtonClass('btn btn-default');
         $action_del->setLabel(_t('Delete'));
         $action_del->setImage('fa:trash-o red fa-lg');
@@ -137,8 +138,12 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
             $object = $this->form->getData( "EstabelecimentoMedicoRecord" );
             $object->store();
             TTransaction::close();
-            $action = new TAction( [ "EstabelecimentoMedicoDetalhe", "onReload" ] );
-            new TMessage( "info", "Registro salvo com sucesso!", $action );
+            $param = array();
+            $param['fk'] = $object->estabelecimento_id;
+            $param['did'] = filter_input(INPUT_GET, 'did');
+
+            new TMessage("info", "Registro salvo com sucesso!");
+            TApplication::gotoPage('EstabelecimentoMedicoDetalhe', 'onReload', $param); // reload
         }
         catch ( Exception $ex )
         {
@@ -165,7 +170,42 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
-    public function onReload( $param = NULL ){
+    public function onReload($param = NULL){
+         TTransaction::open('dbsic');
+
+        $repository = new TRepository('EstabelecimentoMedicoRecord');
+
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'id');
+
+        $criteria->add(new TFilter('estabelecimento_id', '=', filter_input(INPUT_GET, 'fk')));
+        $cadastros = $repository->load($criteria);
+
+        if ($cadastros) {
+            foreach ($cadastros as $cadastro) {
+
+                $cadastro->datainicio = TDate::date2br($cadastro->datainicio);
+                $cadastro->datafim = TDate::date2br($cadastro->datafim);
+                $this->datagrid->addItem($cadastro);
+            }
+        }
+        TTransaction::close();
+        $this->loaded = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         try{
 
             TTransaction::open( "dbsic" );
@@ -211,6 +251,34 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
             TTransaction::rollback();
             new TMessage( "error", $ex->getMessage() );
         }
+        */
+    }
+    function onDelete2($param) {
+        $key = $param['key'];
+        $action1 = new TAction(array($this, 'Delete2'));
+        $action1->setParameter('key', $key);
+        $action1->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+
+        new TQuestion('Deseja realmente excluir o registro ?', $action1);
+    }
+
+
+    function Delete2($param) {
+        $key = $param['key'];
+
+        try {
+            TTransaction::open('dbsic');
+            $cadastro = new EstabelecimentoMedicoRecord($key);
+
+            $cadastro->delete();
+            new TMessage("info", "Registro deletado com sucesso!");
+
+            TTransaction::close();
+        } catch (Exception $e) {
+            new TMessage('error', $e->getMessage());
+            TTransaction::rollback();
+        }
+        $this->onReload();
     }
 
 
