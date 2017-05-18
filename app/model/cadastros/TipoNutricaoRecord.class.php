@@ -1,8 +1,4 @@
 <?php
-/**
- * <e-code/>
- * Robson Daniel
- */
 class TipoNutricaoRecord extends TRecord
 {
   const TABLENAME = 'tiponutricao';
@@ -12,4 +8,3 @@ class TipoNutricaoRecord extends TRecord
  
 }
 
-?>

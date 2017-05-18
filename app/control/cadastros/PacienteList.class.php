@@ -50,7 +50,6 @@ class PacienteList extends TPage
         $this->datagrid->addColumn(  $column_nome_municipio );
         $this->datagrid->addColumn($column_data_diagnostico );
      
-    
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
@@ -81,6 +80,14 @@ class PacienteList extends TPage
         $action_nutparen->setField( "id" );
         $action_nutparen->setFk( "id" );
         $this->datagrid->addAction( $action_nutparen );
+
+        $action_nut_en = new TDataGridAction( [ "NutricaoEnteralFormDetalhe", "onReload" ] );
+        $action_nut_en->setButtonClass( "btn btn-default" );
+        $action_nut_en->setLabel( "Nutrição Enteral" );
+        $action_nut_en->setImage( "fa:check-square fa-fw" );
+        $action_nut_en->setField( "id" );
+        $action_nut_en->setFk( "id" );
+        $this->datagrid->addAction( $action_nut_en );
 
         $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
         $action_doencabase->setButtonClass( "btn btn-default" );
