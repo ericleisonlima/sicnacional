@@ -100,7 +100,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',new TAction(array('PacienteList','onReload')),'fa:table blue');
 
-        $this->datagrid = new BootstrapDatagridWrapper(new DataGridCustom);
+        $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
@@ -141,7 +141,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $this->datagrid->addColumn($column_vezesinfeccaoacessovenoso);
         */
         
-        $action_edit = new DataGridActionCustom( [ $this, "onEdit" ] );
+        $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
@@ -149,12 +149,12 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction( $action_edit );
 
-        $action_del = new DataGridActionCustom(array($this, 'onDelete'));
+        $action_del = new TDataGridAction(array($this, 'onDelete'));
         $action_del->setButtonClass('btn btn-default');
         $action_del->setLabel(_t('Delete'));
         $action_del->setImage('fa:trash-o red fa-lg');
         $action_del->setField('id');
-        $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $action_del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction($action_del);
         
         $this->datagrid->createModel();
@@ -267,7 +267,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
             new TMessage( "error", $ex->getMessage() );
         }
     }
-
-    
+        
     
 }
