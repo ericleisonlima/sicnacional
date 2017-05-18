@@ -1,6 +1,6 @@
 <?php
 
-
+// Revisado 18.05.17
 
 class EstabelecimentoForm extends TPage
 {
@@ -81,7 +81,7 @@ class EstabelecimentoForm extends TPage
 
 
         //Insercao dos campos na aba de informacoes pessoais do formulario
-        $this->form->addFields([new TLabel("Municipio:","#FF0000") ],[$municipio]);
+        $this->form->addFields([new TLabel("Município:","#FF0000") ],[$municipio]);
         $this->form->addFields( [ new TLabel( "Nome:", "#FF0000" ) ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Endereço:" ) ], [ $endereco ]);
         $this->form->addFields( [ new TLabel( "Bairro:" ) ], [ $bairro ]);
@@ -147,7 +147,7 @@ class EstabelecimentoForm extends TPage
         {
             if( isset( $param[ "key" ] ) )
             {
-                TTransaction::open( "sic" );
+                TTransaction::open( "dbsic" );
 
                 $object = new EstabelecimentoRecord( $param[ "key" ] );
 

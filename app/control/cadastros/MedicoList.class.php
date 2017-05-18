@@ -1,8 +1,6 @@
-<?php
+    <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
+// Revisado 18.05.17
 
 class MedicoList extends TPage
 {
@@ -14,7 +12,7 @@ class MedicoList extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_list_cadastro_medicos" );
+        $this->form = new BootstrapFormBuilder( "form_list_medicos" );
         $this->form->setFormTitle( "Listagem de Médicos" );
         $this->form->class = "tform";
 
@@ -28,7 +26,7 @@ class MedicoList extends TPage
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
       
-        $opcao->addItems( [ "nome" => "Nome"] );
+        $opcao->addItems( [ "nome" => "Nome", "crm" => "CRM"]  );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
         
@@ -40,19 +38,14 @@ class MedicoList extends TPage
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
         
-        $column_id = new TDataGridColumn( "id", "ID", "center", 50 );
         $column_nome = new TDataGridColumn( "nome", "Nome", "left" );
         $column_crm = new TDataGridColumn( "crm", "CRM", "left" );
-        $column_nome_municipio = new TDataGridColumn( "municipio_nome", "Município", "center" );
+        $column_nome_municipio = new TDataGridColumn( "municipio_nome", "Município", "left" );
         
-        $this->datagrid->addColumn( $column_id );
         $this->datagrid->addColumn( $column_nome );
         $this->datagrid->addColumn( $column_crm);
         $this->datagrid->addColumn( $column_nome_municipio );
      
-        $order_id = new TAction( [ $this, "onReload" ] );
-        $order_id->setParameter( "order", "id" );
-        $column_id->setAction( $order_id );
 
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
@@ -61,7 +54,8 @@ class MedicoList extends TPage
         $order_nome_municipio = new TAction( [ $this, "onReload" ] );
         $order_nome_municipio->setParameter( "order", "nome_municipio" );
         $column_nome_municipio->setAction( $order_nome_municipio );
-   /*
+
+        /*
         $action_nutparen = new TDataGridAction( [ "NutricaoParenteralForm", "onEdit" ] );
         $action_nutparen->setButtonClass( "btn btn-default" );
         $action_nutparen->setLabel( "Nutrição Parenteral" );
@@ -171,6 +165,10 @@ class MedicoList extends TPage
                 if( $data->opcao == "nome" && !( is_numeric( $data->dados ) ) )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
+                }
+                else if ( $data->opcao == "crm" )
+                {
+                    $criteria->add( new TFilter( $data->opcao, "LIKE", $data->dados . "%" ) );
                 }
                 else
                 {

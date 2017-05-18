@@ -1,4 +1,7 @@
 <?php
+
+// Revisado 18.05.17
+
 class EstabelecimentoMedicoDetalhe extends TStandardList{
     protected $form;
     protected $datagrid; // listing
@@ -10,7 +13,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_estab_med" );
+        $this->form = new BootstrapFormBuilder( "form_estabelecimento_medeico" );
         $this->form->setFormTitle( "Formulário de Cadastro de Médicos nos Estabelecimentos" );
         $this->form->class = "tform";
 
@@ -85,13 +88,11 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
         
-        $column_id = new TDataGridColumn('id', 'Id', 'center', 50);
-        $column_name = new TDataGridColumn('medico_nome', 'Médico', 'left');
-        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
-        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
-        $column_responsavel = new TDataGridColumn('responsavel', 'Responsável', 'left');
+        $column_name = new TDataGridColumn('medico_nome', 'Médico', 'left',80);
+        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'center',50);
+        $column_fim = new TDataGridColumn('datafim', 'Fim', 'center',50);
+        $column_responsavel = new TDataGridColumn('responsavel', 'Responsável', 'center',50);
 
-        $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
