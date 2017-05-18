@@ -1,0 +1,117 @@
+<menu>
+  <menuitem label='Cadastros'>
+    <icon>fa:list-ul fa-fw</icon>
+	<menu>
+      <menuitem label='Admin. de nutrição'>
+        <icon>fa:users</icon>
+        <action>AdministracaoNutricaoList</action>
+      </menuitem>
+      <menuitem label='Causas de óbitos'>
+        <icon>fa:users</icon>
+        <action>CausaObitoList</action>
+      </menuitem>
+      <menuitem label='C.I.D.'>
+        <icon>fa:users</icon>
+        <action>CidList</action>
+      </menuitem>
+      <menuitem label='Comorbidades'>
+        <icon>fa:users</icon>
+        <action>ComorbidadesList</action>
+      </menuitem>
+      <menuitem label='Condições diagnósticas'>
+        <icon>fa:users</icon>
+        <action>CondicoesDiagnosticoList</action>
+      </menuitem>
+      <menuitem label='Escolaridades'>
+        <icon>fa:users</icon>
+        <action>EscolaridadeList</action>
+      </menuitem>
+      <menuitem label='Estabelecimentos'>
+        <icon>fa:users</icon>
+        <action>EstabelecimentoList</action>
+      </menuitem>
+      <menuitem label='Estabelecimentos médicos'>
+        <icon>fa:users</icon>
+        <action>EstabelecimentoMedicoList</action>
+      </menuitem>
+      <menuitem label='Históricos médicos'>
+        <icon>fa:users</icon>
+        <action>EstabelecimentoMedicoList</action>
+      </menuitem>
+      <menuitem label='Medicamentos'>
+        <icon>fa:users</icon>
+        <action>MedicamentoList</action>
+      </menuitem>
+      <menuitem label='Médicos'>
+        <icon>fa:users</icon>
+        <action>MedicoList</action>
+      </menuitem>
+      <menuitem label='Municípios'>
+        <icon>fa:users</icon>
+        <action>MunicipioList</action>
+      </menuitem>
+      <menuitem label='Pacientes'>
+        <icon>fa:users</icon>
+        <action>PacienteList</action>
+      </menuitem>
+      <menuitem label='Tipos de exames'>
+        <icon>fa:users</icon>
+        <action>TipoExameList</action>
+      </menuitem>
+      <menuitem label='Tipos de nutrições'>
+        <icon>fa:users</icon>
+        <action>TipoNutricaoList</action>
+      </menuitem>
+	  </menu>
+  </menuitem>
+
+  <menuitem label='_t{Administration}'>
+    <icon>fa:university fa-fw</icon>
+    <menu>
+      <menuitem label='_t{Programs}'>
+        <icon>fa:file-code-o fa-fw</icon>
+        <action>SystemProgramList</action>
+      </menuitem>
+      <menuitem label='_t{Groups}'>
+        <icon>fa:users fa-fw</icon>
+        <action>SystemGroupList</action>
+      </menuitem>
+      <menuitem label='_t{Units}'>
+        <icon>fa:university fa-fw</icon>
+        <action>SystemUnitList</action>
+      </menuitem>
+      <menuitem label='_t{Users}'>
+        <icon>fa:user fa-fw</icon>
+        <action>SystemUserList</action>
+      </menuitem>
+    </menu>
+  </menuitem>
+
+  <menuitem label='Logs'>
+    <icon>fa:desktop fa-fw</icon>
+    <menu>
+      <menuitem label='_t{Access Stats}'>
+        <icon>fa:bar-chart fa-fw</icon>
+        <action>SystemAccessLogStats</action>
+      </menuitem>
+      <menuitem label='_t{Access Log}'>
+        <icon>fa:key fa-fw</icon>
+        <action>SystemAccessLogList</action>
+      </menuitem>
+    </menu>
+  </menuitem>
+
+  <menuitem label='Logout'>
+    <icon>fa:sign-out fa-fw</icon>
+    <menu>
+      <menuitem label='Profile'>
+        <icon>fa:user</icon>
+        <action>SystemProfileView</action>
+      </menuitem>
+      <menuitem label='Logout'>
+        <action>LoginForm#method=onLogout#static=1</action>
+        <icon>fa:sign-out fa-fw</icon>
+      </menuitem>
+    </menu>
+  </menuitem>
+</menu>
