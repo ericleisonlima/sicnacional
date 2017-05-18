@@ -74,11 +74,12 @@ class PacienteList extends TPage
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
 
-        $action_nutparen = new TDataGridAction( [ "NutricaoParenteralForm", "onEdit" ] );
+        $action_nutparen = new TDataGridAction( [ "NutricaoParenteralDetalhe", "onReload" ] );
         $action_nutparen->setButtonClass( "btn btn-default" );
         $action_nutparen->setLabel( "Nutrição Parenteral" );
         $action_nutparen->setImage( "fa:check-square fa-fw" );
         $action_nutparen->setField( "id" );
+        $action_nutparen->setFk( "id" );
         $this->datagrid->addAction( $action_nutparen );
 
         $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );

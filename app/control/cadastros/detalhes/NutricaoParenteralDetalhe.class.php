@@ -1,5 +1,5 @@
 <?php
-class NutricaoParenteralForm extends TStandardList{
+class NutricaoParenteralDetalhe extends TStandardList{
     protected $form;
     protected $datagrid; // listing
     protected $pageNavigation;
@@ -18,11 +18,10 @@ class NutricaoParenteralForm extends TStandardList{
         
         $id                                 = new THidden('id');
         $paciente_id                        = new THidden('paciente_id'); 
-        $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
+        $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
 
         TTransaction::open('dbsic');
-        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'id' ) );
-        
+        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'fk' ) );
         if( $tempVisita ){
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
@@ -76,9 +75,6 @@ class NutricaoParenteralForm extends TStandardList{
         $inicio->addValidation( "Início", new TRequiredValidator );
         $tipoparenteral->addValidation( "Tipo Parenteral", new TRequiredValidator );
 
-        $this->form->addField( $id, null );
-        $this->form->addField(  $paciente_id, null);
-        //$this->form->addField(  'Paciente', $paciente_nome);
         $this->form->addFields( [new TLabel('Paciente'), $paciente_nome ], [] );
         $this->form->addFields( [new TLabel('Inicio')], [$inicio] );
         $this->form->addFields( [new TLabel('Fim')], [$fim] );
@@ -94,9 +90,12 @@ class NutricaoParenteralForm extends TStandardList{
         $this->form->addFields( [new TLabel('Quantidade de Acessos Venosos de longa permanência')], [$numerodeacessovenoso] );
         $this->form->addFields( [new TLabel('Apresentou Infecção no Acesso Venoso')], [$apresentouinfeccaoacessovenoso] );
         $this->form->addFields( [new TLabel('Quantidade de Infecções no Acesso Venoso')], [$vezesinfeccaoacessovenoso] );
+        $this->form->addFields( [ $id ] );
+        $this->form->addFields( [ $paciente_id ] );
 
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+        $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',new TAction(array('PacienteList','onReload')),'fa:table blue');
@@ -127,8 +126,8 @@ class NutricaoParenteralForm extends TStandardList{
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
-        /*
         $this->datagrid->addColumn($column_tipoparenteral);
+        /*
         $this->datagrid->addColumn($column_tipoparenteraloutros);
         $this->datagrid->addColumn($column_totalcalorias);
         $this->datagrid->addColumn($column_percentualdiario);
@@ -142,11 +141,20 @@ class NutricaoParenteralForm extends TStandardList{
         $this->datagrid->addColumn($column_vezesinfeccaoacessovenoso);
         */
         
+        $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
+        $action_edit->setButtonClass( "btn btn-default" );
+        $action_edit->setLabel( "Editar" );
+        $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
+        $action_edit->setField( "id" );
+        $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->datagrid->addAction( $action_edit );
+
         $action_del = new TDataGridAction(array($this, 'onDelete'));
         $action_del->setButtonClass('btn btn-default');
         $action_del->setLabel(_t('Delete'));
         $action_del->setImage('fa:trash-o red fa-lg');
         $action_del->setField('id');
+        $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction($action_del);
         
         $this->datagrid->createModel();
@@ -164,20 +172,29 @@ class NutricaoParenteralForm extends TStandardList{
         parent::add($container);
     }
     function onEdit($param) {
-
-
+        try {
+            if (isset($param['key'])) {
+                $key = $param['key'];
+                TTransaction::open('dbsic');
+                $object = new NutricaoParenteralRecord($key);  
+                $this->form->setData($object);
+                TTransaction::close();
+                
+            }
+            
+        } catch (Exception $e) {
+            new TMessage('error', '<b>Error</b> ' . $e->getMessage());
+            TTransaction::rollback();
+        }
+        /*
         TTransaction::open('dbsic');
-        
-        if (isset($param['fk'])) {
-
-            $key = $param['fk'];
+        if (isset($param['key'])) {
+            $key = $param['key'];
             $object = new NutricaoParenteralRecord($key);
             $this->form->setData($object);
-            
-        } else {
-            $this->form->clear();
-        }
+        } 
         TTransaction::close();
+        */
 
     }
     public function onSave(){
@@ -185,13 +202,18 @@ class NutricaoParenteralForm extends TStandardList{
 
             TTransaction::open('dbsic');
             $cadastro = $this->form->getData('NutricaoParenteralRecord');
-            $cadastro->paciente_id =  filter_input(INPUT_GET, 'id');
-
             $this->form->validate();
             $cadastro->store();
             TTransaction::close();
+
+            $param=array();
+            $param['key'] = $cadastro->id;
+            $param['id'] = $cadastro->id;
+            $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('NutricaoParenteralForm', 'onReload');
+            TApplication::gotoPage('NutricaoParenteralDetalhe','onReload', $param); // reload
+
+            //TApplication::gotoPage('NutricaoParenteralForm', 'onReload');
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);
@@ -219,7 +241,6 @@ class NutricaoParenteralForm extends TStandardList{
             
             $objects = $repository->load( $criteria, FALSE );
 
-            $this->datagrid->clear();
 
             if ( !empty( $objects ) ){
 
