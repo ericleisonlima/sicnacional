@@ -1,4 +1,7 @@
 <?php
+
+// Revisado 18.05.17
+
 class MedicamentoForm extends TPage
 {
     private $form;
@@ -6,21 +9,22 @@ class MedicamentoForm extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_Medicamentos" );
+        $this->form = new BootstrapFormBuilder( "form_Medicamentos" );
         $this->form->setFormTitle( "Formulário de Cadastro de Medicamento" );
         $this->form->class = "tform";
 
         $id               = new THidden( "id" );
         $nome             = new TEntry( "nome" );
-        $medicamento_id         = new TCombo( "medicamento_id" );
+        $tipomedicamento_id   = new TCombo( " tipomedicamento_id" );
 
-        $nome->forceUpperCase();
+        //$nome->forceUpperCase();
 
         $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('TipoMedicamentoRecord');
 
         $criteria = new TCriteria;
+        
         $criteria->setProperty('order', 'nome');
         
         $cadastros = $repository->load($criteria);
@@ -29,14 +33,14 @@ class MedicamentoForm extends TPage
             $items[$object->id] = $object->nome;
         }
 
-        $medicamento_id->addItems($items);
+        $tipomedicamento_id->addItems($items);
         TTransaction::close(); 
 
         $nome->addValidation( "Nome", new TRequiredValidator );
-        $medicamento_id->addValidation( "Tipo do Medicamento", new TRequiredValidator );
+        $tipomedicamento_id->addValidation( "Tipo do Medicamento", new TRequiredValidator );
 
         $this->form->addFields( [ new TLabel( "Nome: <font color=red><b>*</b></font> ") ], [ $nome ] );
-        $this->form->addFields( [ new TLabel( "Tipo:<font color=red><b>*</b></font>" ) ], [ $municipio_id ]);
+        $this->form->addFields( [ new TLabel( "Tipo:<font color=red><b>*</b></font>" ) ], [ $tipomedicamento_id ]);
         $this->form->addFields( [ $id ] );
        
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );

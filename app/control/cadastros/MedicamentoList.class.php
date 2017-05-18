@@ -1,8 +1,6 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
+// Revisado 18.05.17
 
 class MedicamentoList extends TPage
 {
@@ -14,7 +12,7 @@ class MedicamentoList extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_list_cadastro_Medicamentos" );
+        $this->form = new BootstrapFormBuilder( "form_list_Medicamentos" );
         $this->form->setFormTitle( "Listagem de Medicamentos" );
         $this->form->class = "tform";
 
@@ -22,6 +20,7 @@ class MedicamentoList extends TPage
         $dados = new TEntry( "dados" );
        
         $opcao->setDefaultOption( "..::SELECIONE::.." );
+        $opcao->setValue("nome");
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
         // $dados->forceUpperCase();
         
@@ -41,7 +40,7 @@ class MedicamentoList extends TPage
         $this->datagrid->setHeight( 320 );
         
         $column_nome = new TDataGridColumn( "nome", "Nome do Medicamento", "left" );
-        $column_tipo = new TDataGridColumn( "medicamento_nome", "Tipo do Medicamento", "left" );
+        $column_tipo = new TDataGridColumn( "tipomedicamento_nome", "Tipo do Medicamento", "left" );
         
         $this->datagrid->addColumn( $column_nome );
         $this->datagrid->addColumn( $column_tipo );
@@ -130,6 +129,7 @@ class MedicamentoList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
+
     public function onSearch()
     {
         $data = $this->form->getData();
@@ -148,7 +148,7 @@ class MedicamentoList extends TPage
                 $criteria = new TCriteria();
                 $criteria->setProperties( $param );
                 $criteria->setProperty( "limit", $limit );
-                if( $data->opcao == "nome" && !( is_numeric( $data->dados ) ) )
+                if( $data->opcao == "nome" )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
                 }
@@ -167,9 +167,9 @@ class MedicamentoList extends TPage
                 }
                 $criteria->resetProperties();
                 $count = $repository->count( $criteria );
-                $this->pageNavigation->setCount( $count );
-                $this->pageNavigation->setProperties( $param ); 
-                $this->pageNavigation->setLimit( $limit ); 
+                $this->pageNavigation->setCount( $count ); // count of records
+                $this->pageNavigation->setProperties( $param ); // order, page
+                $this->pageNavigation->setLimit( $limit ); //Limita a quantidade de registros
                 TTransaction::close();
                 $this->form->setData( $data );
                 $this->loaded = true;
@@ -178,7 +178,7 @@ class MedicamentoList extends TPage
             {
                 $this->onReload();
                 $this->form->setData( $data );
-                // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
+              //  // new TMessage( "error", "Selecione uma opção e informe os dados da busca corretamente!" );
             }
         }
         catch ( Exception $ex )
@@ -200,6 +200,7 @@ class MedicamentoList extends TPage
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
         }
     }
+
     function Delete( $param = NULL )
     {
         try

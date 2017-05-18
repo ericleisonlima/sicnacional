@@ -2,7 +2,7 @@
 
 class MedicamentoRecord extends TRecord
 {
-    const TABLENAME = 'medico';
+    const TABLENAME = 'medicamento';
     const PRIMARYKEY = 'id';
     const IDPOLICY = 'max';
 
