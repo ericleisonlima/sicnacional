@@ -104,6 +104,14 @@ class PacienteList extends TPage
         $action_uso_med->setFk( "id" );
         $this->datagrid->addAction( $action_uso_med );
 
+        $action_anamnese = new TDataGridAction( [ "AnamneseFormDetalhe", "onReload" ] );
+        $action_anamnese->setButtonClass( "btn btn-default" );
+        $action_anamnese->setLabel( "Anamnese" );
+        $action_anamnese->setImage( "fa:stethoscope fa-fw" );
+        $action_anamnese->setField( "id" );
+        $action_anamnese->setFk( "id" );
+        $this->datagrid->addAction( $action_anamnese );
+
         $this->datagrid->createModel();
       
         $this->pageNavigation = new TPageNavigation();
