@@ -36,8 +36,8 @@ class CidForm extends TPage
         $nome->addValidation( "Nome", new TRequiredValidator );
 
         //Insercao dos campos no formulario
-        $this->form->addFields([new TLabel('<font color=red>Código</font>')], [$codigocid]);
-        $this->form->addFields([new TLabel('<font color=red>Nome</font>')], [$nome]);
+        $this->form->addFields([new TLabel('Código<font color=red>*</font>')], [$codigocid]);
+        $this->form->addFields([new TLabel('Nome<font color=red>*</font>')], [$nome]);
         $this->form->addFields( [ $id ] );
 
         //Criacao dos botoes com sua determinada acoes no fomulario

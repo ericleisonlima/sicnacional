@@ -1,7 +1,9 @@
 <?php
+
 class NutricaoParenteralDetalhe extends TStandardList{
     protected $form;
-    protected $datagrid;
+
+    protected $datagrid; 
     protected $pageNavigation;
     protected $formgrid;
     protected $deleteButton;
@@ -62,8 +64,10 @@ class NutricaoParenteralDetalhe extends TStandardList{
 
         $acessovenosolp->addItems(array('SIM'=>'SIM', 'NAO'=>'NAO'));
         $acessovenosolp->setLayout('horizontal');
+        //$acessovenosolp->setValue('SIM');
         $apresentouinfeccaoacessovenoso->addItems(array('SIM'=>'SIM', 'NAO'=>'NAO'));
         $apresentouinfeccaoacessovenoso->setLayout('horizontal');
+        //$apresentouinfeccaoacessovenoso->setValue('nao');
         $inicio->setSize('20%');
         $fim->setSize('20%');
 
@@ -107,12 +111,12 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
         $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
-        $column_tipoparenteral = new TDataGridColumn('tipoparenteral', 'Tipo Parenteral', 'left');
-        $column_tipoparenteraloutros = new TDataGridColumn('tipoparenteraloutros', 'Tipo Parenteral Outros', 'left');
-        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
-        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'percentual diario', 'left');
-        $column_volumenpt = new TDataGridColumn('volumenpt', 'volumenpt', 'left');
-        $column_tempoinfusao = new TDataGridColumn('tempoinfusao', 'tempoinfusao', 'left');
+        $column_tipoparenteral = new TDataGridColumn('tipoparenteral', 'Tipo Parenteral', 'center');
+        $column_tipoparenteraloutros = new TDataGridColumn('tipoparenteraloutros', 'Tipo Parenteral Outros', 'center');
+        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'center');
+        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diário', 'center');
+        $column_volumenpt = new TDataGridColumn('volumenpt', 'Volume NPT', 'left');
+        $column_tempoinfusao = new TDataGridColumn('tempoinfusao', 'Tempo Infusão', 'left');
         $column_frequencia = new TDataGridColumn('frequencia', 'frequencia', 'left');
         $column_acessovenosolp = new TDataGridColumn('acessovenosolp', 'acessovenosolp', 'left');
         $column_acessovenosolpqual = new TDataGridColumn('acessovenosolpqual', 'acessovenosolpqual', 'left');
@@ -120,16 +124,19 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 'apresentouinfeccaoacessovenoso', 'left');
         $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'vezesinfeccaoacessovenoso', 'left');
 
-        $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
         $this->datagrid->addColumn($column_tipoparenteral);
-        /*
-        $this->datagrid->addColumn($column_tipoparenteraloutros);
         $this->datagrid->addColumn($column_totalcalorias);
-        $this->datagrid->addColumn($column_percentualdiario);
         $this->datagrid->addColumn($column_volumenpt);
         $this->datagrid->addColumn($column_tempoinfusao);
+
+
+
+        /*
+        $this->datagrid->addColumn($column_name);
+        $this->datagrid->addColumn($column_tipoparenteraloutros);
+        $this->datagrid->addColumn($column_percentualdiario);
         $this->datagrid->addColumn($column_frequencia);
         $this->datagrid->addColumn($column_acessovenosolp);
         $this->datagrid->addColumn($column_acessovenosolpqual);

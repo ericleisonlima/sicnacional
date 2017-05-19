@@ -50,7 +50,7 @@
         <icon>fa:users</icon>
         <action>PacienteList</action>
       </menuitem>
-      <menuitem label='Tipo de exame'>
+      <menuitem label='Exames'>
         <icon>fa:users</icon>
         <action>TipoExameList</action>
       </menuitem>

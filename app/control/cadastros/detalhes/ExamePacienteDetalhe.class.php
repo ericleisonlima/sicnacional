@@ -52,8 +52,8 @@ class ExamePacienteDetalhe extends TStandardList{
 
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
         $this->form->addFields( [new TLabel('Exame <font color=red><b>*</b></font>')], [$tipoexame_id] );
-        $this->form->addFields( [new TLabel('Valor do Exame'),$tipoadministracaomedicamento_id]  );
-        $this->form->addFields( [new TLabel('Data do Exame <font color=red><b>*</b></font>')], [$inicio] );
+        $this->form->addFields( [new TLabel('Valor do Exame')],[$valor]  );
+        $this->form->addFields( [new TLabel('Data do Exame <font color=red><b>*</b></font>')], [$dataexame] );
         $this->form->addFields( [ $id, $paciente_id ] );
 
         $action = new TAction(array($this, 'onSave'));
@@ -69,7 +69,7 @@ class ExamePacienteDetalhe extends TStandardList{
         $this->datagrid->setHeight(320);
         
         $column_1 = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
-        $column_2 = new TDataGridColumn('tipoexame_nome', 'Exame', 'left');
+        $column_2 = new TDataGridColumn('exame_nome', 'Exame', 'left');
         $column_3 = new TDataGridColumn('valor', 'Valor', 'left');
         $column_4 = new TDataGridColumn('dataexame', 'Data do Exame', 'left');
 
