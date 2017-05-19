@@ -1,8 +1,5 @@
 <?php
-/*
- * @author Ericleison Lima
- * @date 16/05/2017
- */
+
 class AnamneseDetalhe extends TPage
 {
     private $form;
@@ -15,7 +12,6 @@ class AnamneseDetalhe extends TPage
         $this->form->class = "tform";
 
 
-        //Criacao dos campos do fomulario
         $id               = new THidden( "id" );
         //$estabelecimento_medico_id             = new THidden( "estabelecimento_medico_id" );
         //$paciente_id              = new THidden( "paciente_id" );
@@ -43,18 +39,13 @@ class AnamneseDetalhe extends TPage
         $paciente_id = new AnamneseRecord( filter_input( INPUT_GET, 'fk' ) );
         $pacientenome = new TLabel( $paciente_id->nome );
         
-        
         TTransaction::close();
-
-        //Definicao das mascaras dos campos especiais
         
         $dataregistro->setMask( "dd/mm/yyyy" );
         $datacirurgia ->setMask( "dd/mm/yyyy" );
         $datatransplante->setMask( "dd/mm/yyyy" );
 
 
-
-        //Definicao de tipo de caixa das letras
         $peso->forceUpperCase();
         $altura->forceUpperCase();
         $comindel->forceUpperCase();
@@ -65,7 +56,6 @@ class AnamneseDetalhe extends TPage
         $diagnosticonutricional->forceUpperCase();
 
 
-        //Definicao de propriedades dos campos
         $fumante->setDefaultOption( "..::SELECIONE::.." );
         $colonemcontinuidade->setDefaultOption( "..::SELECIONE::.." );
         $colonremanescente->setDefaultOption( "..::SELECIONE::.." );
