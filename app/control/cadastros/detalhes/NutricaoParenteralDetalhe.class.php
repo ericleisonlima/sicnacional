@@ -1,7 +1,7 @@
 <?php
 class NutricaoParenteralDetalhe extends TStandardList{
     protected $form;
-    protected $datagrid; // listing
+    protected $datagrid;
     protected $pageNavigation;
     protected $formgrid;
     protected $deleteButton;
@@ -104,7 +104,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
         
-        $column_id = new TDataGridColumn('id', 'Id', 'center', 50);
         $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
         $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
@@ -121,7 +120,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 'apresentouinfeccaoacessovenoso', 'left');
         $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'vezesinfeccaoacessovenoso', 'left');
 
-        $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
@@ -175,7 +173,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
             if( isset( $param[ "key" ] ) ){
                 TTransaction::open( "dbsic" );
                 $object = new NutricaoParenteralRecord( $param[ "key" ] );
-                //$object->nascimento = TDate::date2br( $object->nascimento );
                 $this->form->setData( $object );
                 TTransaction::close();
             }
@@ -185,16 +182,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
             TTransaction::rollback();
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
-
-        /*
-        TTransaction::open('dbsic');
-        if (isset($param['key'])) {
-            $key = $param['key'];
-            $object = new NutricaoParenteralRecord($key);
-            $this->form->setData($object);
-        } 
-        TTransaction::close();
-        */
 
     }
     public function onSave(){
@@ -211,9 +198,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
             $param['id'] = $cadastro->id;
             $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('NutricaoParenteralDetalhe','onReload', $param); // reload
-
-            //TApplication::gotoPage('NutricaoParenteralForm', 'onReload');
+            TApplication::gotoPage('NutricaoParenteralDetalhe','onReload', $param); 
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);
@@ -242,7 +227,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
             
             $objects = $repository->load( $criteria, FALSE );
 
-
+            $this->datagrid->clear();
             if ( !empty( $objects ) ){
 
                 foreach ( $objects as $object ){

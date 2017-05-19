@@ -58,6 +58,10 @@
         <icon>fa:users</icon>
         <action>TipoNutricaoList</action>
       </menuitem>
+      <menuitem label='Tipos de medicamentos'>
+        <icon>fa:users</icon>
+        <action>TipoMedicamentoDetalhe</action>
+      </menuitem>
 	  </menu>
   </menuitem>
 
