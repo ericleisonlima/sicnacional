@@ -50,15 +50,15 @@
         <icon>fa:users</icon>
         <action>PacienteList</action>
       </menuitem>
-      <menuitem label='Tipos de exames'>
+      <menuitem label='Tipo de exame'>
         <icon>fa:users</icon>
         <action>TipoExameList</action>
       </menuitem>
-      <menuitem label='Tipos de nutrições'>
+      <menuitem label='Tipo de nutrição'>
         <icon>fa:users</icon>
         <action>TipoNutricaoList</action>
       </menuitem>
-      <menuitem label='Tipos de medicamentos'>
+      <menuitem label='Tipo de medicamento'>
         <icon>fa:users</icon>
         <action>TipoMedicamentoDetalhe</action>
       </menuitem>
