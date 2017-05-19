@@ -20,36 +20,36 @@ class PacienteList extends TPage
 
         $opcao = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
-       
+
         $opcao->setDefaultOption( "..::SELECIONE::.." );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
         // $dados->forceUpperCase();
-        
+
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
-      
+
         $opcao->addItems( [ "nome" => "Nome"] );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
-        
+
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "PacienteForm", "onEdit" ] ), "bs:plus-sign green" );
-        
+
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
-        
+
         $column_nome = new TDataGridColumn( "nome", "Nome", "left" );
         $column_tiposanguineo = new TDataGridColumn( "tiposanguineo", "Tipo Sanguíneo", "left" );
         $column_nome_municipio = new TDataGridColumn( "nome_municipio", "Municipio", "center" );
         $column_data_diagnostico = new TDataGridColumn( "data_diagnostico", "Data Diagnostico", "center" );
-        
+
         $this->datagrid->addColumn( $column_nome );
         $this->datagrid->addColumn( $column_tiposanguineo);
         $this->datagrid->addColumn(  $column_nome_municipio );
         $this->datagrid->addColumn($column_data_diagnostico );
-     
+
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
@@ -57,15 +57,15 @@ class PacienteList extends TPage
         $order_tiposanguineo = new TAction( [ $this, "onReload" ] );
         $order_tiposanguineo->setParameter( "order", "tiposanguineo" );
         $column_tiposanguineo->setAction( $order_tiposanguineo );
-   
-       
+
+
         $action_edit = new TDataGridAction( [ "PacienteForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
-        
+
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
@@ -98,11 +98,11 @@ class PacienteList extends TPage
 
 
         $this->datagrid->createModel();
-      
+
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-  
+
 
         $container = new TVBox();
         $container->style = "width: 90%";
@@ -110,7 +110,7 @@ class PacienteList extends TPage
         $container->add( $this->form );
         $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
         $container->add( $this->pageNavigation );
-        
+
 
         parent::add( $container );
     }
@@ -118,9 +118,9 @@ class PacienteList extends TPage
     {
         try
         {
-            
+
             TTransaction::open( "dbsic" );
-          
+
 
             $repository = new TRepository( "PacienteRecord" );
             if ( empty( $param[ "order" ] ) )
@@ -129,16 +129,16 @@ class PacienteList extends TPage
                 $param[ "direction" ] = "asc";
             }
             $limit = 10;
-            
+
 
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-            
+
             $objects = $repository->load( $criteria, FALSE );
-           
+
             $this->datagrid->clear();
- 
+
 
             if ( !empty( $objects ) )
             {
@@ -148,10 +148,10 @@ class PacienteList extends TPage
                 }
             }
             $criteria->resetProperties();
-           
+
             $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
+            $this->pageNavigation->setCount($count);
+            $this->pageNavigation->setProperties($param);
             $this->pageNavigation->setLimit($limit);
 
             TTransaction::close();
@@ -201,8 +201,8 @@ class PacienteList extends TPage
                 $criteria->resetProperties();
                 $count = $repository->count( $criteria );
                 $this->pageNavigation->setCount( $count );
-                $this->pageNavigation->setProperties( $param ); 
-                $this->pageNavigation->setLimit( $limit ); 
+                $this->pageNavigation->setProperties( $param );
+                $this->pageNavigation->setLimit( $limit );
                 TTransaction::close();
                 $this->form->setData( $data );
                 $this->loaded = true;
@@ -225,10 +225,10 @@ class PacienteList extends TPage
     {
         if( isset( $param[ "key" ] ) )
         {
-            
+
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
-           
+
             $action1->setParameter( "key", $param[ "key" ] );
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
         }
