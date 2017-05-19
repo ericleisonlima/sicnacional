@@ -20,8 +20,13 @@ class TipoExameList extends TPage
         parent::__construct();
 
         
+<<<<<<< HEAD
         $this->form = new BootstrapFormBuilder( "form_list_tipoexame" );
         $this->form->setFormTitle( "Listagem de Tipos de Exames" );
+=======
+        $this->form = new BootstrapFormBuilder( "form_list_cadastro_tipoexame" );
+        $this->form->setFormTitle( "Listagem dos Exames" );
+>>>>>>> 1a28a164c94122582d223f8cc54128cf4034c3d3
         $this->form->class = "tform";
 
         $opcao = new TCombo( "opcao" );
