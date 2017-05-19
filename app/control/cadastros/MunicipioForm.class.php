@@ -13,7 +13,7 @@ class MunicipioForm extends TPage{
 
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder("form_list_cadastro_clientes" );
+        $this->form = new BootstrapFormBuilder("form_list_clientes" );
         $this->form->setFormTitle( "Cadastro de Municipio" );
         $this->form->class = "tform";
 
@@ -33,9 +33,9 @@ class MunicipioForm extends TPage{
 
         $uf->addItems( [ 'RN' => 'Rio Grande do Norte', 'BA' => 'Bahia'] );
 
-        $this->form->addFields( [ new TLabel( 'Nome:' )  ], [ $nome ] );
-        $this->form->addFields( [ new TLabel( 'Código IBGE: ' )], [$codibge] );
-        $this->form->addFields( [ new TLabel( 'Estado:' ) ], [ $uf ] );
+        $this->form->addFields( [ new TLabel( 'Nome:<font color=red><b>*</b></font> ' )  ], [ $nome ] );
+        $this->form->addFields( [ new TLabel( 'Código IBGE: <font color=red><b>*</b></font> ' )], [$codibge] );
+        $this->form->addFields( [ new TLabel( 'Estado:<font color=red><b>*</b></font> ') ], [ $uf ] );
         $this->form->addFields( [ new TLabel( '' ) ], [ $id ] ); 
 
         $nome->addValidation( "Nome", new TRequiredValidator );

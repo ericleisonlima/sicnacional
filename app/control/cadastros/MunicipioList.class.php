@@ -18,12 +18,14 @@ class MunicipioList extends TPage{
         $opcao  = new TCombo( "opcao" );
         $dados = new TEntry( "dados" );
 
-       // $id->setProperty ( 'title', 'Digitar ID' );
+        $opcao->setDefaultOption( "..::SELECIONE::.." );
         $dados->setProperty ( 'title', '"Informe os dados de acordo com a opção" ' );
 
         $opcao->setSize( '30%' );
         $dados->setSize( '30%' );
  
+        
+        $opcao->addItems( [ "nome" => "Nome","codibge" => "Cod.IBGE"] );
         $this->form->addFields( [ new TLabel( 'Opção de filtro:' ) ], [ $opcao ] );        
         $this->form->addFields( [ new TLabel( 'Dados da busca:' )  ], [ $dados ] );
 
