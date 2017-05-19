@@ -349,3 +349,19 @@ table.tdatagrid_table
     padding: 8px;
     font-size: 17pt;
 }
+
+/*----------------------------------------------------------------------------*/
+
+.skin-green-custom .main-header .navbar {
+    background-color: #739D34 !important;
+}
+
+.skin-green-custom .main-header .logo {
+    background-color: #739D34 !important;
+    color: #fff;
+    border-bottom: 0 solid transparent;
+}
+.btn-hover:hover
+{
+    background-color: #739D34 !important;
+}

@@ -62,7 +62,7 @@ class LoginForm extends TPage
         $login_button=new TButton('save');
         // define the button action
         $login_button->setAction(new TAction(array($this, 'onLogin')), 'Clique para entrar' );
-        $login_button->class = 'btn btn-success';
+        $login_button->class = 'btn btn-success btn-hover';
         $login_button->style = 'font-size:18px;width:90%;padding:10px;';
 
         $row = $table->addRow();
