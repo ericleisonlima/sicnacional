@@ -1,6 +1,6 @@
 <?php
 
-
+// Revisado 18.05.17
 
 class EstabelecimentoList extends TPage{
     private $form;

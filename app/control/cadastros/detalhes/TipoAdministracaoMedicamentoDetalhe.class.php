@@ -139,11 +139,8 @@ class TipoAdministracaoMedicamentoList extends TPage
 
             $this->datagrid->clear();
 
-
-            if ( !empty( $objects ) )
-            {
-                foreach ( $objects as $object )
-                {
+            if ( !empty( $objects ) ){
+                foreach ( $objects as $object ){
                     $this->datagrid->addItem( $object );
                 }
             }

@@ -1,4 +1,7 @@
 <?php
+
+// Revisado 18.05.17
+
 class EstabelecimentoMedicoDetalhe extends TStandardList{
     protected $form;
     protected $datagrid; // listing
@@ -10,7 +13,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_estab_med" );
+        $this->form = new BootstrapFormBuilder( "form_estabelecimento_medeico" );
         $this->form->setFormTitle( "Formulário de Cadastro de Médicos nos Estabelecimentos" );
         $this->form->class = "tform";
 
@@ -85,13 +88,11 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
         
-        $column_id = new TDataGridColumn('id', 'Id', 'center', 50);
-        $column_name = new TDataGridColumn('medico_nome', 'Médico', 'left');
-        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
-        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
-        $column_responsavel = new TDataGridColumn('responsavel', 'Responsável', 'left');
+        $column_name = new TDataGridColumn('medico_nome', 'Médico', 'left',80);
+        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'center',50);
+        $column_fim = new TDataGridColumn('datafim', 'Fim', 'center',50);
+        $column_responsavel = new TDataGridColumn('responsavel', 'Responsável', 'center',50);
 
-        $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
@@ -106,7 +107,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
         $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction( $action_edit );
 
-        $action_del = new TDataGridAction(array($this, 'onDelete2'));
+        $action_del = new TDataGridAction(array($this, 'onDelete'));
         $action_del->setButtonClass('btn btn-default');
         $action_del->setLabel(_t('Delete'));
         $action_del->setImage('fa:trash-o red fa-lg');
@@ -128,10 +129,9 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
 
         parent::add($container);
     }
-    public function onSave()
-    {
-        try
-        {
+
+    public function onSave(){
+        try{
             $this->form->validate();
             TTransaction::open( "dbsic" );
 
@@ -151,25 +151,22 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
             new TMessage( "error", "Ocorreu um erro ao tentar salvar o registro!<br><br>" . $ex->getMessage() );
         }
     }
-    public function onEdit( $param )
-    {
-        try
-        {
-            if( isset( $param[ "key" ] ) )
-            {
+
+    public function onEdit( $param ){
+        try{
+            if( isset( $param[ "key" ] ) ){
                 TTransaction::open( "dbsic" );
                 $object = new EstabelecimentoMedicoRecord( $param[ "key" ] );
                 $object->nascimento = TDate::date2br( $object->nascimento );
                 $this->form->setData( $object );
                 TTransaction::close();
             }
-        }
-        catch ( Exception $ex )
-        {
+        }catch ( Exception $ex ){
             TTransaction::rollback();
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
+
     public function onReload($param = NULL){
          TTransaction::open('dbsic');
 
@@ -180,6 +177,8 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
 
         $criteria->add(new TFilter('estabelecimento_id', '=', filter_input(INPUT_GET, 'fk')));
         $cadastros = $repository->load($criteria);
+
+        $this->datagrid->clear();
 
         if ($cadastros) {
             foreach ($cadastros as $cadastro) {
@@ -192,70 +191,11 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
         TTransaction::close();
         $this->loaded = true;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        try{
-
-            TTransaction::open( "dbsic" );
-
-            $repository = new TRepository( "EstabelecimentoMedicoRecord" );
-            if ( empty( $param[ "order" ] ) )
-            {
-                $param[ "order" ] = "id";
-                $param[ "direction" ] = "asc";
-            }
-            $limit = 10;
-            
-            $criteria = new TCriteria();
-
-            $criteria->add(new TFilter('estabelecimento_id', '=', filter_input(INPUT_GET, 'fk')));
-            $criteria->setProperties( $param );
-            $criteria->setProperty( "limit", $limit );
-            
-            $objects = $repository->load( $criteria, FALSE );
-
-
-            if ( !empty( $objects ) ){
-
-                foreach ( $objects as $object ){
-
-                    $object->datainicio = TDate::date2br($object->datainicio);
-                    $object->datafim = TDate::date2br($object->datafim);
-                    $this->datagrid->addItem( $object );
-                }
-            }
-            $criteria->resetProperties();
-
-            $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
-            $this->pageNavigation->setLimit($limit);
-
-            TTransaction::close();
-            $this->loaded = true;
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", $ex->getMessage() );
-        }
-        */
     }
-    function onDelete2($param) {
+
+    function onDelete($param) {
         $key = $param['key'];
-        $action1 = new TAction(array($this, 'Delete2'));
+        $action1 = new TAction(array($this, 'Delete'));
         $action1->setParameter('key', $key);
         $action1->setParameter('fk', filter_input(INPUT_GET, 'fk'));
 
@@ -263,7 +203,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
     }
 
 
-    function Delete2($param) {
+    function Delete($param) {
         $key = $param['key'];
 
         try {

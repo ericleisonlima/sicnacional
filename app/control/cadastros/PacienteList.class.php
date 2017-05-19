@@ -73,10 +73,17 @@ class PacienteList extends TPage
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
 
+        $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
+        $action_doencabase->setButtonClass( "btn btn-default" );
+        $action_doencabase->setLabel( "Doenca Base" );
+        $action_doencabase->setImage( "fa:heart-o fa-fw" );
+        $action_doencabase->setField( "id" );
+        $this->datagrid->addAction( $action_doencabase );
+
         $action_nutparen = new TDataGridAction( [ "NutricaoParenteralDetalhe", "onReload" ] );
         $action_nutparen->setButtonClass( "btn btn-default" );
         $action_nutparen->setLabel( "Nutrição Parenteral" );
-        $action_nutparen->setImage( "fa:check-square fa-fw" );
+        $action_nutparen->setImage( "fa:file-powerpoint-o fa-fw" );
         $action_nutparen->setField( "id" );
         $action_nutparen->setFk( "id" );
         $this->datagrid->addAction( $action_nutparen );
@@ -84,18 +91,18 @@ class PacienteList extends TPage
         $action_nut_en = new TDataGridAction( [ "NutricaoEnteralFormDetalhe", "onReload" ] );
         $action_nut_en->setButtonClass( "btn btn-default" );
         $action_nut_en->setLabel( "Nutrição Enteral" );
-        $action_nut_en->setImage( "fa:check-square fa-fw" );
+        $action_nut_en->setImage( "fa:file-o fa-fw" );
         $action_nut_en->setField( "id" );
         $action_nut_en->setFk( "id" );
         $this->datagrid->addAction( $action_nut_en );
 
-        $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
-        $action_doencabase->setButtonClass( "btn btn-default" );
-        $action_doencabase->setLabel( "Doenca Base" );
-        $action_doencabase->setImage( "fa:check-square fa-fw" );
-        $action_doencabase->setField( "id" );
-        $this->datagrid->addAction( $action_doencabase );
-
+        $action_uso_med = new TDataGridAction( [ "UsoMedicamentoDetalhe", "onReload" ] );
+        $action_uso_med->setButtonClass( "btn btn-default" );
+        $action_uso_med->setLabel( "Medicação Ministrada" );
+        $action_uso_med->setImage( "fa:medkit fa-fw" );
+        $action_uso_med->setField( "id" );
+        $action_uso_med->setFk( "id" );
+        $this->datagrid->addAction( $action_uso_med );
 
         $this->datagrid->createModel();
       
