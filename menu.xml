@@ -62,6 +62,10 @@
         <icon>fa:users</icon>
         <action>TipoMedicamentoDetalhe</action>
       </menuitem>
+      <menuitem label='Tipo Adm. medicamento'>
+        <icon>fa:users</icon>
+        <action>TipoAdministracaoMedicamentoDetalhe</action>
+      </menuitem>
 	  </menu>
   </menuitem>
 

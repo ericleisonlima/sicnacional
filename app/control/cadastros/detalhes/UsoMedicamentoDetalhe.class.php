@@ -49,6 +49,18 @@ class UsoMedicamentoDetalhe extends TStandardList{
         $medicamento_id->addItems($items);
         TTransaction::close(); 
 
+        $items = array();
+        TTransaction::open('dbsic');
+        $repository = new TRepository('TipoAdministracaoMedicamentoRecord');
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'descricao');
+        $cadastros = $repository->load($criteria);
+        foreach ($cadastros as $object) {
+            $items[$object->id] = $object->descricao;
+        }
+        $tipoadministracaomedicamento_id->addItems($items);
+        TTransaction::close(); 
+
         $inicio->setSize('20%');
         $fim->setSize('20%');
 
@@ -61,13 +73,14 @@ class UsoMedicamentoDetalhe extends TStandardList{
         $medicamento_id->addValidation( "Medicamento", new TRequiredValidator );
         $tipoadministracaomedicamento_id->addValidation( "Tipo administração", new TRequiredValidator );
 
-        $this->form->addFields( [new TLabel('Paciente'), $paciente_nome] );
-        $this->form->addFields( [new TLabel('Inicio')], [$inicio] );
-        $this->form->addFields( [new TLabel('Fim')], [$fim] );
-        $this->form->addFields( [new TLabel('Medicamento')], [$medicamento_id] );
-        $this->form->addFields( [new TLabel('Tipo administração')], [$tipoadministracaomedicamento_id] );
+        $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
+        $this->form->addFields( [new TLabel('Medicamento <font color=red><b>*</b></font>')], [$medicamento_id] );
+        $this->form->addFields( [new TLabel('Tipo administração <font color=red><b>*</b></font>'),$tipoadministracaomedicamento_id]  );
         $this->form->addFields( [new TLabel('Posologia')], [$posologia] );
+        $this->form->addFields( [new TLabel('Inicio <font color=red><b>*</b></font>')], [$inicio] );
+        $this->form->addFields( [new TLabel('Fim')], [$fim] );
         $this->form->addFields( [new TLabel('Observações')], [$observacao] );
+        $this->form->addFields( [new TLabel('<font color=red><b>* Campos Obrigatórios </b></font>'), []] );
         $this->form->addFields( [ $id, $paciente_id ] );
 
         $action = new TAction(array($this, 'onSave'));
@@ -158,7 +171,7 @@ class UsoMedicamentoDetalhe extends TStandardList{
             $param['id'] = $cadastro->id;
             $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage($this,'onReload', $param); 
+            TApplication::gotoPage('UsoMedicamentoDetalhe','onReload', $param); 
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);
