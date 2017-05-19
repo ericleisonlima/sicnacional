@@ -25,7 +25,7 @@ class TipoExameList extends TPage
 
         
         $this->form = new BootstrapFormBuilder( "form_list_cadastro_tipoexame" );
-        $this->form->setFormTitle( "Listagem de Tipos de Exame" );
+        $this->form->setFormTitle( "Listagem dos Exames" );
         $this->form->class = "tform";
 
         $opcao = new TCombo( "opcao" );

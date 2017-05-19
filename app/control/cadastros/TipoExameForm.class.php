@@ -11,7 +11,7 @@ class TipoExameForm extends TPage
        
 
         $this->form = new BootstrapFormBuilder( "form_cadastro_tipoexame" );
-        $this->form->setFormTitle( "Cadastro Tipo Exame" );
+        $this->form->setFormTitle( "Cadastro de Exames" );
         $this->form->class = "tform";
 
         // create the form fields
