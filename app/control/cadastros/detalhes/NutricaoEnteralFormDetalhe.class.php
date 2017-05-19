@@ -1,8 +1,8 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_erros', 1);
+//error_reporting(E_ALL);
 
 class NutricaoEnteralFormDetalhe extends TPage{
 
@@ -20,7 +20,6 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $id = new THidden('id');
         $paciente_id = new THidden('paciente_id'); 
         $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
-        //$municipio_id     = new TCombo( "municipio_id" )
         $tiponutricao_id = new TCombo("tiponutricao_id"); 
         $administracaonutricao_id = new TCombo("administracaonutricao_id"); 
 
@@ -81,7 +80,6 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $inicio->addValidation( "Início", new TRequiredValidator );
         $totalcalorias->addValidation( "Total de Calorias", new TRequiredValidator );
 
-        
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
         $this->form->addFields( [new TLabel('Tipo Nutrição')], [$tiponutricao_id ] );
         $this->form->addFields( [new TLabel('Administração Nutrição')], [$administracaonutricao_id] );
@@ -103,7 +101,6 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
         
-        //$column_id = new TDataGridColumn('id', 'Id', 'center');
         $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_name2 = new TDataGridColumn('tipo_nutricao_nome', 'Tipo Nutrição', 'left');
         $column_name3 = new TDataGridColumn('administracao_nutricao_nome', 'Administração Nutrição', 'left');
@@ -112,8 +109,6 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
         $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diario', 'left');
        
-
-        //$this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_name2);
         $this->datagrid->addColumn($column_name3);
@@ -127,7 +122,6 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $action_edit->setField('id');
         $this->datagrid->addAction($action_edit);
         
-
         $action_del = new TDataGridAction(array($this, 'onDelete'));
         $action_del->setButtonClass('btn btn-default');
         $action_del->setLabel(_t('Delete'));
@@ -140,8 +134,6 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
         $this->pageNavigation->setWidth($this->datagrid->getWidth());
-
-      
  
         $container = new TVBox;
         $container->style = 'width: 90%';
@@ -157,11 +149,8 @@ class NutricaoEnteralFormDetalhe extends TPage{
 
     function onEdit($param) {
 
-
         TTransaction::open('dbsic');
-        
         if (isset($param['fk'])) {
-
             $key = $param['fk'];
             $object = new NutricaoEnteralRecord($key);
             $this->form->setData($object);
@@ -187,9 +176,7 @@ class NutricaoEnteralFormDetalhe extends TPage{
             $param['id'] = $cadastro->id;
             $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('NutricaoEnteralFormDetalhe','onReload', $param); // reload
-
-            //TApplication::gotoPage('NutricaoParenteralForm', 'onReload');
+            TApplication::gotoPage('NutricaoEnteralFormDetalhe','onReload', $param);
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);
@@ -204,8 +191,7 @@ class NutricaoEnteralFormDetalhe extends TPage{
             TTransaction::open( "dbsic" );
 
             $repository = new TRepository( "NutricaoEnteralRecord" );
-            if ( empty( $param[ "order" ] ) )
-            {
+            if ( empty( $param[ "order" ] ) ){
                 $param[ "order" ] = "id";
                 $param[ "direction" ] = "asc";
             }
@@ -218,78 +204,7 @@ class NutricaoEnteralFormDetalhe extends TPage{
             
             $objects = $repository->load( $criteria, FALSE );
 
-
-            if ( !empty( $objects ) ){
-
-                foreach ( $objects as $object ){
-
-                    $object->datainicio = TDate::date2br($object->datainicio);
-                    $object->datafim = TDate::date2br($object->datafim);
-                    $this->datagrid->addItem( $object );
-                }
-            }
-            $criteria->resetProperties();
-
-            $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
-            $this->pageNavigation->setLimit($limit);
-
-            TTransaction::close();
-            $this->loaded = true;
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", $ex->getMessage() );
-        }
-    }
-/*
-
-
-    public function onSave(){
-        try{
-
-            TTransaction::open('dbsic');
-            $cadastro = $this->form->getData('NutricaoEnteralRecord');
-            $cadastro->paciente_id =  filter_input(INPUT_GET, 'id');
-            $cadastro->tiponutricao_id =  filter_input(INPUT_GET, 'id');
-            $cadastro->administracaonutricao_id =  filter_input(INPUT_GET, 'id');
-
-            $this->form->validate();
-            $cadastro->store();
-            TTransaction::close();
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('NutricaoEnteralFormDetalhe', 'onReload');
-
-        }catch (Exception $e){
-            $object = $this->form->getData($this->activeRecord);
-            new TMessage('error', $e->getMessage());
-            TTransaction::rollback();
-        }
-    }
-
-    public function onReload( $param = NULL ){
-        try{
-
-            TTransaction::open( "dbsic" );
-
-            $repository = new TRepository( "NutricaoEnteralRecord" );
-            if ( empty( $param[ "order" ] ) )
-            {
-                $param[ "order" ] = "id";
-                $param[ "direction" ] = "asc";
-            }
-            $limit = 10;
-            
-            $criteria = new TCriteria();
-            $criteria->setProperties( $param );
-            $criteria->setProperty( "limit", $limit );
-            
-            $objects = $repository->load( $criteria, FALSE );
-
             $this->datagrid->clear();
-
             if ( !empty( $objects ) ){
 
                 foreach ( $objects as $object ){
@@ -308,18 +223,14 @@ class NutricaoEnteralFormDetalhe extends TPage{
 
             TTransaction::close();
             $this->loaded = true;
-        }
-        catch ( Exception $ex )
-        {
+        }catch ( Exception $ex ){
             TTransaction::rollback();
             new TMessage( "error", $ex->getMessage() );
         }
     }
-*/
-    public function onDelete( $param = NULL )
-    {
-        if( isset( $param[ "key" ] ) )
-        {
+
+    public function onDelete( $param = NULL ){
+        if( isset( $param[ "key" ] ) ){
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
             $action1->setParameter( "key", $param[ "key" ] );
@@ -336,8 +247,7 @@ class NutricaoEnteralFormDetalhe extends TPage{
             TTransaction::close();
             $this->onReload();
             new TMessage("info", "Registro apagado com sucesso!");
-        }
-        catch ( Exception $ex ){
+        }catch ( Exception $ex ){
             TTransaction::rollback();
             new TMessage("error", $ex->getMessage());
         }

@@ -4,7 +4,7 @@
 //ini_set('display_startup_erros', 1);
 //error_reporting(E_ALL);
 
-class TipoAdministracaoMedicamentoList extends TPage
+class TipoAdministracaoMedicamentoDetalhe extends TPage
 {
     private $form;
     private $datagrid;
@@ -139,11 +139,8 @@ class TipoAdministracaoMedicamentoList extends TPage
 
             $this->datagrid->clear();
 
-
-            if ( !empty( $objects ) )
-            {
-                foreach ( $objects as $object )
-                {
+            if ( !empty( $objects ) ){
+                foreach ( $objects as $object ){
                     $this->datagrid->addItem( $object );
                 }
             }

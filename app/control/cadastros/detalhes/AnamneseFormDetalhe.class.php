@@ -1,17 +1,16 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
-error_reporting(E_ALL);
 
-class AnamneseFormDetalhe extends TPage
+class AnamneseFormDetalhe extends TStandardList
 {
 
 
-    private $form;
-    private $datagrid; // listing
-    private $pageNavigation;
-    private $loaded;
+    protected $form;
+    protected $datagrid;
+    protected $pageNavigation;
+    protected $formgrid;
+    protected $deleteButton;
+    protected $transformCallback;
 
 
    public function __construct(){
@@ -19,36 +18,42 @@ class AnamneseFormDetalhe extends TPage
         
         $this->form = new BootstrapFormBuilder('form_detail_anamnese');
         $this->form->setFormTitle('Detalhamento de Anamnese');
-        //$this->form->class = "tform";
+       
+        parent::setDatabase('dbsic');
+        parent::setActiveRecord('AnamneseRecord');
         
         
         
         $id = new THidden('id');
         $paciente_id = new THidden('paciente_id'); 
-        $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
-        $estabelecimento_medico_id = new THidden('estabelecimento_medico_id'); 
-        $estabelecimento_id->setValue(filter_input(INPUT_GET, 'id'));
+        $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
+        $estabelecimento_medico_id = new TCombo('estabelecimento_medico_id'); 
+        
        
         TTransaction::open('dbsic');
-        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'id' ) );
+        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'fk' ) );
         
         if( $tempVisita ){
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
         }
+
+
         TTransaction::close(); 
 
-        
+        $items = array();
         TTransaction::open('dbsic');
-        $tempVisita2 = new EstabelecimentoMedicoRecord( filter_input( INPUT_GET, 'id' ) );
-        
-        if( $tempVisita2 ){
-            $paciente_nome2 = new TLabel( $tempVisita2->estabelecimento_id );
-            $paciente_nome2->setEditable(FALSE);
+        $repository = new TRepository('EstabelecimentoMedicoRecord');
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'id');
+        $cadastros = $repository->load($criteria);
+        foreach ($cadastros as $object) {
+            $items[$object->id] = $object->id;
         }
+        $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
 
-      
+
 
         $dataregistro = new TDate('dataregistro');
         $datacirurgia = new TDate('datacirurgia');
@@ -63,7 +68,7 @@ class AnamneseFormDetalhe extends TPage
         $estomia = new TEntry('estomia');
         $transplantado = new TEntry('transplantado');
         $datatransplante = new TDate('datatransplante');
-        $tipotransplante = new TEntry('tipotransplante');
+        $tipotransplante = new TEntry('tipotrasnplante');
         $desfechotransplante = new TEntry('desfechotransplante');
         $diagnosticonutricional = new TEntry('diagnosticonutricional');
 
@@ -97,7 +102,7 @@ class AnamneseFormDetalhe extends TPage
         $dataregistro->setMask('dd/mm/yyyy');
         $dataregistro->setDatabaseMask('yyyy-mm-dd');
 
-
+/*
         $dataregistro->addValidation( "Data do Registro", new TRequiredValidator );
         $datacirurgia->addValidation( "Data da Cirurgia", new TRequiredValidator );
         $peso->addValidation( "Peso", new TRequiredValidator );
@@ -108,11 +113,11 @@ class AnamneseFormDetalhe extends TPage
         $transplantado->addValidation( "Transplantado", new TRequiredValidator );
         $diagnosticonutricional->addValidation( "Diagnostico Nutricional", new TRequiredValidator );
         $fumante->addValidation( "Fumante", new TRequiredValidator );
-
+*/
         
-        $this->form->addFields( [new TLabel('Paciente')], [$paciente_nome] );
-        $this->form->addFields( [new TLabel('Estabelecimento Medico')], [$paciente_nome2 ] );
-        $this->form->addFields( [new TLabel('Data dp Registro')], [$dataregistro ] );
+        $this->form->addFields( [new TLabel('Paciente'),$paciente_nome] );
+        $this->form->addFields( [new TLabel('Estabelecimento Medico')], [$estabelecimento_medico_id] );
+        $this->form->addFields( [new TLabel('Data do Registro')], [$dataregistro ] );
         $this->form->addFields( [new TLabel('Data da Cirurgia')], [$datacirurgia] );
         $this->form->addFields( [new TLabel('Peso')], [$peso] );
         $this->form->addFields( [new TLabel('Altura')], [$altura] );
@@ -128,13 +133,13 @@ class AnamneseFormDetalhe extends TPage
         $this->form->addFields( [new TLabel('Tipo Transplante')], [$tipotransplante ] );
         $this->form->addFields( [new TLabel('Desfecho do Transplante')], [$desfechotransplante ] );
         $this->form->addFields( [new TLabel('Diagnostico Nutricional')], [$diagnosticonutricional] );
-        $this->form->addFields( [$id, $paciente_id, $estabelecimento_medico_id]);
+        $this->form->addFields( [$id, $paciente_id]);
        
         $action = new TAction(array($this, 'onSave'));
-        $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+        $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
-        $this->form->addAction('Voltar',new TAction(array('PacienteList','onReload')),'fa:table blue');
+        $this->form->addAction('Voltar para Paciente',new TAction(array('PacienteList','onReload')),'fa:table blue');
 
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
@@ -157,20 +162,22 @@ class AnamneseFormDetalhe extends TPage
         $this->datagrid->addColumn($column_estomia);
         $this->datagrid->addColumn($column_transplantado);
         
-        $action_edit = new TDataGridAction(array('AnamneseFormDetalhe', 'onEdit'));
-        $action_edit->setButtonClass('btn btn-default');
-        $action_edit->setLabel('Editar');
-        $action_edit->setImage('fa:pencil-square-o blue fa-lg');
-        $action_edit->setField('id');
-        $this->datagrid->addAction($action_edit);
-        
 
-        $action_del = new TDataGridAction(array($this, 'onDelete'));
-        $action_del->setButtonClass('btn btn-default');
-        $action_del->setLabel(_t('Delete'));
-        $action_del->setImage('fa:trash-o red fa-lg');
-        $action_del->setField('id');
-        $this->datagrid->addAction($action_del);
+        $edit = new TDataGridAction( [ $this, "onEdit" ] );
+        $edit->setButtonClass( "btn btn-default" );
+        $edit->setLabel( "Editar" );
+        $edit->setImage( "fa:pencil-square-o blue fa-lg" );
+        $edit->setField( "id" );
+        $edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->datagrid->addAction( $edit );
+        
+        $del = new TDataGridAction(array($this, 'onDelete'));
+        $del->setButtonClass('btn btn-default');
+        $del->setLabel(_t('Delete'));
+        $del->setImage('fa:trash-o red fa-lg');
+        $del->setField('id');
+        $del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->datagrid->addAction($del);
         
         $this->datagrid->createModel();
         
@@ -182,7 +189,7 @@ class AnamneseFormDetalhe extends TPage
  
         $container = new TVBox;
         $container->style = 'width: 90%';
-        //$container->add(new TXMLBreadCrumb('menu.xml', 'NutricaoEnteralFormDetalhe'));
+        //$container->add(new TXMLBreadCrumb('menu.xml', 'AnamneseFormDetalhe'));
         $container->add($this->form);
         $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
@@ -201,6 +208,10 @@ class AnamneseFormDetalhe extends TPage
 
             $key = $param['fk'];
             $object = new AnamneseRecord($key);
+
+             $object->dataregistro = TDate::date2br($object->dataregistro);
+             $object->datacirurgia = TDate::date2br($object->datacirurgia);
+             $object->datatransplante = TDate::date2br($object->datatransplante);
             $this->form->setData($object);
             
         } else {
@@ -209,20 +220,21 @@ class AnamneseFormDetalhe extends TPage
         TTransaction::close();
 
     }
-    public function onSave(){
+   public function onSave(){
         try{
 
             TTransaction::open('dbsic');
             $cadastro = $this->form->getData('AnamneseRecord');
-            $cadastro->paciente_id =  filter_input(INPUT_GET, 'id');
-            $cadastro->estabelecimento_medico_id =  filter_input(INPUT_GET, 'id');
-          
-
             $this->form->validate();
             $cadastro->store();
             TTransaction::close();
+
+            $param=array();
+            $param['key'] = $cadastro->id;
+            $param['id'] = $cadastro->id;
+            $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('AnamneseFormDetalhe', 'onReload');
+            TApplication::gotoPage('AnamneseFormDetalhe','onReload', $param); 
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);
@@ -278,48 +290,6 @@ class AnamneseFormDetalhe extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
-
-
-
-    public function onDelete( $param = NULL )
-    {
-        if( isset( $param[ "key" ] ) )
-        {
-            //Criacao das acoes a serem executadas na mensagem de exclusao
-            $action1 = new TAction( [ $this, "Delete" ] );
-            $action2 = new TAction( [ $this, "onReload" ] );
-
-            //Definicao sos parametros de cada acao
-            $action1->setParameter( "key", $param[ "key" ] );
-
-            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
-        }
-    }
-
-    function Delete( $param = NULL )
-    {
-        try
-        {
-            TTransaction::open( "dbsic" );
-
-            $object = new AnamneseRecord( $param[ "key" ] );
-
-            $object->delete();
-
-            TTransaction::close();
-
-            $this->onReload();
-
-            new TMessage("info", "Registro apagado com sucesso!");
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-
-            new TMessage("error", $ex->getMessage());
-        }
-    }
-
     
     
 }

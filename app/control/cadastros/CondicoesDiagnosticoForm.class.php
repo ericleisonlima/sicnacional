@@ -19,7 +19,7 @@ class CondicoesDiagnosticoForm extends TPage
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
         $this->form->addFields( [ $id ] );
-        $this->form->addFields( [new TLabel('<font color=red><b>Diagnóstico</b></font>')], [$descricao ]);
+        $this->form->addFields( [new TLabel('Diagnóstico <font color=red><b>*</b></font>')], [$descricao ]);
 
         $descricao->setSize('50%', 80);
 

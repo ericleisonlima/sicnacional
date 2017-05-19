@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 19.05.17
+
 class TipoNutricaoForm extends TPage
 {
     private $form;
@@ -8,31 +10,25 @@ class TipoNutricaoForm extends TPage
     {
         parent::__construct();
 
-       
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_tiponutricao" );
-        $this->form->setFormTitle( "Cadastro Tipo Nutri&ccedil;&atilde;o" );
+        $this->form = new BootstrapFormBuilder( "form_tiponutricao" );
+        $this->form->setFormTitle( "Formulário de Tipos de Nutrição" );
         $this->form->class = "tform";
 
-        // create the form fields
         $id = new THidden('id');
         $nome = new TEntry('nome');
 
-        // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel('Tipo de Nutri&ccedil;&atilde;o')], [$nome] );
-
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel('Tipo de Nutrição <font color=red>*</font>')], [$nome] );
 
         $id->setEditable(FALSE);
         $id->setSize('38%');
-        $nome->setSize('70%');
-        $nome->addValidation('Tipo de Nutri&ccedil;&atilde;o', new TRequiredValidator );
+        $nome->setSize('38%');
+        $nome->addValidation('Tipo de Nutrição', new TRequiredValidator );
 
-        // create the form actions
-       $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
+        $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         $this->form->addAction( "Voltar para listagem", new TAction( [ "TipoNutricaoList", "onReload" ] ), "fa:table blue" );
        
-        // vertical box container
         $container = new TVBox;
         $container->style = 'width: 90%';
         $container->add(new TXMLBreadCrumb('menu.xml', 'TipoNutricaoList'));
@@ -45,15 +41,12 @@ class TipoNutricaoForm extends TPage
     {
         try
         {
-            //Validacao do formulario
             $this->form->validate();
 
             TTransaction::open( "dbsic" );
 
-            //Resgata os dados inseridos no formulario a partir do modelo
             $object = $this->form->getData( "TipoNutricaoRecord" );
 
-            //Resgata o usuario a data e hora da alteracao do registro
             //$object->usuarioalteracao = TSession::getValue("login");
             //$object->dataalteracao = date( "Y-m-d H:i:s" );
 
