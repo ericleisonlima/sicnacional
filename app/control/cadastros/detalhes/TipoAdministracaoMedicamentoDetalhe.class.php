@@ -4,7 +4,7 @@
 //ini_set('display_startup_erros', 1);
 //error_reporting(E_ALL);
 
-class TipoAdministracaoMedicamentoList extends TPage
+class TipoAdministracaoMedicamentoDetalhe extends TPage
 {
     private $form;
     private $datagrid;
