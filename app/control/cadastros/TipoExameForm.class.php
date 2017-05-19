@@ -1,5 +1,8 @@
 <?php
 
+// Revisado 19.05.17
+
+
 class TipoExameForm extends TPage
 {
     private $form;
@@ -10,8 +13,8 @@ class TipoExameForm extends TPage
 
        
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_tipoexame" );
-        $this->form->setFormTitle( "Cadastro Tipo Exame" );
+        $this->form = new BootstrapFormBuilder( "form_tipoexame" );
+        $this->form->setFormTitle( "Formulários de Tipo de Exame" );
         $this->form->class = "tform";
 
         // create the form fields
@@ -20,19 +23,19 @@ class TipoExameForm extends TPage
         $unidademedica = new TEntry('unidademedica');
 
         // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel('Tipo de Exame')], [$nome] );
-        $this->form->addFields( [new TLabel('Unidade Medica')], [$unidademedica] );
+        $this->form->addFields(  [$id] );
+        $this->form->addFields( [new TLabel('Tipo de Exame <font color=red>*</font>')], [$nome] );
+        $this->form->addFields( [new TLabel('Unidade Medica <font color=red>*</font>')], [$unidademedica] );
 
 
         $id->setEditable(FALSE);
-        $id->setSize('38%');
-        $nome->setSize('70%');
+        $nome->setSize('39%');
+        $unidademedica->setSize('39%');
         $nome->addValidation('Tipo de Exame', new TRequiredValidator );
         $unidademedica->addValidation('Unidade Medica', new TRequiredValidator );
 
         // create the form actions
-       $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
+        $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         $this->form->addAction( "Voltar para listagem", new TAction( [ "TipoExameList", "onReload" ] ), "fa:table blue" );
        
         // vertical box container
@@ -48,15 +51,12 @@ class TipoExameForm extends TPage
     {
         try
         {
-            //Validacao do formulario
             $this->form->validate();
 
             TTransaction::open( "dbsic" );
 
-            //Resgata os dados inseridos no formulario a partir do modelo
             $object = $this->form->getData( "TipoExameRecord" );
 
-            //Resgata o usuario a data e hora da alteracao do registro
             //$object->usuarioalteracao = TSession::getValue("login");
             //$object->dataalteracao = date( "Y-m-d H:i:s" );
 

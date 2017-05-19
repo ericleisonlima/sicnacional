@@ -50,9 +50,7 @@ class CausaObitoList extends TPage
     $order_descricao->setParameter ("order", "descricao");
     $column_descricao->setAction ($order_descricao);
 
-    $action_edit = new TDataGridAction ([
-      "CausaObitoForm", "onEdit"
-    ]);
+    $action_edit = new TDataGridAction (["CausaObitoForm", "onEdit"]);
     $action_edit->setButtonClass ( "btn btn-default" );
     $action_edit->setLabel ( "Editar" );
     $action_edit->setImage ( "fa:pencil-square-o blue fa-lg" );

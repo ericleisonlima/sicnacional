@@ -19,7 +19,7 @@ class CausaObitoForm extends TPage
 
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
-        $this->form->addFields( [new TLabel('<font color=red>Descricão</font>')], [$descricao ]);
+        $this->form->addFields( [new TLabel('Descricão<font color=red>*</font>')], [$descricao ]);
         $this->form->addFields( [ $id ] );
 
         $descricao->setSize('50%', 80);

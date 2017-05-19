@@ -10,7 +10,7 @@ class ComorbidadesForm extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_comorbidade" );
+        $this->form = new BootstrapFormBuilder( "form_comorbidade" );
         $this->form->setFormTitle( "Formulário de Comorbidades" );
         $this->form->class = "tform";
 
@@ -27,7 +27,7 @@ class ComorbidadesForm extends TPage
 
         //Insercao dos campos no formulario
         $this->form->addFields( [ $id ] );
-        $this->form->addFields([new TLabel('<font color=red>Nome</font>')], [$nome]);
+        $this->form->addFields([new TLabel('Nome<font color=red>*</font>')], [$nome]);
 
         //Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );

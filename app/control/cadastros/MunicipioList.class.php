@@ -1,5 +1,7 @@
 <?php
 
+// Revisado 19.05.17
+
 class MunicipioList extends TPage{
     
     private $form;
@@ -11,8 +13,8 @@ class MunicipioList extends TPage{
 
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder("form_list_cadastro_clientes" );
-        $this->form->setFormTitle( "Listagem de Municipio" );
+        $this->form = new BootstrapFormBuilder("form_list_municipio" );
+        $this->form->setFormTitle( "Listagem de Município" );
         $this->form->class = "tform";
 
         $opcao  = new TCombo( "opcao" );
@@ -57,6 +59,12 @@ class MunicipioList extends TPage{
         $order_uf->setParameter( "order", "uf" );
         $column_uf->setAction( $order_uf );
 
+        $action_edit = new TDataGridAction (["MunicipioForm", "onEdit"]);
+        $action_edit->setButtonClass ( "btn btn-default" );
+        $action_edit->setLabel ( "Editar" );
+        $action_edit->setImage ( "fa:pencil-square-o blue fa-lg" );
+        $action_edit->setField ( "id" );
+        $this->datagrid->addAction ( $action_edit );
 
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
@@ -113,7 +121,7 @@ class MunicipioList extends TPage{
                 $param[ "direction" ] = "asc";
             }
 
-            $limit = 30;
+            $limit = 10;
 
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
