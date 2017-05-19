@@ -9,7 +9,7 @@ class MedicoForm extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_cadastro_medicos" );
+        $this->form = new BootstrapFormBuilder( "form_medicos" );
         $this->form->setFormTitle( "Formulário de Cadastro de Médicos" );
         $this->form->class = "tform";
 

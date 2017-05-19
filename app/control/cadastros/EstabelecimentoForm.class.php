@@ -10,12 +10,10 @@ class EstabelecimentoForm extends TPage
     {
         parent::__construct();
 
-        //Criacao do formulario
         $this->form = new BootstrapFormBuilder( "form_estabelecimento" );
         $this->form->setFormTitle( "Formulário de Estabelecimentos" );
         $this->form->class = "tform";
 
-        //Criacao dos campos do fomulario
         $id               = new THidden( "id" );
         $municipio        = new TCombo( "municipio_id" );
         $nome             = new TEntry('nome');
@@ -24,9 +22,6 @@ class EstabelecimentoForm extends TPage
         $cep              = new TEntry('cep');
         $latitude         = new TEntry('latitude');
         $longitude        = new TEntry('longitude');
-
-
-
 
         TTransaction::open('dbsic');
         $repository = new TRepository('MunicipioRecord');
@@ -43,18 +38,12 @@ class EstabelecimentoForm extends TPage
         $municipio->addItems($item);
 
 
-
-        //Definicao das mascaras dos campos especiais
         $cep->setMask('99999-999');
 
-        //Definicao de tipo de caixa das letras
         $nome->forceUpperCase();
         $endereco->forceUpperCase();
         $bairro->forceUpperCase();
 
-
-
-        //Definicao de propriedades dos campos
         $municipio->setDefaultOption( "..::SELECIONE::.." );
         $nome->setProperty( "title", "O campo é obrigatório" );
         $endereco->setProperty("title",'Informe o seu endereço');
@@ -62,9 +51,6 @@ class EstabelecimentoForm extends TPage
         $cep->placeholder = "Exemplo 99999-999";
 
 
-
-
-        //Definicao dos tamanhos de alguns campos do formulario
         $municipio->setSize("38%");
         $nome->setSize( "38%" );
         $endereco->setSize( "38%" );
@@ -74,15 +60,12 @@ class EstabelecimentoForm extends TPage
         $longitude->setSize( "38%" );
 
 
-        //Definicao de campos obrigatorios e requeridos especiais
-
         $nome->addValidation( "Nome", new TRequiredValidator );
         $municipio->addValidation("Municipio",new TRequiredValidator);
 
 
-        //Insercao dos campos na aba de informacoes pessoais do formulario
-        $this->form->addFields([new TLabel("Município:","#FF0000") ],[$municipio]);
-        $this->form->addFields( [ new TLabel( "Nome:", "#FF0000" ) ], [ $nome ] );
+        $this->form->addFields([new TLabel("Município: <font color=red><b>*</b></font>") ],[$municipio]);
+        $this->form->addFields( [ new TLabel( "Nome: <font color=red><b>*</b></font>" ) ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Endereço:" ) ], [ $endereco ]);
         $this->form->addFields( [ new TLabel( "Bairro:" ) ], [ $bairro ]);
         $this->form->addFields( [ new TLabel( "Cep:" ) ], [ $cep ]);
@@ -92,11 +75,9 @@ class EstabelecimentoForm extends TPage
 
 
 
-        //Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         $this->form->addAction( "Voltar para a listagem", new TAction( [ "EstabelecimentoList", "onReload" ] ), "fa:table blue" );
 
-        //Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
         $container->add( new TXMLBreadCrumb( "menu.xml", "EstabelecimentoList" ) );
@@ -110,15 +91,12 @@ class EstabelecimentoForm extends TPage
 
          try
         {
-            //Validacao do formulario
             $this->form->validate();
 
             TTransaction::open( "dbsic" );
 
-            //Resgata os dados inseridos no formulario a partir do modelo
             $object = $this->form->getData( "EstabelecimentoRecord" );
 
-            //Remove as mascaras dos campos especiais
             $object->cep = preg_replace( "/[^0-9]/", "", $object->cep );
 
 
