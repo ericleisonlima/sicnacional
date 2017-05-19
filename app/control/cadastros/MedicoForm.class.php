@@ -1,4 +1,7 @@
 <?php
+
+// Revisado 18.05.17
+
 class MedicoForm extends TPage
 {
     private $form;
@@ -44,7 +47,7 @@ class MedicoForm extends TPage
 
         $this->form->addFields( [ new TLabel( "Nome: <font color=red><b>*</b></font> ") ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Municipio:<font color=red><b>*</b></font>" ) ], [ $municipio_id ]);
-        $this->form->addFields( [ new TLabel( "crm:" ) ], [ $crm ] );
+        $this->form->addFields( [ new TLabel( "crm:<font color=red><b>*</b></font>" ) ], [ $crm ] );
         $this->form->addFields( [ new TLabel( "E-Mail:" ) ], [ $email ] );
         $this->form->addFields( [ new TLabel( "Telefone:" ) ], [ $telefone ] );
         $this->form->addFields( [ new TLabel( "Celular:" ) ], [ $celular ] );

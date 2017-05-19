@@ -14,7 +14,7 @@ class EstabelecimentoMedicoList extends TPage
     {
         parent::__construct();
 
-        $this->form = new BootstrapFormBuilder( "form_list_cadastro_estab_med" );
+        $this->form = new BootstrapFormBuilder( "form_list_estabelecimento_medico" );
         $this->form->setFormTitle( "Listagem de Cadastros dos Médicos nos Estabelecimentos" );
         $this->form->class = "tform";
 
