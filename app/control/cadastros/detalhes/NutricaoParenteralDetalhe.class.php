@@ -2,11 +2,8 @@
 
 class NutricaoParenteralDetalhe extends TStandardList{
     protected $form;
-<<<<<<< HEAD
+
     protected $datagrid; 
-=======
-    protected $datagrid;
->>>>>>> 1a28a164c94122582d223f8cc54128cf4034c3d3
     protected $pageNavigation;
     protected $formgrid;
     protected $deleteButton;
@@ -126,12 +123,7 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $column_numerodeacessovenoso = new TDataGridColumn('numerodeacessovenoso', 'numerodeacessovenoso', 'left');
         $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 'apresentouinfeccaoacessovenoso', 'left');
         $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'vezesinfeccaoacessovenoso', 'left');
-<<<<<<< HEAD
-      
-=======
 
-        $this->datagrid->addColumn($column_name);
->>>>>>> 1a28a164c94122582d223f8cc54128cf4034c3d3
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
         $this->datagrid->addColumn($column_tipoparenteral);
