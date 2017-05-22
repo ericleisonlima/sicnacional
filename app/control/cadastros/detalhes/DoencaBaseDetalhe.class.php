@@ -54,9 +54,9 @@ class DoencaBaseDetalhe extends TPage
         TTransaction::close(); 
 
 
-        $this->form->addFields( [ new TLabel( "Paciente:" ) ], [ $paciente_nome ] );
+        $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
 
-        $this->form->addFields( [ new TLabel( "CID:" ) ], [ $cid_id ] );
+        $this->form->addFields( [ new TLabel( "CID:" ), $cid_id ] );
 
         $this->form->addFields( [ $id ] );
 
