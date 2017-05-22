@@ -61,7 +61,7 @@ class DoencaBaseDetalhe extends TPage
         $this->form->addFields( [ $id ] );
 
         $action = new TAction(array($this, 'onSave'));
-        $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+        $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
         
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',new TAction(array('PacienteList','onReload')),'fa:table blue');
@@ -104,7 +104,7 @@ class DoencaBaseDetalhe extends TPage
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", __CLASS__ ) );
+        //$container->add( new TXMLBreadCrumb( "menu.xml", __CLASS__ ) );
         $container->add( $this->form );
         $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
         $container->add( $this->pageNavigation );

@@ -85,6 +85,8 @@ class PacienteList extends TPage
         $action_doencabase->setLabel( "Doenca Base" );
         $action_doencabase->setImage( "fa:heart-o fa-fw" );
         $action_doencabase->setField( "id" );
+        $action_doencabase->setFk( "id" );
+
         
         $action_nutparen = new TDataGridAction( [ "NutricaoParenteralDetalhe", "onReload" ] );
         $action_nutparen->setButtonClass( "btn btn-default" );

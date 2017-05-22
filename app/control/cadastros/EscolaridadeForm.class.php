@@ -14,7 +14,7 @@ class EscolaridadeForm extends TPage
         $this->form->setFormTitle( "Formulário de Escolaridade" );
         $this->form->class = "tform";
         $id        = new THidden( "id" );
-        $descricao = new TText( "descricao" );
+        $descricao = new TEntry( "descricao" );
 
         $descricao->addValidation( "descricao", new TRequiredValidator );
 
