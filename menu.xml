@@ -93,6 +93,15 @@
       </menuitem>
     </menu>
   </menuitem>
+    <menuitem label='Relatótios'>
+    <icon>fa:university fa-fw</icon>
+    <menu>
+      <menuitem label='Pacientes'>
+        <icon>fa:file-code-o fa-fw</icon>
+        <action>GeraReportPaciente</action>
+      </menuitem>
+    </menu>
+  </menuitem>
 
   <menuitem label='Logs'>
     <icon>fa:desktop fa-fw</icon>
