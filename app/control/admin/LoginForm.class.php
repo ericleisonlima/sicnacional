@@ -98,6 +98,7 @@ class LoginForm extends TPage
                 TSession::setValue('username', $user->name);
                 TSession::setValue('frontpage', '');
                 TSession::setValue('programs',$programs);
+                TSession::setValue('medico_id',$user->medico_id);
 
                 if (!empty($user->unit))
                 {

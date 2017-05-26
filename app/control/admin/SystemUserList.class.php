@@ -69,6 +69,7 @@ class SystemUserList extends TStandardList
         $column_id = new TDataGridColumn('id', 'Id', 'center', 50);
         $column_name = new TDataGridColumn('name', _t('Name'), 'left');
         $column_login = new TDataGridColumn('login', _t('Login'), 'left');
+        $column_medico = new TDataGridColumn('medico_nome', 'Medico', 'left');
         $column_email = new TDataGridColumn('email', _t('Email'), 'left');
         $column_active = new TDataGridColumn('active', _t('Active'), 'center');
         
@@ -76,8 +77,10 @@ class SystemUserList extends TStandardList
         $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_login);
+        $this->datagrid->addColumn($column_medico);
         $this->datagrid->addColumn($column_email);
         $this->datagrid->addColumn($column_active);
+
 
         $column_active->setTransformer( function($value, $object, $row) {
             $class = ($value=='N') ? 'danger' : 'success';
@@ -101,6 +104,10 @@ class SystemUserList extends TStandardList
         $order_login = new TAction(array($this, 'onReload'));
         $order_login->setParameter('order', 'login');
         $column_login->setAction($order_login);
+
+        $order_medico = new TAction(array($this, 'onReload'));
+        $order_medico->setParameter('order', 'medico_id');
+        $column_medico->setAction($order_medico);
         
         $order_email = new TAction(array($this, 'onReload'));
         $order_email->setParameter('order', 'email');
@@ -149,6 +156,8 @@ class SystemUserList extends TStandardList
         $container->add($this->pageNavigation);
         
         parent::add($container);
+
+     
     }
     
     /**
