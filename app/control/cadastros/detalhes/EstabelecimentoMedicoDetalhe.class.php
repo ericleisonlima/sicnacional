@@ -174,7 +174,7 @@ class EstabelecimentoMedicoDetalhe extends TStandardList{
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'id');
-
+        $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
         $criteria->add(new TFilter('estabelecimento_id', '=', filter_input(INPUT_GET, 'fk')));
         $cadastros = $repository->load($criteria);
 
