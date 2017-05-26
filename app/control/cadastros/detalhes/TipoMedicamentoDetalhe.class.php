@@ -32,16 +32,12 @@ class TipoMedicamentoDetalhe extends TPage
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
         
-        $column_id = new TDataGridColumn( "id", "ID", "center", 50 );
+        //$column_id = new TDataGridColumn( "id", "ID", "center", 50 );
         $column_nome = new TDataGridColumn( "nome", "Tipo de Medicamento", "left" );
         
-        $this->datagrid->addColumn( $column_id );
         $this->datagrid->addColumn( $column_nome );
 
-        $order_id = new TAction( [ $this, "onReload" ] );
-        $order_id->setParameter( "order", "id" );
-        $column_id->setAction( $order_id );
-
+    
         $order_nome = new TAction( [ $this, "onReload" ] );
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
@@ -132,7 +128,7 @@ class TipoMedicamentoDetalhe extends TPage
             
 
             $criteria = new TCriteria();
-            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
+            //$criteria->add(new TFilter('id', '=', filter_input(INPUT_GET, 'fk')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
             
