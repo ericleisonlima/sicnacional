@@ -1,6 +1,15 @@
 <menu>
 
   <menuitem label='Pacientes'>
+<<<<<<< HEAD
+  <icon>fa:list-ul fa-fw</icon>
+   <menu>
+    <menuitem label='Pacientes'>
+      <icon>fa:user</icon>
+      <action>PacienteList</action>
+    </menuitem>
+  </menu>
+=======
     <icon>fa:list-ul fa-fw</icon>
     <menu>
       <menuitem label='Pacientes'>
@@ -8,6 +17,7 @@
         <action>PacienteList</action>
       </menuitem>
     </menu>
+>>>>>>> 3957c285e2beb63dce19979cf931a9225015122e
   </menuitem>
 
   <menuitem label='Cadastros'>
