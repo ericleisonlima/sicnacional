@@ -120,7 +120,7 @@ class PacienteForm extends TPage
         //$this->form->addFields( [ new TLabel( "Causa Óbito:") ], [ $causa_obito ]);
         //$this->form->addFields( [ new TLabel( "Data Óbito:" ) ], [ $dataobito ] );
         $this->form->addFields( [ new TLabel( "Data Diagnóstico:<font color=red>*</font>" ) ], [ $datadiagnostico ] );
-        $this->form->addFields( [ new TLabel( "Condições Diagnóstico: ") ], [ $condicoes_diagnostico_id ] );
+        $this->form->addFields( [ new TLabel( "Condições Diagnóstico:<font color=red>* ") ], [ $condicoes_diagnostico_id ] );
         $this->form->addFields( [ new TLabel( "Estabelecimento Médico:<font color=red><b>*</b></font>") ], [ $estabelecimento_medico_id ] );
 
         $this->form->addFields( [new TLabel('<font color=red><b>* Campos Obrigatórios </b></font>'), []] );
