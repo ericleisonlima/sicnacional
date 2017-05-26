@@ -93,7 +93,7 @@ class PacienteForm extends TPage
         $cadastros = $repository->load($criteria);
   
         foreach ($cadastros as $object) {
-            $items[$object->estabelecimento_id] = $object->estabelecimento_nome;
+            $items[$object->id] = $object->estabelecimento_nome;
         }
 
         $estabelecimento_medico_id->addItems($items);
@@ -146,7 +146,8 @@ class PacienteForm extends TPage
 
             $object = $this->form->getData( "PacienteRecord" );
             $object->store();
-           TTransaction::close();
+            
+            TTransaction::close();
             $action = new TAction( [ "PacienteList", "onReload" ] );
             new TMessage( "info", "Registro salvo com sucesso!", $action );
         }
