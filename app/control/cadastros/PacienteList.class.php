@@ -111,7 +111,7 @@ class PacienteList extends TPage
         $action_exame = new TDataGridAction( [ "ExamePacienteDetalhe", "onReload" ] );
         $action_exame->setButtonClass( "btn btn-default" );
         $action_exame->setLabel( "Exames" );
-        $action_exame->setImage( "fa:ambulance fa-fw" );
+        $action_exame->setImage( "fa:file-text-o fa-fw" );
         $action_exame->setField( "id" );
         $action_exame->setFk( "id" );
 

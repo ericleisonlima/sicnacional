@@ -132,6 +132,7 @@ class TipoMedicamentoDetalhe extends TPage
             
 
             $criteria = new TCriteria();
+            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
             
