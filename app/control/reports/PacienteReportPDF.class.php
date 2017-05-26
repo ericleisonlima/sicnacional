@@ -8,7 +8,11 @@ use Adianti\Database\TFilter;
 class PacienteReportPDF extends FPDF {
 
     function Header() {
+<<<<<<< HEAD
         $this->Image("app/images/logo_relatorio.png", 8, 9, 26, 14);
+=======
+        $this->Image("app/images/logo_relatorio.jpg", 8, 9, 26, 14);
+>>>>>>> 1f386fb5b699fba551caf5ee0b5a2564a6674830
 
         $this->SetFont('Arial', 'B', 10);
         $this->SetY("10");
@@ -16,10 +20,7 @@ class PacienteReportPDF extends FPDF {
         $this->Cell(0, 5, utf8_decode("REGISTRO BRASILEIRO DA SINDROME DO INTESTINO CURTO - RBSIC"), 0, 1, 'J');
 
         $this->SetX("35");
-        $this->Cell(0, 5, utf8_decode(""), 0, 1, 'J');
-
-        $this->SetX("35");
-        $this->Cell(0, 5, utf8_decode("PEX - PLANILHA DE ATIVIDADES"), 0, 1, 'J');
+        $this->Cell(0, 5, utf8_decode("RELATÓRIO DE PACIENTES"), 0, 1, 'J');
 
         $this->Cell(0, 0, '', 0, 1, 'L');
         $this->Ln(8);
@@ -40,7 +41,10 @@ class PacienteReportPDF extends FPDF {
         */
        
         $this->SetX("10");
-        $this->Cell(0, 6, "Nome", 0, 0, 'J');
+        $this->Cell(0, 6, "Nome do paciente", 0, 0, 'J');
+
+        $this->setX("80");
+        $this->Cell(0, 5, utf8_decode("Médico Responsável"), 0, 0, 'J');
 
         $this->setX("150");
         $this->Cell(0, 5, utf8_decode("Clínica"), 0, 1, 'J');
@@ -66,7 +70,12 @@ class PacienteReportPDF extends FPDF {
 
                 $this->SetFont('arial', '', 10);
                 $this->SetX("10");
-                $this->Cell(0, 5, utf8_decode( substr($row->paciente, 0, 100)  ) , 0, 0, 'J');              
+                $this->Cell(0, 5, utf8_decode( substr($row->paciente, 0, 100)  ) , 0, 0, 'J');
+
+
+                $this->SetFont('arial', '', 10);
+                $this->SetX("0");
+                $this->Cell(0, 5, utf8_decode( substr($row->medico, 0, 100)  ) , 0, 0, 'C');              
                
                 $this->SetX("150");
                 $this->Cell(0,5, utf8_decode( substr ($row->estabelecimento, 0, 50)), 0, 1, 'J');
@@ -95,7 +104,7 @@ class PacienteReportPDF extends FPDF {
 
 $pdf = new PacienteReportPDF("P", "mm", "A4");
 
-$pdf->SetTitle("Relatório de Pacientes");
+$pdf->SetTitle(utf8_decode("Relatório de Pacientes"));
 
 //assunto
 $pdf->SetSubject("Relatório de Pacientes");
@@ -104,7 +113,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times', '', 12);
 $pdf->ColumnDetail();
-$file = "app/reports/PacienteReportPDF.pdf";
+$file = "app/reports/PacienteReportPDF".  TSession::getValue('medico_id') . ".pdf";
 //abrir pdf
 $pdf->Output($file);
 $pdf->openFile($file);
