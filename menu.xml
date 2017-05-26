@@ -4,7 +4,7 @@
   <icon>fa:list-ul fa-fw</icon>
    <menu>
     <menuitem label='Pacientes'>
-      <icon>fa:users</icon>
+      <icon>fa:user</icon>
       <action>PacienteList</action>
     </menuitem>
   </menu>
