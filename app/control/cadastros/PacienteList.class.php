@@ -180,6 +180,7 @@ class PacienteList extends TPage
             {
                 foreach ( $objects as $object )
                 {
+                     $object->datadiagnostico = TDate::date2br( $object->datadiagnostico );
                     $this->datagrid->addItem( $object );
                 }
             }
