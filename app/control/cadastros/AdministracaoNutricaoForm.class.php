@@ -18,7 +18,8 @@ class AdministracaoNutricaoForm extends TPage
         $id = new THidden('id');
         $nome = new TEntry('nome');
 
-        $this->form->addFields( [new TLabel('Nome')], [$nome] );
+        $this->form->addFields( [new TLabel('Nome:<font color=red><b>*</b></font>')], [$nome] );
+        $this->form->addFields( [new TLabel('<font color=red><b>*</b></font>Campos Obrigatórios'), []] );
         $this->form->addFields( [$id] );
 
         $nome->setSize('38%');
