@@ -11,9 +11,9 @@ class GeraReportPaciente extends TPage {
     public function __construct() {
         parent::__construct();
 
+        $this->form = new BootstrapFormBuilder( "form" );
         $this->form = new TQuickForm('form');
-        $this->form->setFormTitle('<font color="red" size="3px" face="Arial"><b>Gerar Relatório Paciente  </b></font>');
-        $this->form->style = 'width: 80%';
+        $this->form->setFormTitle( "Relatório de Pacientes" );
         
         /*
         $ppa_id = new TDBCombo('pex_ppa_id', 'pg_ceres', 'PpapexRecord', 'id', 'nome', 'nome');
@@ -42,7 +42,11 @@ class GeraReportPaciente extends TPage {
         */
         $this->form->addQuickAction('Gerar Relatório', new TAction(array($this, 'onGenerate')), null);
 
-        parent::add($this->form);
+        $container = new TVBox();
+        $container->style = "width: 90%";
+        $container->add( new TXMLBreadCrumb( "menu.xml", "CidList" ) );
+        $container->add( $this->form );
+        parent::add( $container );
     }
 
     function onGenerate() {
