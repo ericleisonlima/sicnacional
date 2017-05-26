@@ -12,7 +12,7 @@ class GeraReportPaciente extends TPage {
         parent::__construct();
 
         $this->form = new TQuickForm('form');
-        $this->form->setFormTitle('<font color="red" size="3px" face="Arial"><b>Gerar Planilha de Atividades </b></font>');
+        $this->form->setFormTitle('<font color="red" size="3px" face="Arial"><b>Gerar Relatório Paciente  </b></font>');
         $this->form->style = 'width: 80%';
         
         /*
