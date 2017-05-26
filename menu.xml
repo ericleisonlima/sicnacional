@@ -1,6 +1,7 @@
 <menu>
 
   <menuitem label='Pacientes'>
+<<<<<<< HEAD
   <icon>fa:list-ul fa-fw</icon>
    <menu>
     <menuitem label='Pacientes'>
@@ -8,11 +9,20 @@
       <action>PacienteList</action>
     </menuitem>
   </menu>
+=======
+    <icon>fa:list-ul fa-fw</icon>
+    <menu>
+      <menuitem label='Pacientes'>
+        <icon>fa:users</icon>
+        <action>PacienteList</action>
+      </menuitem>
+    </menu>
+>>>>>>> 3957c285e2beb63dce19979cf931a9225015122e
   </menuitem>
 
   <menuitem label='Cadastros'>
     <icon>fa:list-ul fa-fw</icon>
-	<menu>
+    <menu>
       <menuitem label='Admin. de nutrição'>
         <icon>fa:cutlery</icon>
         <action>AdministracaoNutricaoList</action>
@@ -37,7 +47,7 @@
         <icon>fa:university</icon>
         <action>EstabelecimentoList</action>
       </menuitem>
-     <menuitem label='Históricos médicos'>
+      <menuitem label='Históricos médicos'>
         <icon>fa:users</icon>
         <action></action>
       </menuitem>
@@ -69,7 +79,7 @@
         <icon>fa:exchange</icon>
         <action>TipoAdministracaoMedicamentoDetalhe</action>
       </menuitem>
-	  </menu>
+    </menu>
   </menuitem>
 
   <menuitem label='_t{Administration}'>
@@ -90,6 +100,16 @@
       <menuitem label='_t{Users}'>
         <icon>fa:user fa-fw</icon>
         <action>SystemUserList</action>
+      </menuitem>
+    </menu>
+  </menuitem>
+
+  <menuitem label='Relatórios'>
+    <icon>fa:university fa-fw</icon>
+    <menu>
+      <menuitem label='Pacientes'>
+        <icon>fa:file-code-o fa-fw</icon>
+        <action>GeraReportPaciente</action>
       </menuitem>
     </menu>
   </menuitem>
