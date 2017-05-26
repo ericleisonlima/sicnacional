@@ -70,7 +70,7 @@ class EstabelecimentoList extends TPage{
         $action_estab_med = new DataGridActionCustom( [ "EstabelecimentoMedicoDetalhe", "onReload" ] );
         $action_estab_med->setButtonClass( "btn btn-default" );
         $action_estab_med->setLabel( "Adicionar Médico" );
-        $action_estab_med->setImage( "fa:pencil-square-o blue fa-lg" );
+        $action_estab_med->setImage( "fa:user-md" );
         $action_estab_med->setField( "id" );
         $action_estab_med->setFk( "id" );
         $this->datagrid->addAction( $action_estab_med );

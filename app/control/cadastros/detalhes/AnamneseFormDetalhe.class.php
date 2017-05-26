@@ -65,7 +65,7 @@ class AnamneseFormDetalhe extends TStandardList
         $fumante = new TEntry('fumante');
         $comprintdel = new TEntry('comprimentointestinodelgado');
         $larintdel = new TEntry('larguraintestinodelgado');
-        $valvulaileocecal = new TEntry('valvulaileocecal');
+        
         $colonemcontinuidade = new TEntry('colonemcontinuidade');
         $colonremanescente = new TEntry('colonremanescente');
         $estomia = new TEntry('estomia');
@@ -74,6 +74,12 @@ class AnamneseFormDetalhe extends TStandardList
         $tipotransplante = new TEntry('tipotrasnplante');
         $desfechotransplante = new TEntry('desfechotransplante');
         $diagnosticonutricional = new TEntry('diagnosticonutricional');
+        $valvulaileocecal = new TRadioGroup('valvulaileocecal');
+
+
+        $valvulaileocecal->addItems(array('SIM'=>'SIM', 'NAO'=>'NAO'));
+        $valvulaileocecal->setLayout('horizontal');
+
 
         
         $id->setEditable(FALSE);
@@ -87,7 +93,7 @@ class AnamneseFormDetalhe extends TStandardList
         $fumante->setSize('40%');
         $comprintdel->setSize('40%');
         $larintdel->setSize('40%');
-        $valvulaileocecal->setSize('40%');
+        //$valvulaileocecal->setSize('40%');
         $colonemcontinuidade->setSize('40%');
         $colonremanescente->setSize('40%');
         $estomia->setSize('40%');
@@ -105,33 +111,30 @@ class AnamneseFormDetalhe extends TStandardList
         $dataregistro->setMask('dd/mm/yyyy');
         $dataregistro->setDatabaseMask('yyyy-mm-dd');
 
-/*
-        $dataregistro->addValidation( "Data do Registro", new TRequiredValidator );
-        $datacirurgia->addValidation( "Data da Cirurgia", new TRequiredValidator );
+
+        $dataregistro->addValidation( "Data do Registro", new TRequiredValidator );        
         $peso->addValidation( "Peso", new TRequiredValidator );
         $larintdel->addValidation( "Largura do Intestino Grosso", new TRequiredValidator );
         $comprintdel->addValidation( "Comprimento do Intestino Grosso", new TRequiredValidator );
         $colonemcontinuidade->addValidation( "Colon em Continuidade", new TRequiredValidator );
         $estomia->addValidation( "Estomia", new TRequiredValidator );
         $transplantado->addValidation( "Transplantado", new TRequiredValidator );
-        $diagnosticonutricional->addValidation( "Diagnostico Nutricional", new TRequiredValidator );
-        $fumante->addValidation( "Fumante", new TRequiredValidator );
-*/
+      
         
         $this->form->addFields( [new TLabel('Paciente'),$paciente_nome] );
         $this->form->addFields( [new TLabel('Estabelecimento Medico')], [$estabelecimento_medico_id] );
-        $this->form->addFields( [new TLabel('Data do Registro')], [$dataregistro ] );
+        $this->form->addFields( [new TLabel('Data do Registro <font color=red><b>*</b></font>')], [$dataregistro ] );
         $this->form->addFields( [new TLabel('Data da Cirurgia')], [$datacirurgia] );
-        $this->form->addFields( [new TLabel('Peso')], [$peso] );
+        $this->form->addFields( [new TLabel('Peso <font color=red><b>*</b></font>')], [$peso] );
         $this->form->addFields( [new TLabel('Altura')], [$altura] );
         $this->form->addFields( [new TLabel('Fumante')], [$fumante] );
-        $this->form->addFields( [new TLabel('Comprimento do Intestino Delgado')], [$comprintdel] );
-        $this->form->addFields( [new TLabel('Largura do Intestino Delgado')], [$larintdel ] );
+        $this->form->addFields( [new TLabel('Comprimento do Intestino Delgado <font color=red><b>*</b></font>')], [$comprintdel] );
+        $this->form->addFields( [new TLabel('Largura do Intestino Delgado <font color=red><b>*</b></font>')], [$larintdel ] );
         $this->form->addFields( [new TLabel('Valvula Ileocecal')], [$valvulaileocecal ] );
-        $this->form->addFields( [new TLabel('Colon em Continuidade')], [$colonemcontinuidade] );
+        $this->form->addFields( [new TLabel('Colon em Continuidade <font color=red><b>*</b></font>')], [$colonemcontinuidade] );
         $this->form->addFields( [new TLabel('Colon Remanescente')], [$colonremanescente] );
-        $this->form->addFields( [new TLabel('Estomia')], [$estomia] );
-        $this->form->addFields( [new TLabel('Transplantado')], [$transplantado] );
+        $this->form->addFields( [new TLabel('Estomia <font color=red><b>*</b></font>')], [$estomia] );
+        $this->form->addFields( [new TLabel('Transplantado<font color=red><b>*</b></font>')], [$transplantado] );
         $this->form->addFields( [new TLabel('Data do Transplante')], [$datatransplante] );
         $this->form->addFields( [new TLabel('Tipo Transplante')], [$tipotransplante ] );
         $this->form->addFields( [new TLabel('Desfecho do Transplante')], [$desfechotransplante ] );

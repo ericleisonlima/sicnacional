@@ -40,10 +40,10 @@ class PacienteList extends TPage
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
 
-        $column_nome = new TDataGridColumn( "nome", "Nome", "left" );
+        $column_nome = new TDataGridColumn( "paciente_nome", "Nome", "left" );
         $column_tiposanguineo = new TDataGridColumn( "tiposanguineo", "Tipo Sanguíneo", "left" );
-        $column_nome_municipio = new TDataGridColumn( "nome_municipio", "Municipio", "center" );
-        $column_data_diagnostico = new TDataGridColumn( "data_diagnostico", "Data Diagnostico", "center" );
+        $column_nome_municipio = new TDataGridColumn( "municipio_nome", "Municipio", "center" );
+        $column_data_diagnostico = new TDataGridColumn( "datadiagnostico", "Data Diagnostico", "center" );
 
         $this->datagrid->addColumn( $column_nome );
         $this->datagrid->addColumn( $column_tiposanguineo);
@@ -157,7 +157,7 @@ class PacienteList extends TPage
             TTransaction::open( "dbsic" );
 
 
-            $repository = new TRepository( "PacienteRecord" );
+            $repository = new TRepository( "VwPacienteMedicoRecord" );
             if ( empty( $param[ "order" ] ) )
             {
                 $param[ "order" ] = "id";
@@ -169,7 +169,7 @@ class PacienteList extends TPage
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-            //$criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+            $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
 
             $objects = $repository->load( $criteria, FALSE );
 
