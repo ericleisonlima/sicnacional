@@ -3,31 +3,31 @@
     <icon>fa:list-ul fa-fw</icon>
 	<menu>
       <menuitem label='Admin. de nutrição'>
-        <icon>fa:users</icon>
+        <icon>fa:cutlery</icon>
         <action>AdministracaoNutricaoList</action>
       </menuitem>
       <menuitem label='Causas de óbitos'>
-        <icon>fa:users</icon>
+        <icon>fa:bed</icon>
         <action>CausaObitoList</action>
       </menuitem>
       <menuitem label='C.I.D.'>
-        <icon>fa:users</icon>
+        <icon>fa:registered</icon>
         <action>CidList</action>
       </menuitem>
       <menuitem label='Comorbidades'>
-        <icon>fa:users</icon>
+        <icon>fa:map</icon>
         <action>ComorbidadesList</action>
       </menuitem>
       <menuitem label='Condições diagnósticas'>
-        <icon>fa:users</icon>
+        <icon>fa:heartbeat</icon>
         <action>CondicoesDiagnosticoList</action>
       </menuitem>
       <menuitem label='Escolaridades'>
-        <icon>fa:users</icon>
+        <icon>fa:graduation-cap</icon>
         <action>EscolaridadeList</action>
       </menuitem>
       <menuitem label='Estabelecimentos'>
-        <icon>fa:users</icon>
+        <icon>fa:university</icon>
         <action>EstabelecimentoList</action>
       </menuitem>
      <menuitem label='Históricos médicos'>
@@ -35,15 +35,15 @@
         <action>EstabelecimentoMedicoList</action>
       </menuitem>
       <menuitem label='Medicamentos'>
-        <icon>fa:users</icon>
+        <icon>fa:cart-plus  </icon>
         <action>MedicamentoList</action>
       </menuitem>
       <menuitem label='Médicos'>
-        <icon>fa:users</icon>
+        <icon>fa:user-md</icon>
         <action>MedicoList</action>
       </menuitem>
       <menuitem label='Municípios'>
-        <icon>fa:users</icon>
+        <icon>fa:flag-o</icon>
         <action>MunicipioList</action>
       </menuitem>
       <menuitem label='Pacientes'>
@@ -51,19 +51,19 @@
         <action>PacienteList</action>
       </menuitem>
       <menuitem label='Exames'>
-        <icon>fa:users</icon>
+        <icon>fa:folder-open</icon>
         <action>TipoExameList</action>
       </menuitem>
       <menuitem label='Tipo de nutrição'>
-        <icon>fa:users</icon>
+        <icon>fa:file-excel-o</icon>
         <action>TipoNutricaoList</action>
       </menuitem>
       <menuitem label='Tipo de medicamento'>
-        <icon>fa:users</icon>
+        <icon>fa:cubes</icon>
         <action>TipoMedicamentoDetalhe</action>
       </menuitem>
       <menuitem label='Tipo Adm. medicamento'>
-        <icon>fa:users</icon>
+        <icon>fa:exchange</icon>
         <action>TipoAdministracaoMedicamentoDetalhe</action>
       </menuitem>
 	  </menu>
