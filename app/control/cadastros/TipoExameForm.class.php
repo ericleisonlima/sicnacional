@@ -2,7 +2,6 @@
 
 // Revisado 19.05.17
 
-
 class TipoExameForm extends TPage
 {
     private $form;
