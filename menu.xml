@@ -17,7 +17,7 @@
         <icon>fa:cutlery</icon>
         <action>AdministracaoNutricaoList</action>
       </menuitem>
-      <menuitem label='CID.'>
+      <menuitem label='CID'>
         <icon>fa:registered</icon>
         <action>CidList</action>
       </menuitem>
