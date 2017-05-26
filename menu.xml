@@ -17,11 +17,7 @@
         <icon>fa:cutlery</icon>
         <action>AdministracaoNutricaoList</action>
       </menuitem>
-      <menuitem label='Causas de óbitos'>
-        <icon>fa:bed</icon>
-        <action>CausaObitoList</action>
-      </menuitem>
-      <menuitem label='C.I.D.'>
+      <menuitem label='CID.'>
         <icon>fa:registered</icon>
         <action>CidList</action>
       </menuitem>
