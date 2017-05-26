@@ -73,20 +73,12 @@ class PacienteList extends TPage
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
 
-
-
-
-
-
-
-
         $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
         $action_doencabase->setButtonClass( "btn btn-default" );
         $action_doencabase->setLabel( "Doenca Base" );
         $action_doencabase->setImage( "fa:heart-o fa-fw" );
         $action_doencabase->setField( "id" );
         $action_doencabase->setFk( "id" );
-
         
         $action_nutparen = new TDataGridAction( [ "NutricaoParenteralDetalhe", "onReload" ] );
         $action_nutparen->setButtonClass( "btn btn-default" );
@@ -122,6 +114,13 @@ class PacienteList extends TPage
         $action_exame->setImage( "fa:ambulance fa-fw" );
         $action_exame->setField( "id" );
         $action_exame->setFk( "id" );
+
+        $action_obito = new TDataGridAction( [ "ObitoPacienteDetalhe", "onEdit" ] );
+        $action_obito->setButtonClass( "btn btn-default" );
+        $action_obito->setLabel( "Óbito" );
+        $action_obito->setImage( "fa:bed fa-fw" );
+        $action_obito->setField( "id" );
+        $action_obito->setFk( "id" );
         
         $action_group = new TDataGridActionGroup('Ações', 'bs:th');
         $action_group->addAction($action_anamnese);
@@ -130,6 +129,7 @@ class PacienteList extends TPage
         $action_group->addAction($action_nut_en);
         $action_group->addAction($action_nutparen);
         $action_group->addAction($action_uso_med);
+        $action_group->addAction($action_obito);
 
         $this->datagrid->addActionGroup($action_group);
 
@@ -138,7 +138,6 @@ class PacienteList extends TPage
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-
 
         $container = new TVBox();
         $container->style = "width: 90%";
