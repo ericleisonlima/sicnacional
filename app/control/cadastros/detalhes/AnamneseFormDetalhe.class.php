@@ -1,5 +1,8 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
 
 class AnamneseFormDetalhe extends TStandardList
 {
@@ -257,6 +260,7 @@ class AnamneseFormDetalhe extends TStandardList
             $limit = 10;
             
             $criteria = new TCriteria();
+            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
             
