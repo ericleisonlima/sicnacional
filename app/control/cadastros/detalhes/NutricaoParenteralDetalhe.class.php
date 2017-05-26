@@ -78,21 +78,26 @@ class NutricaoParenteralDetalhe extends TStandardList{
 
         $inicio->addValidation( "Início", new TRequiredValidator );
         $tipoparenteral->addValidation( "Tipo Parenteral", new TRequiredValidator );
+        $volumenpt->addValidation( "Tipo da NTP", new TRequiredValidator );
+        $acessovenosolp->addValidation( "Acesso Venoso", new TRequiredValidator );
+        $apresentouinfeccaoacessovenoso->addValidation( "Apresentou Infecção no Acesso Venoso", new TRequiredValidator );
+        
+
 
         $this->form->addFields( [new TLabel('Paciente'), $paciente_nome] );
-        $this->form->addFields( [new TLabel('Inicio')], [$inicio] );
+        $this->form->addFields( [new TLabel('Inicio<font color=red><b>*</b></font>')], [$inicio] );
         $this->form->addFields( [new TLabel('Fim')], [$fim] );
-        $this->form->addFields( [new TLabel('Tipo da NTP')], [$tipoparenteral] );
+        $this->form->addFields( [new TLabel('Tipo da NTP<font color=red><b>*</b></font>')], [$tipoparenteral] );
         $this->form->addFields( [new TLabel('Outros Tipos NTP')], [$tipoparenteraloutros] );
         $this->form->addFields( [new TLabel('Total de Calorias Aplicadas')], [$totalcalorias] );
         $this->form->addFields( [new TLabel('Percentual Diário Necessário')], [$percentualdiario, '%'] );
-        $this->form->addFields( [new TLabel('Volume da NPT')], [$volumenpt ] );
+        $this->form->addFields( [new TLabel('Volume da NPT<font color=red><b>*</b></font>')], [$volumenpt ] );
         $this->form->addFields( [new TLabel('Tempo da Infusão')], [$tempoinfusao] );
         $this->form->addFields( [new TLabel('Frequência da NPT / Dia')], [$frequencia] );
-        $this->form->addFields( [new TLabel('Acesso Venoso')], [$acessovenosolp] );
+        $this->form->addFields( [new TLabel('Acesso Venoso<font color=red><b>*</b></font>')], [$acessovenosolp] );
         $this->form->addFields( [new TLabel('Qualidade do Acesso Venoso')], [$acessovenosolpqual] );
         $this->form->addFields( [new TLabel('Quantidade de Acessos Venosos de longa permanência')], [$numerodeacessovenoso] );
-        $this->form->addFields( [new TLabel('Apresentou Infecção no Acesso Venoso')], [$apresentouinfeccaoacessovenoso] );
+        $this->form->addFields( [new TLabel('Apresentou Infecção no Acesso Venoso<font color=red><b>*</b></font>')], [$apresentouinfeccaoacessovenoso] );
         $this->form->addFields( [new TLabel('Quantidade de Infecções no Acesso Venoso')], [$vezesinfeccaoacessovenoso] );
         $this->form->addFields( [ $id, $paciente_id ] );
 

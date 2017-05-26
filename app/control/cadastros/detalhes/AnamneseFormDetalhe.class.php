@@ -123,18 +123,18 @@ class AnamneseFormDetalhe extends TStandardList
         
         $this->form->addFields( [new TLabel('Paciente'),$paciente_nome] );
         $this->form->addFields( [new TLabel('Estabelecimento Medico')], [$estabelecimento_medico_id] );
-        $this->form->addFields( [new TLabel('Data do Registro')], [$dataregistro ] );
+        $this->form->addFields( [new TLabel('Data do Registro <font color=red><b>*</b></font>')], [$dataregistro ] );
         $this->form->addFields( [new TLabel('Data da Cirurgia')], [$datacirurgia] );
-        $this->form->addFields( [new TLabel('Peso')], [$peso] );
+        $this->form->addFields( [new TLabel('Peso <font color=red><b>*</b></font>')], [$peso] );
         $this->form->addFields( [new TLabel('Altura')], [$altura] );
         $this->form->addFields( [new TLabel('Fumante')], [$fumante] );
-        $this->form->addFields( [new TLabel('Comprimento do Intestino Delgado')], [$comprintdel] );
-        $this->form->addFields( [new TLabel('Largura do Intestino Delgado')], [$larintdel ] );
+        $this->form->addFields( [new TLabel('Comprimento do Intestino Delgado <font color=red><b>*</b></font>')], [$comprintdel] );
+        $this->form->addFields( [new TLabel('Largura do Intestino Delgado <font color=red><b>*</b></font>')], [$larintdel ] );
         $this->form->addFields( [new TLabel('Valvula Ileocecal')], [$valvulaileocecal ] );
-        $this->form->addFields( [new TLabel('Colon em Continuidade')], [$colonemcontinuidade] );
+        $this->form->addFields( [new TLabel('Colon em Continuidade <font color=red><b>*</b></font>')], [$colonemcontinuidade] );
         $this->form->addFields( [new TLabel('Colon Remanescente')], [$colonremanescente] );
-        $this->form->addFields( [new TLabel('Estomia')], [$estomia] );
-        $this->form->addFields( [new TLabel('Transplantado')], [$transplantado] );
+        $this->form->addFields( [new TLabel('Estomia <font color=red><b>*</b></font>')], [$estomia] );
+        $this->form->addFields( [new TLabel('Transplantado<font color=red><b>*</b></font>')], [$transplantado] );
         $this->form->addFields( [new TLabel('Data do Transplante')], [$datatransplante] );
         $this->form->addFields( [new TLabel('Tipo Transplante')], [$tipotransplante ] );
         $this->form->addFields( [new TLabel('Desfecho do Transplante')], [$desfechotransplante ] );

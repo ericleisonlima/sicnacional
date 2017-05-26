@@ -79,13 +79,14 @@ class NutricaoEnteralFormDetalhe extends TPage{
 
         $inicio->addValidation( "Início", new TRequiredValidator );
         $totalcalorias->addValidation( "Total de Calorias", new TRequiredValidator );
+        $tiponutricao_id->addValidation( "Tipo de Nutrição", new TRequiredValidator );
 
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
-        $this->form->addFields( [new TLabel('Tipo Nutrição')], [$tiponutricao_id ] );
+        $this->form->addFields( [new TLabel('Tipo Nutrição<font color=red><b>*</b></font>')], [$tiponutricao_id ] );
         $this->form->addFields( [new TLabel('Administração Nutrição')], [$administracaonutricao_id] );
-        $this->form->addFields( [new TLabel('Inicio')], [$inicio] );
+        $this->form->addFields( [new TLabel('Inicio<font color=red><b>*</b></font>')], [$inicio] );
         $this->form->addFields( [new TLabel('Fim')], [$fim] );
-        $this->form->addFields( [new TLabel('Total Calorias')], [$totalcalorias] );
+        $this->form->addFields( [new TLabel('Total Calorias<font color=red><b>*</b></font>')], [$totalcalorias] );
         $this->form->addFields( [new TLabel('Percentual Diario')], [$percentualdiario] );
         $this->form->addFields( [$id, $paciente_id]);
        
