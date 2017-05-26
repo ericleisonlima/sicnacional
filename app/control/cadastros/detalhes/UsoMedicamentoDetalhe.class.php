@@ -80,7 +80,7 @@ class UsoMedicamentoDetalhe extends TStandardList{
         $this->form->addFields( [new TLabel('Inicio <font color=red><b>*</b></font>')], [$inicio] );
         $this->form->addFields( [new TLabel('Fim')], [$fim] );
         $this->form->addFields( [new TLabel('Observações')], [$observacao] );
-        $this->form->addFields( [new TLabel('<font color=red><b>* Campos Obrigatórios </b></font>'), []] );
+       
         $this->form->addFields( [ $id, $paciente_id ] );
 
         $action = new TAction(array($this, 'onSave'));
