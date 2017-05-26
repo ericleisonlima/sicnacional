@@ -13,6 +13,7 @@ class SystemUser extends TRecord
     private $unit;
     private $system_user_groups = array();
     private $system_user_programs = array();
+    private $medico;
 
     /**
      * Constructor method
@@ -27,11 +28,21 @@ class SystemUser extends TRecord
         parent::addAttribute('frontpage_id');
         parent::addAttribute('system_unit_id');
         parent::addAttribute('active');
+        parent::addAttribute('medico_id');
+
     }
 
     /**
      * Returns the frontpage name
      */
+    public function get_medico_nome(){
+
+        if(empty($this->medico)){
+            $this->medico = new MedicoRecord($this->medico_id);
+          }
+          return $this->medico->nome;
+    }
+
     public function get_frontpage_name()
     {
         // loads the associated object

@@ -21,7 +21,7 @@ class SystemUserForm extends TPage
         $this->form->setFormTitle( _t('User') );
 
         // create the form fields
-        $id                  = new TEntry('id');
+        $id                  = new THidden('id');
         $name                = new TEntry('name');
         $login               = new TEntry('login');
         $password            = new TPassword('password');
@@ -33,6 +33,7 @@ class SystemUserForm extends TPage
         $groups              = new TDBCheckGroup('groups','dbsic','SystemGroup','id','name');
         $frontpage_id        = new TDBSeekButton('frontpage_id', 'dbsic', 'form_System_user', 'SystemProgram', 'name', 'frontpage_id', 'frontpage_name');
         $frontpage_name      = new TEntry('frontpage_name');
+        $medico_id           = new TDBCombo('medico_id', 'dbsic', 'MedicoRecord', 'id', 'nome', 'nome');
 
         $groups->setLayout('horizontal');
         $groups->setBreakItems(3);
@@ -96,6 +97,7 @@ class SystemUserForm extends TPage
         $frontpage_name->setSize('calc(100% - 60px)');
         $program_id->setSize('30');
         $program_name->setSize('calc(100% - 200px)');
+        $medico_id->setSize('100%');
 
         // outros
         $id->setEditable(false);
@@ -106,11 +108,14 @@ class SystemUserForm extends TPage
         $name->addValidation(_t('Name'), new TRequiredValidator);
         $login->addValidation('Login', new TRequiredValidator);
         $email->addValidation('Email', new TEmailValidator);
+        $medico_id->addValidation('Medico', new TRequiredValidator);
 
-        $this->form->addFields( [new TLabel('ID')], [$id],  [new TLabel(_t('Name'))], [$name] );
+        $this->form->addFields( [new TLabel(_t('Name'))], [$name] , [new TLabel('Medico')], [$medico_id] );
         $this->form->addFields( [new TLabel(_t('Login'))], [$login],  [new TLabel(_t('Email'))], [$email] );
         $this->form->addFields( [new TLabel(_t('Unit'))], [$unit_id],  [new TLabel(_t('Front page'))], [$frontpage_id, $frontpage_name] );
         $this->form->addFields( [new TLabel(_t('Password'))], [$password],  [new TLabel(_t('Password confirmation'))], [$repassword] );
+         $this->form->addFields( [$id] );
+
 
         $this->form->addContent( [$frame_groups] );
         $this->form->addContent( [$frame_programs] );
