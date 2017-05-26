@@ -1,4 +1,15 @@
 <menu>
+
+  <menuitem label='Pacientes'>
+  <icon>fa:list-ul fa-fw</icon>
+   <menu>
+    <menuitem label='Pacientes'>
+      <icon>fa:users</icon>
+      <action>PacienteList</action>
+    </menuitem>
+  </menu>
+  </menuitem>
+
   <menuitem label='Cadastros'>
     <icon>fa:list-ul fa-fw</icon>
 	<menu>
@@ -32,7 +43,7 @@
       </menuitem>
      <menuitem label='Históricos médicos'>
         <icon>fa:users</icon>
-        <action>EstabelecimentoMedicoList</action>
+        <action></action>
       </menuitem>
       <menuitem label='Medicamentos'>
         <icon>fa:cart-plus  </icon>
@@ -45,10 +56,6 @@
       <menuitem label='Municípios'>
         <icon>fa:flag-o</icon>
         <action>MunicipioList</action>
-      </menuitem>
-      <menuitem label='Pacientes'>
-        <icon>fa:users</icon>
-        <action>PacienteList</action>
       </menuitem>
       <menuitem label='Exames'>
         <icon>fa:folder-open</icon>

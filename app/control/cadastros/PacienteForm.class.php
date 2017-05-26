@@ -84,15 +84,16 @@ class PacienteForm extends TPage
 
         $items = array();
         TTransaction::open('dbsic');
-        $repository = new TRepository('vwPacienteEstabelecimentoMedicoRecord');
+        $repository = new TRepository('EstabelecimentoMedicoRecord');
 
         $criteria = new TCriteria;
-        $criteria->setProperty('order', 'estabelecimento');
+        $criteria->setProperty('order', 'id');
+        $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         
         $cadastros = $repository->load($criteria);
   
         foreach ($cadastros as $object) {
-            $items[$object->estabelecimento_medico_id] = $object->estabelecimento;
+            $items[$object->estabelecimento_id] = $object->estabelecimento_nome;
         }
 
         $estabelecimento_medico_id->addItems($items);
@@ -119,7 +120,7 @@ class PacienteForm extends TPage
         //$this->form->addFields( [ new TLabel( "Causa Óbito:") ], [ $causa_obito ]);
         //$this->form->addFields( [ new TLabel( "Data Óbito:" ) ], [ $dataobito ] );
         $this->form->addFields( [ new TLabel( "Data Diagnóstico:<font color=red>*</font>" ) ], [ $datadiagnostico ] );
-        $this->form->addFields( [ new TLabel( "Condições Diagnóstico: ") ], [ $condicoes_diagnostico_id ] );
+        $this->form->addFields( [ new TLabel( "Condições Diagnóstico:<font color=red>* ") ], [ $condicoes_diagnostico_id ] );
         $this->form->addFields( [ new TLabel( "Estabelecimento Médico:<font color=red><b>*</b></font>") ], [ $estabelecimento_medico_id ] );
 
         $this->form->addFields( [new TLabel('<font color=red><b>* Campos Obrigatórios </b></font>'), []] );
@@ -133,6 +134,7 @@ class PacienteForm extends TPage
         $container->add( new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
         $container->add( $this->form );
         parent::add( $container );
+
     }
     public function onSave()
     {
