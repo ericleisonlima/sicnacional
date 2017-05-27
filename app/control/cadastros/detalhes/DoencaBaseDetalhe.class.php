@@ -34,24 +34,24 @@ class DoencaBaseDetalhe extends TPage
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'nome');
-        
+
         $cadastros = $repository->load($criteria);
-  
+
         foreach ($cadastros as $object) {
             $items[$object->id] = $object->nome;
         }
 
         $cid_id->addItems($items);
-        TTransaction::close(); 
+        TTransaction::close();
 
 
         //----------------------------------------------------------------------------------------------------
-        
+
         if( $tempVisita ){
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
         }
-        TTransaction::close(); 
+        TTransaction::close();
 
 
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
@@ -62,18 +62,18 @@ class DoencaBaseDetalhe extends TPage
 
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
-        
+
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',new TAction(array('PacienteList','onReload')),'fa:table blue');
-        
+
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
-        
+
         $column_cidid = new TDataGridColumn( "cid_id", "CID", "left" );
-        
-        
+
+
         $this->datagrid->addColumn( $column_cidid );
 
         $order_cidid = new TAction( [ $this, "onReload" ] );
@@ -87,7 +87,7 @@ class DoencaBaseDetalhe extends TPage
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
         $this->datagrid->addAction( $action_edit );
-        
+
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
@@ -108,7 +108,7 @@ class DoencaBaseDetalhe extends TPage
         $container->add( $this->form );
         $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
         $container->add( $this->pageNavigation );
-        
+
 
         parent::add( $container );
     }
@@ -152,7 +152,7 @@ class DoencaBaseDetalhe extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
-    public function onReload( $param)
+    public function onReload( $param = NULL )
     {
         try
         {
@@ -161,19 +161,20 @@ class DoencaBaseDetalhe extends TPage
 
 
             $repository = new TRepository( "DoencaBaseRecord" );
+
             if ( empty( $param[ "order" ] ) )
             {
                 $param[ "order" ] = "id";
                 $param[ "direction" ] = "asc";
             }
             $limit = 10;
-            
+
 
             $criteria = new TCriteria();
             $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-            
+
             $objects = $repository->load( $criteria, FALSE );
 
             $this->datagrid->clear();
@@ -189,8 +190,8 @@ class DoencaBaseDetalhe extends TPage
             $criteria->resetProperties();
 
             $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
+            $this->pageNavigation->setCount($count);
+            $this->pageNavigation->setProperties($param);
             $this->pageNavigation->setLimit($limit);
 
             TTransaction::close();
@@ -235,6 +236,7 @@ class DoencaBaseDetalhe extends TPage
     public function show()
     {
         $this->onReload();
+
         parent::show();
     }
 }
