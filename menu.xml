@@ -1,5 +1,10 @@
 <menu>
 
+  <menuitem label='Painel de controle'>
+      <icon>fa:tachometer fa-fw</icon>
+      <action>RegisterDashboardCreate</action>
+  </menuitem>
+
   <menuitem label='Cadastros'>
       <icon>fa:list fa-fw</icon>
       <menu>
@@ -88,6 +93,10 @@
       <menuitem label='_t{Users}'>
         <icon>fa:user fa-fw</icon>
         <action>SystemUserList</action>
+      </menuitem>
+      <menuitem label='Dashboards'>
+        <icon>fa:tachometer fa-fw</icon>
+        <action>RegisterDashboardForm</action>
       </menuitem>
     </menu>
   </menuitem>
