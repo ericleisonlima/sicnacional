@@ -1,80 +1,73 @@
 <menu>
 
-  <menuitem label='Pacientes'>
-  <icon>fa:list-ul fa-fw</icon>
-   <menu>
-    <menuitem label='Pacientes'>
-      <icon>fa:users</icon>
-      <action>PacienteList</action>
-    </menuitem>
-  </menu>
-  </menuitem>
-
   <menuitem label='Cadastros'>
-    <icon>fa:list-ul fa-fw</icon>
-	<menu>
-      <menuitem label='Admin. de nutrição'>
-        <icon>fa:cutlery</icon>
-        <action>AdministracaoNutricaoList</action>
-      </menuitem>
-      <menuitem label='CID'>
-        <icon>fa:registered</icon>
-        <action>CidList</action>
-      </menuitem>
-      <menuitem label='Comorbidades'>
-        <icon>fa:map</icon>
-        <action>ComorbidadesList</action>
-      </menuitem>
-      <menuitem label='Condições diagnósticas'>
-        <icon>fa:heartbeat</icon>
-        <action>CondicoesDiagnosticoList</action>
-      </menuitem>
-      <menuitem label='Escolaridades'>
-        <icon>fa:graduation-cap</icon>
-        <action>EscolaridadeList</action>
-      </menuitem>
-      <menuitem label='Estabelecimentos'>
-        <icon>fa:university</icon>
-        <action>EstabelecimentoList</action>
-      </menuitem>
-     <menuitem label='Históricos médicos'>
-        <icon>fa:users</icon>
-        <action></action>
-      </menuitem>
-      <menuitem label='Medicamentos'>
-        <icon>fa:cart-plus  </icon>
-        <action>MedicamentoList</action>
-      </menuitem>
-      <menuitem label='Médicos'>
-        <icon>fa:user-md</icon>
-        <action>MedicoList</action>
-      </menuitem>
-      <menuitem label='Municípios'>
-        <icon>fa:flag-o</icon>
-        <action>MunicipioList</action>
-      </menuitem>
-      <menuitem label='Exames'>
-        <icon>fa:folder-open</icon>
-        <action>TipoExameList</action>
-      </menuitem>
-      <menuitem label='Tipo de nutrição'>
-        <icon>fa:file-excel-o</icon>
-        <action>TipoNutricaoList</action>
-      </menuitem>
-      <menuitem label='Tipo de medicamento'>
-        <icon>fa:cubes</icon>
-        <action>TipoMedicamentoDetalhe</action>
-      </menuitem>
-      <menuitem label='Tipo Adm. medicamento'>
-        <icon>fa:exchange</icon>
-        <action>TipoAdministracaoMedicamentoDetalhe</action>
-      </menuitem>
-     <menuitem label='Situação Clinica'>
-        <icon>fa:newspaper-o</icon>
-        <action>SituacaoClinicaList</action>
-      </menuitem>
-
-	  </menu>
+      <icon>fa:list fa-fw</icon>
+      <menu>
+        <menuitem label='Pacientes'>
+          <icon>fa:users</icon>
+          <action>PacienteList</action>
+        </menuitem>
+        <menuitem label='Admin. de nutrição'>
+          <icon>fa:cutlery</icon>
+          <action>AdministracaoNutricaoList</action>
+        </menuitem>
+        <menuitem label='CID'>
+          <icon>fa:registered</icon>
+          <action>CidList</action>
+        </menuitem>
+        <menuitem label='Comorbidades'>
+          <icon>fa:map</icon>
+          <action>ComorbidadesList</action>
+        </menuitem>
+        <menuitem label='Condições diagnósticas'>
+          <icon>fa:heartbeat</icon>
+          <action>CondicoesDiagnosticoList</action>
+        </menuitem>
+        <menuitem label='Escolaridades'>
+          <icon>fa:graduation-cap</icon>
+          <action>EscolaridadeList</action>
+        </menuitem>
+        <menuitem label='Estabelecimentos'>
+          <icon>fa:university</icon>
+          <action>EstabelecimentoList</action>
+        </menuitem>
+        <menuitem label='Históricos médicos'>
+          <icon>fa:users</icon>
+          <action></action>
+        </menuitem>
+        <menuitem label='Medicamentos'>
+          <icon>fa:cart-plus  </icon>
+          <action>MedicamentoList</action>
+        </menuitem>
+        <menuitem label='Médicos'>
+          <icon>fa:user-md</icon>
+          <action>MedicoList</action>
+        </menuitem>
+        <menuitem label='Municípios'>
+          <icon>fa:flag-o</icon>
+          <action>MunicipioList</action>
+        </menuitem>
+        <menuitem label='Exames'>
+          <icon>fa:folder-open</icon>
+          <action>TipoExameList</action>
+        </menuitem>
+        <menuitem label='Tipo de nutrição'>
+          <icon>fa:file-excel-o</icon>
+          <action>TipoNutricaoList</action>
+        </menuitem>
+        <menuitem label='Tipo de medicamento'>
+          <icon>fa:cubes</icon>
+          <action>TipoMedicamentoDetalhe</action>
+        </menuitem>
+        <menuitem label='Tipo Adm. medicamento'>
+          <icon>fa:exchange</icon>
+          <action>TipoAdministracaoMedicamentoDetalhe</action>
+        </menuitem>
+        <menuitem label='Situação Clinica'>
+      <icon>fa:newspaper-o</icon>
+      <action>SituacaoClinicaList</action>
+    </menuitem>
+      </menu>
   </menuitem>
 
   <menuitem label='_t{Administration}'>
@@ -98,16 +91,6 @@
       </menuitem>
     </menu>
   </menuitem>
-
-   <!-- <menuitem label='Relatórios'>
-    <icon>fa:university fa-fw</icon>
-    <menu>
-      <menuitem label='Pacientes'>
-        <icon>fa:file-code-o fa-fw</icon>
-        <action>GeraReportPaciente</action>
-      </menuitem>
-    </menu>
-  </menuitem>-->
 
   <menuitem label='Logs'>
     <icon>fa:desktop fa-fw</icon>
@@ -136,4 +119,5 @@
       </menuitem>
     </menu>
   </menuitem>
+
 </menu>
