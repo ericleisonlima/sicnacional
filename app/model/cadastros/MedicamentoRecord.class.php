@@ -14,7 +14,7 @@ class MedicamentoRecord extends TRecord
         //instancia saldoRecord
         //carrega na memoria a empresa de codigo $this->empresa_id
         if (empty ($this->tipomedicamento)){
-            $this->tipomedicamento = new tipomedicamentoRecord($this->tipomedicamento_id);
+            $this->tipomedicamento = new TipoMedicamentoRecord($this->tipomedicamento_id);
         }
         //retorna o objeto instanciado
         return $this->tipomedicamento->nome;
