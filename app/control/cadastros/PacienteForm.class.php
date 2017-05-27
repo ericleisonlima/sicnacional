@@ -22,6 +22,8 @@ class PacienteForm extends TPage
         $datadiagnostico              = new TDate( "datadiagnostico" );
         $condicoes_diagnostico_id     = new TCombo("condicoes_diagnostico_id");
         $estabelecimento_medico_id    = new TCombo( "estabelecimento_medico_id" );
+        $situacao_clinica_id    = new TCombo( "situacao_clinica_id" );
+
         //$causa_obito      = new TCombo( "causa_obito_id" );        
         //$dataobito        = new TDate( "dataobito" );
             
@@ -99,6 +101,26 @@ class PacienteForm extends TPage
         $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
 
+        //----------------------------------------------------------------------------------------------------------
+
+        $items = array();
+        TTransaction::open('dbsic');
+        $repository = new TRepository('SituacaoClinicaRecord');
+
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'id');
+       // $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+        
+        $cadastros = $repository->load($criteria);
+  
+        foreach ($cadastros as $object) {
+            $items[$object->id] = $object->situacao;
+        }
+
+        $situacao_clinica_id->addItems($items);
+        TTransaction::close(); 
+        //-----------------------------------------------------------------------------------------------------------------------
+
         $tiposanguineo->addItems( [ "A" => "A", "B" => "B", "AB" => "AB", "O" => "O" ] );    
         $fatorsanguineo->addItems( [ "P" => "Positivo", "N" => "Negativo" ] );
 
@@ -109,19 +131,26 @@ class PacienteForm extends TPage
         $fatorsanguineo->addValidation( "Fator Sanguíneo", new TRequiredValidator );
         $datadiagnostico->addValidation( "Data Diagnóstico", new TRequiredValidator );
         $estabelecimento_medico_id->addValidation( "Estabelecimento Médico", new TRequiredValidator );
+        $situacao_clinica_id->addValidation( "Situação Clinica", new TRequiredValidator );
+
 
         $this->form->addFields( [ new TLabel( "Nome:<font color=red><b>*</b></font> ") ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Nascimento:<font color=red>*</font>" ) ], [ $nascimento ] );
         $this->form->addFields( [ new TLabel( "Município:<font color=red><b>*</b></font>" ) ], [ $municipio_id ]);
-        $this->form->addFields( [ new TLabel( "E-Mail:" ) ], [ $email ] );
-        $this->form->addFields( [ new TLabel( "Telefone:" ) ], [ $telefone ] );
-        $this->form->addFields( [ new TLabel( "Tipo Sanguíneo:<font color=red>*</font>") ], [ $tiposanguineo ] );
-        $this->form->addFields( [ new TLabel( "Fator Sanguíneo:<font color=red>*</font>" ) ], [ $fatorsanguineo ] );
-        //$this->form->addFields( [ new TLabel( "Causa Óbito:") ], [ $causa_obito ]);
-        //$this->form->addFields( [ new TLabel( "Data Óbito:" ) ], [ $dataobito ] );
         $this->form->addFields( [ new TLabel( "Data Diagnóstico:<font color=red>*</font>" ) ], [ $datadiagnostico ] );
         $this->form->addFields( [ new TLabel( "Condições Diagnóstico:<font color=red>* ") ], [ $condicoes_diagnostico_id ] );
         $this->form->addFields( [ new TLabel( "Estabelecimento Médico:<font color=red><b>*</b></font>") ], [ $estabelecimento_medico_id ] );
+        $this->form->addFields( [ new TLabel( "Situação Clinica:<font color=red><b>*</b></font>") ], [ $situacao_clinica_id ] );
+        $this->form->addFields( [ new TLabel( "Tipo Sanguíneo:<font color=red>*</font>") ], [ $tiposanguineo ] );
+        $this->form->addFields( [ new TLabel( "Fator Sanguíneo:<font color=red>*</font>" ) ], [ $fatorsanguineo ] );
+
+        $this->form->addFields( [ new TLabel( "E-Mail:" ) ], [ $email ] );
+        $this->form->addFields( [ new TLabel( "Telefone:" ) ], [ $telefone ] );
+        
+        //$this->form->addFields( [ new TLabel( "Causa Óbito:") ], [ $causa_obito ]);
+        //$this->form->addFields( [ new TLabel( "Data Óbito:" ) ], [ $dataobito ] );
+        
+        
 
         $this->form->addFields( [new TLabel('<font color=red><b>* Campos Obrigatórios </b></font>'), []] );
         $this->form->addFields( [ $id ] );

@@ -69,6 +69,11 @@
         <icon>fa:exchange</icon>
         <action>TipoAdministracaoMedicamentoDetalhe</action>
       </menuitem>
+     <menuitem label='Situação Clinica'>
+        <icon>fa:newspaper-o</icon>
+        <action>SituacaoClinicaList</action>
+      </menuitem>
+
 	  </menu>
   </menuitem>
 
@@ -93,7 +98,8 @@
       </menuitem>
     </menu>
   </menuitem>
-    <menuitem label='Relatótios'>
+
+   <!-- <menuitem label='Relatórios'>
     <icon>fa:university fa-fw</icon>
     <menu>
       <menuitem label='Pacientes'>
@@ -101,7 +107,7 @@
         <action>GeraReportPaciente</action>
       </menuitem>
     </menu>
-  </menuitem>
+  </menuitem>-->
 
   <menuitem label='Logs'>
     <icon>fa:desktop fa-fw</icon>
