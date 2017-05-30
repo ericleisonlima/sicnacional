@@ -1,8 +1,8 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
 
 include_once 'app/lib/FusionCharts/FusionCharts.php';
 
@@ -14,7 +14,7 @@ class IncidenciaLocalidadeGraph extends TPage {
         parent::__construct();
 
         $this->form = new TQuickForm('form_grafico');        
-        //$this->form->addQuickAction('Voltar', new TAction(array('GraficoAtividadesPPAList', 'onReload')), 'ico_back.png');
+        $this->form->addQuickAction('Voltar', new TAction(array($this, 'onReload')), 'ico_back.png');
 
         parent::add($this->form);
     }
@@ -49,7 +49,7 @@ class IncidenciaLocalidadeGraph extends TPage {
 
             $dados = $reg->toArray();
 
-            if($i != 0){
+            /*if($i != 0){
                 
                 if( $atividade != $dados['municipio_nome']  ){
 
@@ -58,12 +58,11 @@ class IncidenciaLocalidadeGraph extends TPage {
                     $arrData = '';
 
                 }
-            }
+            }*/
 
 
-            $arrData[$i][1] = $dados['paciente_qtd'];
+            $arrData[$i][1] = $dados['municipio_nome'];
             $arrData[$i][2] = $dados['paciente_qtd'];
-            $arrData[$i][3] = $dados['paciente_qtd']; 
 
             $atividade = $dados['municipio_nome'];  
 
@@ -88,14 +87,13 @@ class IncidenciaLocalidadeGraph extends TPage {
     TTransaction::close();
 }
 
-function loadGraph($arrData,  $titulo, $id_grafico) {
+function loadGraph($arrData, $id_grafico) {
 
-    $strXML = "<chart id='chart' caption='Atividade: " . strtoupper($titulo) . "'  formatNumberScale='0'  xAxisName='INDICADOR' yAxisName='QUANTIDADE ' showValues='1' showBorder='0' exportEnabled='1' exportAtClient='1' exportHandler='fcExporter1' exportFileName='DashBoard Previsao Servidores Aposentadoria'>";
+    $strXML = "<chart id='chart' caption='Incidência de casos por localidade'  formatNumberScale='0'  yAxisName='QUANTIDADE ' showValues='1' showBorder='0' exportEnabled='1' exportAtClient='1' exportHandler='fcExporter1' exportFileName='DashBoard Previsao Servidores Aposentadoria'>";
 
     $strCategories = "<categories>";
 
-    $strDataCurr = "<dataset color='28D42E' seriesName='Previsto'>";
-    $strDataPrev = "<dataset color='FF0000'  seriesName='Realizado'>";
+    $strDataCurr = "<dataset color='28D42E' >";
 
     foreach ($arrData as $arSubData) {
         
@@ -104,21 +102,22 @@ function loadGraph($arrData,  $titulo, $id_grafico) {
         $strCategories .= "<category name='" . $arSubData[1] . "' />";
         //$strDataCurr   .= "<set  link='n-index.php?class=RelatorioParticipantePDF%26ppa_id=" . $arSubData[1]."' color='28D42E' value='" . $arSubData[2] . "' />";
          $strDataCurr .= "<set color='28D42E' value='" . $arSubData[2] . "' />";
-        $strDataPrev   .= "<set color='FF0000' value='" . $arSubData[3] . "' />";
     }
 
     $strCategories .= "</categories>";
     $strDataCurr   .= "</dataset>";
-    $strDataPrev   .= "</dataset>";
 
-    $strXML .= $strCategories . $strDataCurr . $strDataPrev . "</chart>";
+    $strXML .= $strCategories . $strDataCurr . "</chart>";
 
     echo "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top:50px'>";
     echo renderChart("app/lib/FusionCharts/MSColumn3D.swf", "", $strXML, "chart". $id_grafico , "100%", 400, false, false);
     echo "</div>";
 
 }
-
+    function show() {
+        $this->onReload();
+        parent::show();
+    }
 }
 
 ?>
