@@ -101,6 +101,16 @@
     </menu>
   </menuitem>
 
+    <menuitem label='Graficos'>
+    <icon>fa:university fa-fw</icon>
+    <menu>
+      <menuitem label='Graficos'>
+        <icon>fa:file-code-o fa-fw</icon>
+        <action>IncidenciaLocalidadeGraph</action>
+      </menuitem>
+    </menu>
+  </menuitem>
+
   <menuitem label='Logs'>
     <icon>fa:desktop fa-fw</icon>
     <menu>
