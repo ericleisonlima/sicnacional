@@ -62,14 +62,33 @@ class AnamneseFormDetalhe extends TStandardList
         $datacirurgia = new TDate('datacirurgia');
         $peso = new TEntry('peso');
         $altura = new TEntry('altura');
-        $fumante = new TEntry('fumante');
+
+        $fumante = new TRadioGroup('fumante');
+        $fumante->addItems(array('1'=>'SIM', '2'=>'NÃO'));
+        $fumante->setLayout('horizontal');
+
         $comprintdel = new TEntry('comprimentointestinodelgado');
         $larintdel = new TEntry('larguraintestinodelgado');
         
-        $colonemcontinuidade = new TEntry('colonemcontinuidade');
+        $colonemcontinuidade = new TRadioGroup('colonemcontinuidade');
+        $colonemcontinuidade->addItems(array('1'=>'SIM', '2'=>'NÃO'));
+        $colonemcontinuidade->setLayout('horizontal');
+        $colonemcontinuidade->setValue(1);
+        $acaoRadio = new TAction(array($this, 'onChangeRadio'));
+        $acaoRadio->setParameter('form_detail_anamnese', $this->form->getName());
+        $colonemcontinuidade->setChangeAction($acaoRadio);
+
         $colonremanescente = new TEntry('colonremanescente');
         $estomia = new TEntry('estomia');
-        $transplantado = new TEntry('transplantado');
+
+        $transplantado = new TRadioGroup('transplantado');
+        $transplantado->addItems(array('1'=>'SIM', '2'=>'NÃO'));
+        $transplantado->setLayout('horizontal');
+        $transplantado->setValue(1);
+        $acaoRadio2 = new TAction(array($this, 'onChangeRadio2'));
+        $acaoRadio2->setParameter('form_detail_anamnese', $this->form->getName());
+        $transplantado->setChangeAction($acaoRadio2);
+
         $datatransplante = new TDate('datatransplante');
         $tipotransplante = new TEntry('tipotrasnplante');
         $desfechotransplante = new TEntry('desfechotransplante');
@@ -77,10 +96,11 @@ class AnamneseFormDetalhe extends TStandardList
         $valvulaileocecal = new TRadioGroup('valvulaileocecal');
 
 
-        $valvulaileocecal->addItems(array('SIM'=>'SIM', 'NAO'=>'NAO'));
+        $valvulaileocecal->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
         $valvulaileocecal->setLayout('horizontal');
 
-
+        $altura->setMask('9.99');
+        $peso->setMask('999');
         
         $id->setEditable(FALSE);
         $id->setSize('38%');
@@ -226,6 +246,48 @@ class AnamneseFormDetalhe extends TStandardList
         TTransaction::close();
 
     }
+
+
+    public static function onChangeRadio($param)
+   {
+       switch ($param['colonemcontinuidade'])
+       {
+           case '1':
+           TEntry::clearField($param['form_detail_anamnese'], 'colonremanescente');
+           TEntry::enableField($param['form_detail_anamnese'], 'colonremanescente');
+           break;
+       
+           case '2':
+           TEntry::clearField($param['form_detail_anamnese'], 'colonremanescente');     
+           TEntry::disableField($param['form_detail_anamnese'], 'colonremanescente');
+           break;
+       }
+   }
+
+    public static function onChangeRadio2($param)
+   {
+       switch ($param['transplantado'])
+       {
+           case '1':
+           TEntry::clearField($param['form_detail_anamnese'], 'datatransplante');
+           TEntry::clearField($param['form_detail_anamnese'], 'tipotrasnplante');
+           TEntry::clearField($param['form_detail_anamnese'], 'desfechotransplante');
+           TEntry::enableField($param['form_detail_anamnese'], 'datatransplante');
+           TEntry::enableField($param['form_detail_anamnese'], 'tipotrasnplante');
+           TEntry::enableField($param['form_detail_anamnese'], 'desfechotransplante');
+           break;
+       
+           case '2':
+           TEntry::clearField($param['form_detail_anamnese'], 'datatransplante');
+           TEntry::clearField($param['form_detail_anamnese'], 'tipotrasnplante');
+           TEntry::clearField($param['form_detail_anamnese'], 'desfechotransplante');     
+           TEntry::disableField($param['form_detail_anamnese'], 'datatransplante');
+           TEntry::disableField($param['form_detail_anamnese'], 'tipotrasnplante');
+           TEntry::disableField($param['form_detail_anamnese'], 'desfechotransplante');
+           break;
+       }
+   }
+
    public function onSave(){
         try{
 
