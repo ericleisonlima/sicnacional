@@ -51,7 +51,7 @@ class AnamneseFormDetalhe extends TStandardList
         $criteria->setProperty('order', 'id');
         $cadastros = $repository->load($criteria);
         foreach ($cadastros as $object) {
-            $items[$object->id] = $object->id;
+            $items[$object->id] = $object->estabelecimento_nome;
         }
         $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
