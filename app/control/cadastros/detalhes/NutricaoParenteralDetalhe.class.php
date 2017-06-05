@@ -50,8 +50,13 @@ class NutricaoParenteralDetalhe extends TStandardList{
 
         $tipoparenteraloutros->setEditable(FALSE);
         $totalcalorias                      = new TEntry('totalcalorias');
-        $percentualdiario                   = new TEntry('percentualdiario');
+
+        $percentualdiario      = new TSpinner('percentualdiario');
+        $percentualdiario->setRange(0,100,5);
+        $percentualdiario->setValue(25);
+
         $volumenpt                          = new TEntry('volumenpt');
+
         $tempoinfusao                       = new TEntry('tempoinfusao');
         $frequencia                         = new TEntry('frequencia');
         $acessovenosolpqual                 = new TEntry('acessovenosolpqual');
@@ -63,16 +68,12 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $apresentouinfeccaoacessovenoso     = new TRadioGroup('apresentouinfeccaoacessovenoso');
         $vezesinfeccaoacessovenoso          = new TEntry('vezesinfeccaoacessovenoso');
 
-
         $totalcalorias->setMask('99999999999');
-        $percentualdiario->setMask('999');
-        //$percentualdiario->setMask('99999999999');
-        //$percentualdiario->setNumericMask(0, '.', true);
+        $volumenpt->setMask('99999');
+        $tempoinfusao->setMask('99999');
 
         $tipoparenteraloutros->setProperty( "title", "Informe os tipo de nutrição parenteral aplicada" );
         $frequencia->setProperty( "title", "Informe a frequência da nutrição parenteral por dia" );
-
-        //$acessovenosolp                     = new TRadioGroup('acessovenosolp');
 
         $acessovenosolp = new TRadioGroup('acessovenosolp');
         $acessovenosolp->addItems(array('SIM'=>'SIM', 'NAO'=>'NÃO'));
@@ -82,11 +83,9 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $acessovenosolp->setChangeAction($acaoRadio);
         $acessovenosolp->setValue('SIM');
 
-        //$acessovenosolp->setValue('SIM');
         $apresentouinfeccaoacessovenoso->addItems(array('SIM'=>'SIM', 'NAO'=>'NÃO'));
 
         $apresentouinfeccaoacessovenoso->setLayout('horizontal');
-        //$apresentouinfeccaoacessovenoso->setValue('nao');
         $inicio->setSize('20%');
         $fim->setSize('20%');
 
@@ -101,8 +100,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $acessovenosolp->addValidation( "Acesso Venoso", new TRequiredValidator );
         $apresentouinfeccaoacessovenoso->addValidation( "Apresentou Infecção no Acesso Venoso", new TRequiredValidator );
         
-
-
         $this->form->addFields( [new TLabel('Paciente'), $paciente_nome] );
         $this->form->addFields( [new TLabel('Inicio<font color=red><b>*</b></font>')], [$inicio] );
         $this->form->addFields( [new TLabel('Fim')], [$fim] );
@@ -110,8 +107,8 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $this->form->addFields( [new TLabel('Outros Tipos NTP')], [$tipoparenteraloutros] );
         $this->form->addFields( [new TLabel('Total de Calorias Aplicadas')], [$totalcalorias] );
         $this->form->addFields( [new TLabel('Percentual Diário Necessário')], [$percentualdiario, '%'] );
-        $this->form->addFields( [new TLabel('Volume da NPT<font color=red><b>*</b></font>')], [$volumenpt ] );
-        $this->form->addFields( [new TLabel('Tempo da Infusão')], [$tempoinfusao] );
+        $this->form->addFields( [new TLabel('Volume em ML<font color=red><b>*</b></font>')], [$volumenpt ] );
+        $this->form->addFields( [new TLabel('Tempo da Infusão em Minutos')], [$tempoinfusao] );
         $this->form->addFields( [new TLabel('Frequência da NPT / Dia')], [$frequencia] );
         $this->form->addFields( [new TLabel('Acesso Venoso<font color=red><b>*</b></font>')], [$acessovenosolp] );
         $this->form->addFields( [new TLabel('Qualidade do Acesso Venoso')], [$acessovenosolpqual] );
@@ -154,20 +151,6 @@ class NutricaoParenteralDetalhe extends TStandardList{
         $this->datagrid->addColumn($column_totalcalorias);
         $this->datagrid->addColumn($column_volumenpt);
         $this->datagrid->addColumn($column_tempoinfusao);
-
-
-
-        /*
-        $this->datagrid->addColumn($column_name);
-        $this->datagrid->addColumn($column_tipoparenteraloutros);
-        $this->datagrid->addColumn($column_percentualdiario);
-        $this->datagrid->addColumn($column_frequencia);
-        $this->datagrid->addColumn($column_acessovenosolp);
-        $this->datagrid->addColumn($column_acessovenosolpqual);
-        $this->datagrid->addColumn($column_numerodeacessovenoso);
-        $this->datagrid->addColumn($column_apresentouinfeccaoacessovenoso);
-        $this->datagrid->addColumn($column_vezesinfeccaoacessovenoso);
-        */
         
         $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
