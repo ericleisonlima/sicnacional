@@ -1,8 +1,8 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
 
 class DoencaBaseDetalhe extends TPage
 {
@@ -19,8 +19,11 @@ class DoencaBaseDetalhe extends TPage
         $this->form->class = "tform";
 
         $id = new THidden( "id" );
-        $cid_id = new TCombo("cid_id");
+        //$cid_id = new TCombo("cid_id");
         $paciente_id = new TLabel( "paciente_id" );
+
+        $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'cid_id_name', 'cid_id', 'cid_id_name');
+        $cid_id_name = new TEntry('cid_id_name');
 
         $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
         TTransaction::open('dbsic');
@@ -28,7 +31,7 @@ class DoencaBaseDetalhe extends TPage
 
         //----------------------------------------------------------------------------------------------------
 
-        $items = array();
+        /*$items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('CidRecord');
 
@@ -42,7 +45,7 @@ class DoencaBaseDetalhe extends TPage
         }
 
         $cid_id->addItems($items);
-        TTransaction::close();
+        TTransaction::close();*/
 
 
         //----------------------------------------------------------------------------------------------------
@@ -56,7 +59,7 @@ class DoencaBaseDetalhe extends TPage
 
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
 
-        $this->form->addFields( [ new TLabel( "CID:" ), $cid_id ] );
+        $this->form->addFields( [ new TLabel( "CID:" ), $cid_id, $cid_id_name ] );
 
         $this->form->addFields( [ $id ] );
 
