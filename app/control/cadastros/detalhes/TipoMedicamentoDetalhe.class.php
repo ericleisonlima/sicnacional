@@ -25,7 +25,7 @@ class TipoMedicamentoDetalhe extends TPage
         $this->form->addFields( [ new TLabel( "Tipo do Medicamento:" ) ], [ $tipo ] );
         $this->form->addFields( [ $id ] );
         
-        $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
+        $this->form->addAction( "Cadastrar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );
         
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
