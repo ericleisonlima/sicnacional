@@ -4,9 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_erros', 1);
 error_reporting(E_ALL);
 
-class AnamneseFormDetalhe extends TStandardList
-{
-
+class AnamneseFormDetalhe extends TStandardList{
 
     protected $form;
     protected $datagrid;
@@ -15,24 +13,20 @@ class AnamneseFormDetalhe extends TStandardList
     protected $deleteButton;
     protected $transformCallback;
 
-
-   public function __construct(){
+    public function __construct(){
         parent::__construct();
         
         $this->form = new BootstrapFormBuilder('form_detail_anamnese');
         $this->form->setFormTitle('Detalhamento de Anamnese');
-       
+
         parent::setDatabase('dbsic');
         parent::setActiveRecord('AnamneseRecord');
-        
-        
         
         $id = new THidden('id');
         $paciente_id = new THidden('paciente_id'); 
         $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
         $estabelecimento_medico_id = new TCombo('estabelecimento_medico_id'); 
         
-       
         TTransaction::open('dbsic');
         $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'fk' ) );
         
@@ -40,7 +34,6 @@ class AnamneseFormDetalhe extends TStandardList
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
         }
-
 
         TTransaction::close(); 
 
@@ -51,12 +44,10 @@ class AnamneseFormDetalhe extends TStandardList
         $criteria->setProperty('order', 'id');
         $cadastros = $repository->load($criteria);
         foreach ($cadastros as $object) {
-            $items[$object->id] = $object->id;
+            $items[$object->id] = $object->estabelecimento_nome;
         }
         $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
-
-
 
         $dataregistro = new TDate('dataregistro');
         $datacirurgia = new TDate('datacirurgia');
@@ -64,14 +55,14 @@ class AnamneseFormDetalhe extends TStandardList
         $altura = new TEntry('altura');
 
         $fumante = new TRadioGroup('fumante');
-        $fumante->addItems(array('1'=>'SIM', '2'=>'NÃO'));
+        $fumante->addItems(array('S'=>'SIM', 'N'=>'NÃO'));
         $fumante->setLayout('horizontal');
 
         $comprintdel = new TEntry('comprimentointestinodelgado');
         $larintdel = new TEntry('larguraintestinodelgado');
         
         $colonemcontinuidade = new TRadioGroup('colonemcontinuidade');
-        $colonemcontinuidade->addItems(array('1'=>'SIM', '2'=>'NÃO'));
+        $colonemcontinuidade->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
         $colonemcontinuidade->setLayout('horizontal');
         $colonemcontinuidade->setValue(1);
         $acaoRadio = new TAction(array($this, 'onChangeRadio'));
@@ -79,10 +70,14 @@ class AnamneseFormDetalhe extends TStandardList
         $colonemcontinuidade->setChangeAction($acaoRadio);
 
         $colonremanescente = new TEntry('colonremanescente');
-        $estomia = new TEntry('estomia');
+
+        $estomia = new TRadioGroup('estomia');
+        $estomia->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
+        $estomia->setLayout('horizontal');
+        $estomia->setValue(1);
 
         $transplantado = new TRadioGroup('transplantado');
-        $transplantado->addItems(array('1'=>'SIM', '2'=>'NÃO'));
+        $transplantado->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
         $transplantado->setLayout('horizontal');
         $transplantado->setValue(1);
         $acaoRadio2 = new TAction(array($this, 'onChangeRadio2'));
@@ -95,34 +90,11 @@ class AnamneseFormDetalhe extends TStandardList
         $diagnosticonutricional = new TEntry('diagnosticonutricional');
         $valvulaileocecal = new TRadioGroup('valvulaileocecal');
 
-
         $valvulaileocecal->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
         $valvulaileocecal->setLayout('horizontal');
 
         $altura->setMask('9.99');
         $peso->setMask('999');
-        
-        $id->setEditable(FALSE);
-        $id->setSize('38%');
-        $paciente_id->setSize('40%');
-        $estabelecimento_medico_id->setSize('40%');
-        $dataregistro->setSize('40%');
-        $datacirurgia->setSize('40%');
-        $peso->setSize('40%');
-        $altura->setSize('40%');
-        $fumante->setSize('40%');
-        $comprintdel->setSize('40%');
-        $larintdel->setSize('40%');
-        //$valvulaileocecal->setSize('40%');
-        $colonemcontinuidade->setSize('40%');
-        $colonremanescente->setSize('40%');
-        $estomia->setSize('40%');
-        $transplantado->setSize('40%');
-        $datatransplante->setSize('40%');
-        $tipotransplante->setSize('40%');
-        $desfechotransplante->setSize('40%');
-        $diagnosticonutricional->setSize('40%');
-
 
         $datatransplante->setMask('dd/mm/yyyy');
         $datacirurgia->setMask('dd/mm/yyyy');
@@ -131,7 +103,6 @@ class AnamneseFormDetalhe extends TStandardList
         $dataregistro->setMask('dd/mm/yyyy');
         $dataregistro->setDatabaseMask('yyyy-mm-dd');
 
-
         $dataregistro->addValidation( "Data do Registro", new TRequiredValidator );        
         $peso->addValidation( "Peso", new TRequiredValidator );
         $larintdel->addValidation( "Largura do Intestino Grosso", new TRequiredValidator );
@@ -139,8 +110,7 @@ class AnamneseFormDetalhe extends TStandardList
         $colonemcontinuidade->addValidation( "Colon em Continuidade", new TRequiredValidator );
         $estomia->addValidation( "Estomia", new TRequiredValidator );
         $transplantado->addValidation( "Transplantado", new TRequiredValidator );
-      
-        
+
         $this->form->addFields( [new TLabel('Paciente'),$paciente_nome] );
         $this->form->addFields( [new TLabel('Estabelecimento Medico')], [$estabelecimento_medico_id] );
         $this->form->addFields( [new TLabel('Data do Registro <font color=red><b>*</b></font>')], [$dataregistro ] );
@@ -160,7 +130,7 @@ class AnamneseFormDetalhe extends TStandardList
         $this->form->addFields( [new TLabel('Desfecho do Transplante')], [$desfechotransplante ] );
         $this->form->addFields( [new TLabel('Diagnostico Nutricional')], [$diagnosticonutricional] );
         $this->form->addFields( [$id, $paciente_id]);
-       
+
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
@@ -172,23 +142,18 @@ class AnamneseFormDetalhe extends TStandardList
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
         
-        //$column_id = new TDataGridColumn('id', 'Id', 'center');
         $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_peso = new TDataGridColumn('peso', 'Peso ', 'left');
         $column_comprintdel = new TDataGridColumn('comprimentointestinodelgado', ' Comprimento do Intestino Delgado', 'left');
         $column_estomia = new TDataGridColumn('estomia', 'Estomia', 'left');
         $column_transplantado = new TDataGridColumn('transplantado', 'Transplantado', 'left');
         
-       
-
-        //$this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_peso);
         $this->datagrid->addColumn($column_comprintdel);
         $this->datagrid->addColumn($column_estomia);
         $this->datagrid->addColumn($column_transplantado);
         
-
         $edit = new TDataGridAction( [ $this, "onEdit" ] );
         $edit->setButtonClass( "btn btn-default" );
         $edit->setLabel( "Editar" );
@@ -211,11 +176,8 @@ class AnamneseFormDetalhe extends TStandardList
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
         $this->pageNavigation->setWidth($this->datagrid->getWidth());
 
-      
- 
         $container = new TVBox;
         $container->style = 'width: 90%';
-        //$container->add(new TXMLBreadCrumb('menu.xml', 'AnamneseFormDetalhe'));
         $container->add($this->form);
         $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
@@ -224,20 +186,18 @@ class AnamneseFormDetalhe extends TStandardList
         
     }
 
-
     function onEdit($param) {
-
 
         TTransaction::open('dbsic');
         
-        if (isset($param['fk'])) {
+        if (isset($param['key'])) {
 
-            $key = $param['fk'];
+            $key = $param['key'];
             $object = new AnamneseRecord($key);
 
-             $object->dataregistro = TDate::date2br($object->dataregistro);
-             $object->datacirurgia = TDate::date2br($object->datacirurgia);
-             $object->datatransplante = TDate::date2br($object->datatransplante);
+            $object->dataregistro = TDate::date2br($object->dataregistro);
+            $object->datacirurgia = TDate::date2br($object->datacirurgia);
+            $object->datatransplante = TDate::date2br($object->datatransplante);
             $this->form->setData($object);
             
         } else {
@@ -247,118 +207,114 @@ class AnamneseFormDetalhe extends TStandardList
 
     }
 
+    public static function onChangeRadio($param){
 
-    public static function onChangeRadio($param)
-   {
-       switch ($param['colonemcontinuidade'])
-       {
-           case '1':
-           TEntry::clearField($param['form_detail_anamnese'], 'colonremanescente');
-           TEntry::enableField($param['form_detail_anamnese'], 'colonremanescente');
-           break;
-       
-           case '2':
-           TEntry::clearField($param['form_detail_anamnese'], 'colonremanescente');     
-           TEntry::disableField($param['form_detail_anamnese'], 'colonremanescente');
-           break;
-       }
-   }
+     switch ($param['colonemcontinuidade']){
+         case 'SIM':
+         TEntry::clearField($param['form_detail_anamnese'], 'colonremanescente');
+         TEntry::enableField($param['form_detail_anamnese'], 'colonremanescente');
+         break;
 
-    public static function onChangeRadio2($param)
-   {
-       switch ($param['transplantado'])
-       {
-           case '1':
-           TEntry::clearField($param['form_detail_anamnese'], 'datatransplante');
-           TEntry::clearField($param['form_detail_anamnese'], 'tipotrasnplante');
-           TEntry::clearField($param['form_detail_anamnese'], 'desfechotransplante');
-           TEntry::enableField($param['form_detail_anamnese'], 'datatransplante');
-           TEntry::enableField($param['form_detail_anamnese'], 'tipotrasnplante');
-           TEntry::enableField($param['form_detail_anamnese'], 'desfechotransplante');
-           break;
-       
-           case '2':
-           TEntry::clearField($param['form_detail_anamnese'], 'datatransplante');
-           TEntry::clearField($param['form_detail_anamnese'], 'tipotrasnplante');
-           TEntry::clearField($param['form_detail_anamnese'], 'desfechotransplante');     
-           TEntry::disableField($param['form_detail_anamnese'], 'datatransplante');
-           TEntry::disableField($param['form_detail_anamnese'], 'tipotrasnplante');
-           TEntry::disableField($param['form_detail_anamnese'], 'desfechotransplante');
-           break;
-       }
-   }
+         case 'NÃO':
+         TEntry::clearField($param['form_detail_anamnese'], 'colonremanescente');     
+         TEntry::disableField($param['form_detail_anamnese'], 'colonremanescente');
+         break;
+     }
+ }
 
-   public function onSave(){
-        try{
+ public static function onChangeRadio2($param){
+     switch ($param['transplantado']){
+         case 'SIM':
+         TEntry::clearField($param['form_detail_anamnese'], 'datatransplante');
+         TEntry::clearField($param['form_detail_anamnese'], 'tipotrasnplante');
+         TEntry::clearField($param['form_detail_anamnese'], 'desfechotransplante');
+         TEntry::enableField($param['form_detail_anamnese'], 'datatransplante');
+         TEntry::enableField($param['form_detail_anamnese'], 'tipotrasnplante');
+         TEntry::enableField($param['form_detail_anamnese'], 'desfechotransplante');
+         break;
 
-            TTransaction::open('dbsic');
-            $cadastro = $this->form->getData('AnamneseRecord');
-            $this->form->validate();
-            $cadastro->store();
-            TTransaction::close();
+         case 'NÃO':
+         TEntry::clearField($param['form_detail_anamnese'], 'datatransplante');
+         TEntry::clearField($param['form_detail_anamnese'], 'tipotrasnplante');
+         TEntry::clearField($param['form_detail_anamnese'], 'desfechotransplante');     
+         TEntry::disableField($param['form_detail_anamnese'], 'datatransplante');
+         TEntry::disableField($param['form_detail_anamnese'], 'tipotrasnplante');
+         TEntry::disableField($param['form_detail_anamnese'], 'desfechotransplante');
+         break;
+     }
+ }
 
-            $param=array();
-            $param['key'] = $cadastro->id;
-            $param['id'] = $cadastro->id;
-            $param['fk'] = $cadastro->paciente_id;
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('AnamneseFormDetalhe','onReload', $param); 
+ public function onSave(){
+    try{
 
-        }catch (Exception $e){
-            $object = $this->form->getData($this->activeRecord);
-            new TMessage('error', $e->getMessage());
-            TTransaction::rollback();
-        }
+        TTransaction::open('dbsic');
+        $cadastro = $this->form->getData('AnamneseRecord');
+        $this->form->validate();
+        $cadastro->store();
+        TTransaction::close();
+
+        $param=array();
+        $param['key'] = $cadastro->id;
+        $param['id'] = $cadastro->id;
+        $param['fk'] = $cadastro->paciente_id;
+        new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
+        TApplication::gotoPage('AnamneseFormDetalhe','onReload', $param); 
+
+    }catch (Exception $e){
+        $object = $this->form->getData($this->activeRecord);
+        new TMessage('error', $e->getMessage());
+        TTransaction::rollback();
     }
+}
 
-    public function onReload( $param = NULL ){
-        try{
+public function onReload( $param = NULL ){
+    try{
 
-            TTransaction::open( "dbsic" );
+        TTransaction::open( "dbsic" );
 
-            $repository = new TRepository( "AnamneseRecord" );
-            if ( empty( $param[ "order" ] ) )
-            {
-                $param[ "order" ] = "id";
-                $param[ "direction" ] = "asc";
-            }
-            $limit = 10;
-            
-            $criteria = new TCriteria();
-            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
-            $criteria->setProperties( $param );
-            $criteria->setProperty( "limit", $limit );
-            
-            $objects = $repository->load( $criteria, FALSE );
-
-            $this->datagrid->clear();
-
-            if ( !empty( $objects ) ){
-
-                foreach ( $objects as $object ){
-
-                    $object->dataregistro = TDate::date2br($object->dataregistro);
-                    $object->datacirurgia = TDate::date2br($object->datacirurgia);
-                    $object->datatransplante = TDate::date2br($object->datatransplante);
-                    $this->datagrid->addItem( $object );
-                }
-            }
-            $criteria->resetProperties();
-
-            $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
-            $this->pageNavigation->setLimit($limit);
-
-            TTransaction::close();
-            $this->loaded = true;
-        }
-        catch ( Exception $ex )
+        $repository = new TRepository( "AnamneseRecord" );
+        if ( empty( $param[ "order" ] ) )
         {
-            TTransaction::rollback();
-            new TMessage( "error", $ex->getMessage() );
+            $param[ "order" ] = "id";
+            $param[ "direction" ] = "asc";
         }
+        $limit = 10;
+
+        $criteria = new TCriteria();
+        $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
+        $criteria->setProperties( $param );
+        $criteria->setProperty( "limit", $limit );
+
+        $objects = $repository->load( $criteria, FALSE );
+
+        $this->datagrid->clear();
+
+        if ( !empty( $objects ) ){
+
+            foreach ( $objects as $object ){
+
+                $object->dataregistro = TDate::date2br($object->dataregistro);
+                $object->datacirurgia = TDate::date2br($object->datacirurgia);
+                $object->datatransplante = TDate::date2br($object->datatransplante);
+                $this->datagrid->addItem( $object );
+            }
+        }
+        $criteria->resetProperties();
+
+        $count = $repository->count($criteria);
+        $this->pageNavigation->setCount($count); 
+        $this->pageNavigation->setProperties($param); 
+        $this->pageNavigation->setLimit($limit);
+
+        TTransaction::close();
+        $this->loaded = true;
     }
-    
-    
+    catch ( Exception $ex )
+    {
+        TTransaction::rollback();
+        new TMessage( "error", $ex->getMessage() );
+    }
+}
+
+
 }

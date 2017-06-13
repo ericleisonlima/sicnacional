@@ -9,7 +9,9 @@ class AnamneseRecord extends TRecord
     const PRIMARYKEY= 'id';
     const IDPOLICY =  'max'; // {max, serial}
     
-     private $paciente;
+     private $paciente; 
+     private $estabelecimento;
+
     function get_paciente_nome(){
 
         if (empty ($this->paciente)){
@@ -18,5 +20,16 @@ class AnamneseRecord extends TRecord
         
         return $this->paciente->nome;
 
+    }
+
+     function get_estabelecimento_nome()
+    {
+        //instancia saldoRecord
+        //carrega na memoria a empresa de codigo $this->empresa_id
+        if (empty ($this->estabelecimento)){
+            $this->estabelecimento = new EstabelecimentoRecord($this->estabelecimento_id);
+        }
+        //retorna o objeto instanciado
+        return $this->estabelecimento->nome;
     }
 }

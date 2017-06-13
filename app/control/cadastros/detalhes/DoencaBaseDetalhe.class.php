@@ -1,8 +1,8 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
 
 class DoencaBaseDetalhe extends TPage
 {
@@ -10,6 +10,7 @@ class DoencaBaseDetalhe extends TPage
     private $datagrid;
     private $pageNavigation;
     private $loaded;
+
     public function __construct()
     {
         parent::__construct();
@@ -19,33 +20,17 @@ class DoencaBaseDetalhe extends TPage
         $this->form->class = "tform";
 
         $id = new THidden( "id" );
-        $cid_id = new TCombo("cid_id");
+        //$cid_id = new TCombo("cid_id");
         $paciente_id = new TLabel( "paciente_id" );
+
+        $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'nome', 'cid_id', 'nome');
+        $cid_id_name = new TEntry('nome');
 
         $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
         TTransaction::open('dbsic');
         $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'id' ) );
 
-        //----------------------------------------------------------------------------------------------------
-
-        $items = array();
-        TTransaction::open('dbsic');
-        $repository = new TRepository('CidRecord');
-
-        $criteria = new TCriteria;
-        $criteria->setProperty('order', 'nome');
-
-        $cadastros = $repository->load($criteria);
-
-        foreach ($cadastros as $object) {
-            $items[$object->id] = $object->nome;
-        }
-
-        $cid_id->addItems($items);
-        TTransaction::close();
-
-
-        //----------------------------------------------------------------------------------------------------
+        
 
         if( $tempVisita ){
             $paciente_nome = new TLabel( $tempVisita->nome );
@@ -56,11 +41,12 @@ class DoencaBaseDetalhe extends TPage
 
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
 
-        $this->form->addFields( [ new TLabel( "CID:" ), $cid_id ] );
+        $this->form->addFields( [ new TLabel( "CID:" ), $cid_id, $cid_id_name ] );
 
         $this->form->addFields( [ $id ] );
 
         $action = new TAction(array($this, 'onSave'));
+        $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
@@ -72,9 +58,11 @@ class DoencaBaseDetalhe extends TPage
         $this->datagrid->setHeight( 320 );
 
         $column_cidid = new TDataGridColumn( "cid_id", "CID", "left" );
+        $column_cid_id_name = new TDataGridColumn( "nome", "Doença", "left" );
 
 
         $this->datagrid->addColumn( $column_cidid );
+        $this->datagrid->addColumn( $column_cid_id_name );
 
         $order_cidid = new TAction( [ $this, "onReload" ] );
         $order_cidid->setParameter( "order", "id" );
@@ -86,6 +74,7 @@ class DoencaBaseDetalhe extends TPage
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
+        //$action_del->setFk( "id" );
         $this->datagrid->addAction( $action_edit );
 
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
@@ -93,6 +82,7 @@ class DoencaBaseDetalhe extends TPage
         $action_del->setLabel( "Deletar" );
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
+       // $action_del->setFk( "id" );
         $this->datagrid->addAction( $action_del );
 
         $this->datagrid->createModel();
@@ -120,12 +110,14 @@ class DoencaBaseDetalhe extends TPage
             TTransaction::open( "dbsic" );
 
             $object = $this->form->getData( "DoencaBaseRecord" );
-            $object->paciente_id =  filter_input(INPUT_GET, 'id');
+            $object->paciente_id =  filter_input(INPUT_GET, 'fk');
+            unset($object->nome);
             $object->store();
 
 
             TTransaction::close();
             $action = new TAction( [ $this , "onReload" ] );
+            $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
             new TMessage( "info", "Registro salvo com sucesso!", $action );
         }
         catch ( Exception $ex )
@@ -172,6 +164,8 @@ class DoencaBaseDetalhe extends TPage
 
             $criteria = new TCriteria();
             $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
+            //$criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'id')));
+            //$criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'key')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
 
@@ -213,7 +207,11 @@ class DoencaBaseDetalhe extends TPage
             $action2 = new TAction( [ $this, "onReload" ] );
 
             $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            $action2->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
+
         }
     }
     function Delete( $param = NULL )
