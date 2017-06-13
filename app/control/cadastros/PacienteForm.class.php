@@ -24,26 +24,10 @@ class PacienteForm extends TPage
         $estabelecimento_medico_id    = new TCombo( "estabelecimento_medico_id" );
         $situacao_clinica_id    = new TCombo( "situacao_clinica_id" );
 
-        //$causa_obito      = new TCombo( "causa_obito_id" );        
-        //$dataobito        = new TDate( "dataobito" );
-            
-        //$dataobito->setMask( "dd/mm/yyyy" );
-        //$dataobito->setDatabaseMask('yyyy-mm-dd');
-/*
-        $items = array();
-        TTransaction::open('dbsic');
-        $repository = new TRepository('CausaObitoRecord');
-        $criteria = new TCriteria;
-        $criteria->setProperty('order', 'descricao');
-        $cadastros = $repository->load($criteria);
-  
-        foreach ($cadastros as $object) {
-            $items[$object->id] = $object->descricao;
-        }
+        $sexo = new TRadioGroup('sexo');
+        $sexo->addItems(array('M'=>'Masculino', 'F'=>'Feminino'));
+        $sexo->setLayout('horizontal');
 
-        $causa_obito->addItems($items);
-        TTransaction::close(); 
-*/
         $nascimento->setMask( "dd/mm/yyyy" );
         $datadiagnostico->setMask( "dd/mm/yyyy" );
         $nascimento->setDatabaseMask('yyyy-mm-dd');
@@ -136,6 +120,7 @@ class PacienteForm extends TPage
 
         $this->form->addFields( [ new TLabel( "Nome:<font color=red><b>*</b></font> ") ], [ $nome ] );
         $this->form->addFields( [ new TLabel( "Nascimento:<font color=red>*</font>" ) ], [ $nascimento ] );
+        $this->form->addFields( [ new TLabel( "Sexo:" ) ], [ $sexo ] );
         $this->form->addFields( [ new TLabel( "Município:<font color=red><b>*</b></font>" ) ], [ $municipio_id ]);
         $this->form->addFields( [ new TLabel( "Data Diagnóstico:<font color=red>*</font>" ) ], [ $datadiagnostico ] );
         $this->form->addFields( [ new TLabel( "Condições Diagnóstico:<font color=red>* ") ], [ $condicoes_diagnostico_id ] );
