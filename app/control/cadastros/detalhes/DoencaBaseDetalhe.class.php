@@ -26,16 +26,18 @@ class DoencaBaseDetalhe extends TPage
         $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'nome', 'cid_id', 'nome');
         $cid_id_name = new TEntry('nome');
 
-        $paciente_id->setValue(filter_input(INPUT_GET, 'id'));
+
+
+        $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
         TTransaction::open('dbsic');
-        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'id' ) );
+        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'fk' ) );
 
-        
-
-        if( $tempVisita ){
+          if( $tempVisita ){
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
         }
+
+        
         TTransaction::close();
 
 
@@ -74,7 +76,7 @@ class DoencaBaseDetalhe extends TPage
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
-        //$action_del->setFk( "id" );
+        $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction( $action_edit );
 
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
@@ -82,7 +84,7 @@ class DoencaBaseDetalhe extends TPage
         $action_del->setLabel( "Deletar" );
         $action_del->setImage( "fa:trash-o red fa-lg" );
         $action_del->setField( "id" );
-       // $action_del->setFk( "id" );
+        $action_del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->datagrid->addAction( $action_del );
 
         $this->datagrid->createModel();
@@ -116,7 +118,9 @@ class DoencaBaseDetalhe extends TPage
 
 
             TTransaction::close();
+           
             $action = new TAction( [ $this , "onReload" ] );
+            $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
             $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
             new TMessage( "info", "Registro salvo com sucesso!", $action );
         }
@@ -132,10 +136,12 @@ class DoencaBaseDetalhe extends TPage
         {
             if( isset( $param[ "id" ] ) )
             {
+                $key = $param['id'];
                 TTransaction::open( "dbsic" );
-                $object = new DoencaBaseRecord( $param[ "id" ] );
+                $object = new DoencaBaseRecord( $key );
                 $this->form->setData( $object );
                 TTransaction::close();
+
             }
         }
         catch ( Exception $ex )
@@ -164,8 +170,7 @@ class DoencaBaseDetalhe extends TPage
 
             $criteria = new TCriteria();
             $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
-            //$criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'id')));
-            //$criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'key')));
+            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'id')));  
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
 
@@ -200,15 +205,16 @@ class DoencaBaseDetalhe extends TPage
 
     public function onDelete( $param = NULL )
     {
-        if( isset( $param[ "key" ] ) )
+        if( isset( $param[ "id" ] ) )
         {
 
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
 
-            $action1->setParameter( "key", $param[ "key" ] );
+            //$action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
             $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
             $action2->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
 
@@ -219,7 +225,7 @@ class DoencaBaseDetalhe extends TPage
         try
         {
             TTransaction::open( "dbsic" );
-            $object = new DoencaBaseRecord( $param[ "key" ] );
+            $object = new DoencaBaseRecord( $param[ "id" ] );
             $object->delete();
             TTransaction::close();
             $this->onReload();
