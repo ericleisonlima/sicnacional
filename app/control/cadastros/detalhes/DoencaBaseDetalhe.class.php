@@ -24,7 +24,7 @@ class DoencaBaseDetalhe extends TPage
         $paciente_id = new TLabel( "paciente_id" );
 
         $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'nome', 'cid_id', 'nome');
-        $cid_id_name = new TEntry('nome');
+        $cid_id_name = new TEntry('cid_id_name');
 
 
 
@@ -48,7 +48,7 @@ class DoencaBaseDetalhe extends TPage
         $this->form->addFields( [ $id ] );
 
         $action = new TAction(array($this, 'onSave'));
-        $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+        $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
@@ -60,7 +60,7 @@ class DoencaBaseDetalhe extends TPage
         $this->datagrid->setHeight( 320 );
 
         $column_cidid = new TDataGridColumn( "cid_id", "CID", "left" );
-        $column_cid_id_name = new TDataGridColumn( "nome", "Doença", "left" );
+        $column_cid_id_name = new TDataGridColumn( "cid_nome", "Doença", "left" );
 
 
         $this->datagrid->addColumn( $column_cidid );
@@ -104,7 +104,7 @@ class DoencaBaseDetalhe extends TPage
 
         parent::add( $container );
     }
-    public function onSave()
+    public function onSave( $param = NULL )
     {
         try
         {
@@ -120,8 +120,8 @@ class DoencaBaseDetalhe extends TPage
             TTransaction::close();
            
             $action = new TAction( [ $this , "onReload" ] );
-            $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-            $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+            $action->setParameter('key', '' . $param['key'] . '');
+            $action->setParameter('fk', '' . $param['fk'] . '');
             new TMessage( "info", "Registro salvo com sucesso!", $action );
         }
         catch ( Exception $ex )
@@ -130,17 +130,24 @@ class DoencaBaseDetalhe extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar salvar o registro!<br><br>" . $ex->getMessage() );
         }
     }
-    public function onEdit( $param )
+
+    public function onEdit( $param = NULL )
     {
         try
         {
-            if( isset( $param[ "id" ] ) )
+            if( isset( $param[ "key" ] ) )
             {
-                $key = $param['id'];
+                $key = $param['key'];
                 TTransaction::open( "dbsic" );
                 $object = new DoencaBaseRecord( $key );
-                $this->form->setData( $object );
+                $cidnome = new CidRecord($object->cid_id);
+                $object->cid_id_name = $cidnome->nome;
+
                 TTransaction::close();
+
+                $this->onReload($param);
+
+                $this->form->setData( $object );
 
             }
         }
@@ -150,6 +157,7 @@ class DoencaBaseDetalhe extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
+
     public function onReload( $param = NULL )
     {
         try
@@ -169,8 +177,7 @@ class DoencaBaseDetalhe extends TPage
 
 
             $criteria = new TCriteria();
-            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
-            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'id')));  
+            $criteria->add(new TFilter('paciente_id', '=', filter_input( INPUT_GET, "fk") ) );  
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
 
@@ -205,18 +212,23 @@ class DoencaBaseDetalhe extends TPage
 
     public function onDelete( $param = NULL )
     {
-        if( isset( $param[ "id" ] ) )
+        if( isset( $param[ "key" ] ) )
         {
 
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
 
-            //$action1->setParameter( "key", $param[ "key" ] );
-            //$action1 = new TAction( [ $this , "onReload" ] );         
-            $action1->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
-            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-            $action2->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
             new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
 
         }
@@ -226,11 +238,15 @@ class DoencaBaseDetalhe extends TPage
         try
         {
             TTransaction::open( "dbsic" );
-            $object = new DoencaBaseRecord( $param[ "id" ] );
+            $object = new DoencaBaseRecord( $param[ "key" ] );
             $object->delete();
             TTransaction::close();
-            $this->onReload();
-            new TMessage("info", "Registro apagado com sucesso!");
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
+
+            new TMessage("info", "Registro apagado com sucesso!", $action);
         }
         catch ( Exception $ex )
         {
