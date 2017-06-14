@@ -212,6 +212,7 @@ class DoencaBaseDetalhe extends TPage
             $action2 = new TAction( [ $this, "onReload" ] );
 
             //$action1->setParameter( "key", $param[ "key" ] );
+            //$action1 = new TAction( [ $this , "onReload" ] );         
             $action1->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
             $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
             $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
