@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
+
 class ExamePacienteDetalhe extends TStandardList{
     protected $form;
     protected $datagrid;
@@ -46,6 +51,7 @@ class ExamePacienteDetalhe extends TStandardList{
 
         $dataexame->setMask('dd/mm/yyyy');
         $dataexame->setDatabaseMask('yyyy-mm-dd');
+        $valor->setMask('99999');
 
         $dataexame->addValidation( "Data do Exame", new TRequiredValidator );
         $tipoexame_id->addValidation( "Exame", new TRequiredValidator );
