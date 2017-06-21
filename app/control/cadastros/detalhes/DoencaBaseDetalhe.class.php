@@ -23,7 +23,7 @@ class DoencaBaseDetalhe extends TPage
         //$cid_id = new TCombo("cid_id");
         $paciente_id = new TLabel( "paciente_id" );
 
-        $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'nome', 'cid_id', 'nome');
+        $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'nome', 'cid_id', 'cid_id_name');
         $cid_id_name = new TEntry('cid_id_name');
 
 
@@ -113,7 +113,7 @@ class DoencaBaseDetalhe extends TPage
 
             $object = $this->form->getData( "DoencaBaseRecord" );
             $object->paciente_id =  filter_input(INPUT_GET, 'fk');
-            unset($object->nome);
+            unset($object->cid_id_name);
             $object->store();
 
 
