@@ -76,6 +76,8 @@ class NutricaoEnteralFormDetalhe extends TPage{
         $fim->setMask('dd/mm/yyyy');
         $inicio->setDatabaseMask('yyyy-mm-dd');
         $fim->setDatabaseMask('yyyy-mm-dd');
+        $totalcalorias->setMask('9999999999');
+        $percentualdiario->setMask('99999');
 
         $inicio->addValidation( "Início", new TRequiredValidator );
         $totalcalorias->addValidation( "Total de Calorias", new TRequiredValidator );
@@ -148,19 +150,31 @@ class NutricaoEnteralFormDetalhe extends TPage{
     }
 
 
-    function onEdit($param) {
+    
+     public function onEdit( $param = NULL )
+    {
+        try
+        {
+            if( isset( $param[ "key" ] ) )
+            {
+                $key = $param['key'];
+                TTransaction::open( "dbsic" );
+                $object = new NutricaoEnteralRecord( $key );
+               
 
-        TTransaction::open('dbsic');
-        if (isset($param['fk'])) {
-            $key = $param['fk'];
-            $object = new NutricaoEnteralRecord($key);
-            $this->form->setData($object);
-            
-        } else {
-            $this->form->clear();
+                TTransaction::close();
+
+                $this->onReload($param);
+
+                $this->form->setData( $object );
+
+            }
         }
-        TTransaction::close();
-
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
+        }
     }
 
     public function onSave(){
@@ -230,7 +244,7 @@ class NutricaoEnteralFormDetalhe extends TPage{
         }
     }
 
-    public function onDelete( $param = NULL ){
+     public function onDelete( $param = NULL ){
         if( isset( $param[ "key" ] ) ){
             $action1 = new TAction( [ $this, "Delete" ] );
             $action2 = new TAction( [ $this, "onReload" ] );
@@ -253,6 +267,8 @@ class NutricaoEnteralFormDetalhe extends TPage{
             new TMessage("error", $ex->getMessage());
         }
     }
+
+
 
     
     
