@@ -27,6 +27,7 @@ class EstabelecimentoForm extends TPage
         $repository = new TRepository('MunicipioRecord');
 
         $criteria = new TCriteria();
+        $criteria->setProperty('order', 'nome');
 
         $objects = $repository->load($criteria);
         $item = array();
