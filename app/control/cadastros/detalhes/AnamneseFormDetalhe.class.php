@@ -90,7 +90,7 @@ class AnamneseFormDetalhe extends TStandardList{
         $diagnosticonutricional = new TEntry('diagnosticonutricional');
         $valvulaileocecal = new TRadioGroup('valvulaileocecal');
 
-        $valvulaileocecal->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
+        $valvulaileocecal->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO', 'DESCONHECE'=>'DESCONHECE'));
         $valvulaileocecal->setLayout('horizontal');
 
         $altura->setMask('9.99');
