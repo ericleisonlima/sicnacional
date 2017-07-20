@@ -72,7 +72,7 @@ class AnamneseFormDetalhe extends TStandardList{
         $colonremanescente = new TEntry('colonremanescente');
 
         $estomia = new TRadioGroup('estomia');
-        $estomia->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
+        $estomia->addItems(array('GASTROSTOMIA'=>'GASTROSTOMIA', 'JEJUNO OU ILEOSTOMIA'=>'JEJUNO OU ILEOSTOMIA', 'COLOSTOMIA'=>'COLOSTOMIA'));
         $estomia->setLayout('horizontal');
         $estomia->setValue(1);
 
