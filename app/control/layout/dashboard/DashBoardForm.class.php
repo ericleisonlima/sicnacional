@@ -23,11 +23,11 @@ class DashBoardForm extends TWindow
         $page       = new TMultiSearch('page');
         $action     = new TEntry( "action" );
 
-        $icon = new TDBCombo( "icon", "database", "FontAwesomeIconsModel", "class", "unicode", "id" );
+        $icon = new TDBCombo( "icon", "dbsic", "FontAwesomeIconsModel", "class", "unicode", "id" );
         $icon->style = "font-family:'FontAwesome',Helvetica;font-size:20px";
         $icon->setValue( "fa-500px" );
 
-        $color = new TDBCombo( "color", "database", "AdminLteColorsModel", "class", "colorname", "id" );
+        $color = new TDBCombo( "color", "dbsic", "AdminLteColorsModel", "class", "colorname", "id" );
         $color->setDefaultOption( "..::SELECIONE::.." );
 
         // $quantifier->addItems( [ "amount"  => "Quantidade", "percent" => "Percentual" ] );
@@ -90,7 +90,7 @@ class DashBoardForm extends TWindow
 
             $this->form->validate();
 
-            TTransaction::open( "database" );
+            TTransaction::open( "dbsic" );
 
             $object = $this->form->getData( "DashBoardModel" );
 
@@ -122,7 +122,7 @@ class DashBoardForm extends TWindow
 
             if( isset( $param[ "key" ] ) ) {
 
-                TTransaction::open( "database" );
+                TTransaction::open( "dbsic" );
 
                 $object = new DashBoardModel( $param[ "key" ] );
 
@@ -177,7 +177,7 @@ class DashBoardForm extends TWindow
 
             try {
 
-                TTransaction::open( "database" );
+                TTransaction::open( "dbsic" );
 
                 $conn = TTransaction::get();
 
@@ -217,7 +217,7 @@ class DashBoardForm extends TWindow
 
         try {
 
-            TTransaction::open( "database" );
+            TTransaction::open( "dbsic" );
 
             $conn = TTransaction::get();
 
