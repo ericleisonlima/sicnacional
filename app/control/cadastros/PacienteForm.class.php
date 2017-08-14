@@ -66,11 +66,10 @@ class PacienteForm extends TPage
         $condicoes_diagnostico_id->addItems($items);
         TTransaction::close(); 
 
-
-
         $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('EstabelecimentoMedicoRecord');
+
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'id');

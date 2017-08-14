@@ -8,7 +8,7 @@ new TSession;
 if ( TSession::getValue('logged') )
 {
     $content     = file_get_contents("app/templates/{$theme}/layout.html");
-    $menu_string = AdiantiMenuBuilder::parse('menu.xml', $theme);
+    $menu_string = SideMenuCreate::createUserMenu();
     $content     = str_replace('{MENU}', $menu_string, $content);
 }
 else

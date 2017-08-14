@@ -10,6 +10,8 @@ class TipoAdministracaoMedicamentoDetalhe extends TPage
     private $datagrid;
     private $pageNavigation;
     private $loaded;
+
+
     public function __construct()
     {
         parent::__construct();
@@ -69,9 +71,9 @@ class TipoAdministracaoMedicamentoDetalhe extends TPage
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", __CLASS__ ) );
+       	$container->add( new TXMLBreadCrumb( "menu.xml", __CLASS__ ) );
         $container->add( $this->form );
-        $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
+        $container->add( TPanelGroup::pack( '', $this->datagrid ) );
         $container->add( $this->pageNavigation );
         
 
