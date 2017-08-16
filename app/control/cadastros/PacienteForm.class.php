@@ -72,7 +72,7 @@ class PacienteForm extends TPage
 
 
         $criteria = new TCriteria;
-        $criteria->setProperty('order', 'estabelecimento_id');
+        $criteria->setProperty('order', 'id');
         //$criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         
         $cadastros = $repository->load($criteria);
