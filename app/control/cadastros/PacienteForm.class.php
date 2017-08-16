@@ -144,7 +144,7 @@ class PacienteForm extends TPage
       
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
+        //$container->add( new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
         $container->add( $this->form );
         parent::add( $container );
 
