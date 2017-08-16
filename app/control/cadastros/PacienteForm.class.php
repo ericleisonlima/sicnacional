@@ -68,17 +68,17 @@ class PacienteForm extends TPage
 
         $items = array();
         TTransaction::open('dbsic');
-        $repository = new TRepository('EstabelecimentoMedicoRecord');
+        $repository = new TRepository('EstabelecimentoRecord');
 
 
         $criteria = new TCriteria;
-        $criteria->setProperty('order', 'id');
-        $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+        $criteria->setProperty('order', 'nome');
+        //$criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         
         $cadastros = $repository->load($criteria);
   
         foreach ($cadastros as $object) {
-            $items[$object->id] = $object->estabelecimento_nome;
+            $items[$object->id] = $object->nome;
         }
 
         $estabelecimento_medico_id->addItems($items);
