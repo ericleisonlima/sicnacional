@@ -84,8 +84,7 @@ class PacienteForm extends TPage
         $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
 
-        //----------------------------------------------------------------------------------------------------------
-
+       
         $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('SituacaoClinicaRecord');
@@ -102,7 +101,7 @@ class PacienteForm extends TPage
 
         $situacao_clinica_id->addItems($items);
         TTransaction::close(); 
-        //-----------------------------------------------------------------------------------------------------------------------
+        
 
         $tiposanguineo->addItems( [ "A" => "A", "B" => "B", "AB" => "AB", "O" => "O" ] );    
         $fatorsanguineo->addItems( [ "P" => "Positivo", "N" => "Negativo" ] );
