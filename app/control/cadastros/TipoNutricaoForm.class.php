@@ -31,7 +31,7 @@ class TipoNutricaoForm extends TPage
        
         $container = new TVBox;
         $container->style = 'width: 90%';
-        $container->add(new TXMLBreadCrumb('menu.xml', 'TipoNutricaoList'));
+        // $container->add(new TXMLBreadCrumb('menu.xml', 'TipoNutricaoList'));
         $container->add($this->form);
 
         parent::add($container);

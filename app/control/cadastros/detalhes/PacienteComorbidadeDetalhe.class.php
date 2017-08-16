@@ -13,42 +13,42 @@ class PacienteComorbidadeDetalhe extends TPage{
 
    public function __construct(){
         parent::__construct();
-        
+
         $this->form = new BootstrapFormBuilder('form_detail_nutricao_enteral');
         $this->form->setFormTitle('Detalhamento de Nutrição Enteral');
-        
+
         $id = new THidden('id');
-        $paciente_id = new THidden('paciente_id'); 
+        $paciente_id = new THidden('paciente_id');
         $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
         //$municipio_id     = new TCombo( "municipio_id" )
-        $tiponutricao_id = new TCombo("tiponutricao_id"); 
-        $administracaonutricao_id = new TCombo("administracaonutricao_id"); 
+        $tiponutricao_id = new TCombo("tiponutricao_id");
+        $administracaonutricao_id = new TCombo("administracaonutricao_id");
 
         TTransaction::open('dbsic');
         $tempNome = new PacienteRecord( filter_input( INPUT_GET, 'fk' ) );
-        
+
         if( $tempNome ){
             $paciente_nome = new TLabel( $tempNome->nome );
             $paciente_nome->setEditable(FALSE);
         }
-        TTransaction::close(); 
+        TTransaction::close();
 
         $items = array();
-        
+
         TTransaction::open('dbsic');
         $repository = new TRepository('AdministraNutricaoRecord');
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'nome');
-        
+
         $cadastros = $repository->load($criteria);
-  
+
         foreach ($cadastros as $object) {
             $items[$object->id] = $object->nome;
         }
 
         $administracaonutricao_id->addItems($items);
-        TTransaction::close(); 
+        TTransaction::close();
 
         $items = array();
         TTransaction::open('dbsic');
@@ -56,21 +56,21 @@ class PacienteComorbidadeDetalhe extends TPage{
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'nome');
-        
+
         $cadastros = $repository->load($criteria);
-  
+
         foreach ($cadastros as $object) {
             $items[$object->id] = $object->nome;
         }
 
         $tiponutricao_id->addItems($items);
-        TTransaction::close(); 
+        TTransaction::close();
 
         $inicio = new TDate('datainicio');
         $fim = new TDate('datafim');
         $totalcalorias = new TEntry('totalcalorias');
         $percentualdiario = new TEntry('percentualdiario');
-        
+
         $id->setEditable(FALSE);
 
         $inicio->setMask('dd/mm/yyyy');
@@ -81,7 +81,7 @@ class PacienteComorbidadeDetalhe extends TPage{
         $inicio->addValidation( "Início", new TRequiredValidator );
         $totalcalorias->addValidation( "Total de Calorias", new TRequiredValidator );
 
-        
+
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
         $this->form->addFields( [new TLabel('Tipo Nutrição')], [$tiponutricao_id ] );
         $this->form->addFields( [new TLabel('Administração Nutrição')], [$administracaonutricao_id] );
@@ -90,7 +90,7 @@ class PacienteComorbidadeDetalhe extends TPage{
         $this->form->addFields( [new TLabel('Total Calorias')], [$totalcalorias] );
         $this->form->addFields( [new TLabel('Percentual Diario')], [$percentualdiario] );
         $this->form->addFields( [$id, $paciente_id]);
-       
+
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
@@ -99,10 +99,10 @@ class PacienteComorbidadeDetalhe extends TPage{
         $this->form->addAction('Voltar para Paciente',new TAction(array('PacienteList','onReload')),'fa:table blue');
 
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
-        
+
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
-        
+
         //$column_id = new TDataGridColumn('id', 'Id', 'center');
         $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_name2 = new TDataGridColumn('tipo_nutricao_nome', 'Tipo Nutrição', 'left');
@@ -111,7 +111,7 @@ class PacienteComorbidadeDetalhe extends TPage{
         $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
         $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
         $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diario', 'left');
-       
+
 
         //$this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
@@ -119,14 +119,14 @@ class PacienteComorbidadeDetalhe extends TPage{
         $this->datagrid->addColumn($column_name3);
         $this->datagrid->addColumn($column_inicio);
         $this->datagrid->addColumn($column_fim);
-        
+
         $action_edit = new TDataGridAction(array('NutricaoEnteralFormDetalhe', 'onEdit'));
         $action_edit->setButtonClass('btn btn-default');
         $action_edit->setLabel('Editar');
         $action_edit->setImage('fa:pencil-square-o blue fa-lg');
         $action_edit->setField('id');
         $this->datagrid->addAction($action_edit);
-        
+
 
         $action_del = new TDataGridAction(array($this, 'onDelete'));
         $action_del->setButtonClass('btn btn-default');
@@ -134,24 +134,24 @@ class PacienteComorbidadeDetalhe extends TPage{
         $action_del->setImage('fa:trash-o red fa-lg');
         $action_del->setField('id');
         $this->datagrid->addAction($action_del);
-        
+
         $this->datagrid->createModel();
-        
+
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
         $this->pageNavigation->setWidth($this->datagrid->getWidth());
 
-      
- 
+
+
         $container = new TVBox;
         $container->style = 'width: 90%';
-        //$container->add(new TXMLBreadCrumb('menu.xml', 'NutricaoEnteralFormDetalhe'));
+        // $container->add(new TXMLBreadCrumb('menu.xml', 'NutricaoEnteralFormDetalhe'));
         $container->add($this->form);
         $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
 
         parent::add($container);
-        
+
     }
 
 
@@ -159,13 +159,13 @@ class PacienteComorbidadeDetalhe extends TPage{
 
 
         TTransaction::open('dbsic');
-        
+
         if (isset($param['fk'])) {
 
             $key = $param['fk'];
             $object = new NutricaoEnteralRecord($key);
             $this->form->setData($object);
-            
+
         } else {
             $this->form->clear();
         }
@@ -210,12 +210,12 @@ class PacienteComorbidadeDetalhe extends TPage{
                 $param[ "direction" ] = "asc";
             }
             $limit = 10;
-            
+
             $criteria = new TCriteria();
             $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-            
+
             $objects = $repository->load( $criteria, FALSE );
 
 
@@ -231,8 +231,8 @@ class PacienteComorbidadeDetalhe extends TPage{
             $criteria->resetProperties();
 
             $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
+            $this->pageNavigation->setCount($count);
+            $this->pageNavigation->setProperties($param);
             $this->pageNavigation->setLimit($limit);
 
             TTransaction::close();
@@ -247,7 +247,7 @@ class PacienteComorbidadeDetalhe extends TPage{
 
 
 
-   
+
     public function onDelete( $param = NULL )
     {
         if( isset( $param[ "key" ] ) )
@@ -275,6 +275,6 @@ class PacienteComorbidadeDetalhe extends TPage{
         }
     }
 
-    
-    
+
+
 }

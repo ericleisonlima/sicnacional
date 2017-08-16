@@ -84,7 +84,7 @@ class TipoExameList extends TPage
 
         $container = new TVBox;
         $container->style = 'width: 90%';
-        $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
+        // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $container->add($this->form);
         $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);

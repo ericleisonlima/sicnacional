@@ -32,7 +32,7 @@ class AdministracaoNutricaoForm extends TPage
         // vertical box container
         $container = new TVBox;
         $container->style = 'width: 90%';
-        $container->add(new TXMLBreadCrumb('menu.xml', 'AdministracaoNutricaoList'));
+        // $container->add(new TXMLBreadCrumb('menu.xml', 'AdministracaoNutricaoList'));
         $container->add($this->form);
 
         parent::add($container);
