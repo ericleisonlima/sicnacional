@@ -68,23 +68,24 @@ class PacienteForm extends TPage
 
         $items = array();
         TTransaction::open('dbsic');
-        $repository = new TRepository('EstabelecimentoRecord');
+        $repository = new TRepository('EstabelecimentoMedicoRecord');
 
 
         $criteria = new TCriteria;
-        $criteria->setProperty('order', 'nome');
+        $criteria->setProperty('order', 'estabelecimento_id');
         //$criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         
         $cadastros = $repository->load($criteria);
   
         foreach ($cadastros as $object) {
-            $items[$object->id] = $object->nome;
+            $items[$object->id] = $object->estabelecimento_nome;
         }
 
         $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
 
-       
+        //----------------------------------------------------------------------------------------------------------
+
         $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('SituacaoClinicaRecord');
@@ -101,7 +102,7 @@ class PacienteForm extends TPage
 
         $situacao_clinica_id->addItems($items);
         TTransaction::close(); 
-        
+        //-----------------------------------------------------------------------------------------------------------------------
 
         $tiposanguineo->addItems( [ "A" => "A", "B" => "B", "AB" => "AB", "O" => "O" ] );    
         $fatorsanguineo->addItems( [ "P" => "Positivo", "N" => "Negativo" ] );
