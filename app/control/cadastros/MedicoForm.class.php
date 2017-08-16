@@ -58,7 +58,7 @@ class MedicoForm extends TPage
       
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "MedicoList" ) );
+        // $container->add(new TXMLBreadCrumb( "menu.xml", "MedicoList" ) );
         $container->add( $this->form );
         parent::add( $container );
     }

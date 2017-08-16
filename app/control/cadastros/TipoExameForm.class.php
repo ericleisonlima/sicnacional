@@ -39,7 +39,7 @@ class TipoExameForm extends TPage
         // vertical box container
         $container = new TVBox;
         $container->style = 'width: 90%';
-        $container->add(new TXMLBreadCrumb('menu.xml', 'TipoExameList'));
+        // $container->add(new TXMLBreadCrumb('menu.xml', 'TipoExameList'));
         $container->add($this->form);
 
         parent::add($container);

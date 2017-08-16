@@ -44,7 +44,7 @@ class SystemAccessLogStats extends TPage
         // add the template to the page
         $container = new TVBox;
         $container->style = 'width: 97%';
-        $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
+        // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $container->add($panel);
         parent::add($container);
     }

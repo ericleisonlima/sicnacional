@@ -28,7 +28,7 @@ class CondicoesDiagnosticoForm extends TPage
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "CondicoesDiagnosticoList" ) );
+        // $container->add(new TXMLBreadCrumb( "menu.xml", "CondicoesDiagnosticoList" ) );
         $container->add( $this->form );
         parent::add( $container );
     }

@@ -28,7 +28,7 @@ class SituacaoClinicaForm extends TPage
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "SituacaoClinicaList") );
+        // $container->add(new TXMLBreadCrumb( "menu.xml", "SituacaoClinicaList") );
         $container->add( $this->form );
         parent::add( $container );
     }
