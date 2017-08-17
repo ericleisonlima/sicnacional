@@ -30,11 +30,11 @@ class TipoAdminMedicamentoForm extends TPage
         
 
         //Definicao de campos obrigatorios e requeridos especiais
-        $tipo->addValidation( "Medicamento", new TRequiredValidator );
+        $tipo->addValidation( "Administração", new TRequiredValidator );
     
 
         //Insercao dos campos no formulario
-        $this->form->addFields([new TLabel('Medicamento<font color=red>*</font>')], [$tipo]);
+        $this->form->addFields([new TLabel('Administração<font color=red>*</font>')], [$tipo]);
        
         $this->form->addFields( [ $id ] );
 
