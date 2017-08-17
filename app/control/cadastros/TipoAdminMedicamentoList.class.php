@@ -30,7 +30,7 @@ class TipoAdminMedicamentoList extends TPage
         $dados->setSize( "38%" );
 
         // Definicao das opções dos combos
-        $opcao->addItems( [ "descricao" => "Medicamento"] );
+        $opcao->addItems( [ "descricao" => "Administração"] );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
 
@@ -46,7 +46,7 @@ class TipoAdminMedicamentoList extends TPage
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
 
-        $column_descricao = new TDataGridColumn( "descricao", "Medicamento", "left" );
+        $column_descricao = new TDataGridColumn( "descricao", "Administração", "left" );
        
         $this->datagrid->addColumn( $column_descricao );
         ;
