@@ -56,7 +56,7 @@ class SystemProgramForm extends TStandardForm
 
         $container = new TVBox;
         $container->style = 'width: 90%';
-        $container->add(new TXMLBreadCrumb('menu.xml','SystemProgramList'));
+        // $container->add(new TXMLBreadCrumb('menu.xml','SystemProgramList'));
         $container->add($this->form);
         
         

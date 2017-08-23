@@ -83,7 +83,7 @@ class EstabelecimentoList extends TPage{
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "EstabelecimentoList" ) );
+        // $container->add(new TXMLBreadCrumb( "menu.xml", "EstabelecimentoList" ) );
         $container->add( $this->form );
         $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
         $container->add( $this->pageNavigation );

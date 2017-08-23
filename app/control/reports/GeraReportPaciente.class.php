@@ -44,7 +44,7 @@ class GeraReportPaciente extends TPage {
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        $container->add( new TXMLBreadCrumb( "menu.xml", "CidList" ) );
+        // $container->add(new TXMLBreadCrumb( "menu.xml", "CidList" ) );
         $container->add( $this->form );
         parent::add( $container );
     }
