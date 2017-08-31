@@ -1,6 +1,6 @@
 <?php
 
-require_once '/app/lib/' ;
+use FDPF;
 use Adianti\Database\TTransaction;
 use Adianti\Database\TRepository;
 use Adianti\Database\TCriteria;
@@ -12,19 +12,14 @@ class RelatorioPessoasAtivasAnoPDF extends FPDF {
     //Page header
     function Header() {
     
-       // $this->Image("app/iz'mages/logo_relatorio.jpg", 8, 11, 26, 18);
+        $this->Image("app/images/logo_sic.jpg", 8, 11, 26, 18);
 
-       /* $this->SetFont('Arial', 'B', 12);
-        $this->SetY("12");
-        $this->SetX("25");
-        $this->Cell(0, 5, utf8_decode("GOVERNO DO ESTADO DO RIO GRANDE DO NORTE"), 0, 1, 'C');*/
-
+        $this->SetFont('Arial', 'B', 12);
         $this->SetY("22");
         $this->SetX("25");
         $this->Cell(0, 5, utf8_decode("RELATORIO DE PESSOAS ATIVAS POR ANO"), 0, 1, 'C');
 
-                    
-
+                
         $this->Ln(3); // Ln <<< PULAR LINHAS
 
         $this->ColumnHeader();
@@ -33,12 +28,9 @@ class RelatorioPessoasAtivasAnoPDF extends FPDF {
     function ColumnHeader() {
      
         $this->SetFont('Arial', 'B', 10);
-        $this->SetX("5");
-        $this->Cell(0, 5, utf8_decode(""), 0, 0, 'L');
 
 
-        $this->SetX("5");
-        $this->Cell(0, 5, utf8_decode("Ano"), 0, 0, 'L');
+        $this->Cell(20 , 20, utf8_decode("Ano"), 0, 0, 'L');
 
 
     }
@@ -105,7 +97,7 @@ class RelatorioPessoasAtivasAnoPDF extends FPDF {
 
 
 //Instanciation of inherited class
-$pdf = new RelatorioPessoasAtivasAnoPDF("L", "mm", "A4");
+$pdf = new RelatorioPessoasAtivasAnoPDF("P", "mm", "A4");
 
 //define o titulo
 $pdf->SetTitle("Relatorio de Pessoa Ativdas por Ano - RBSIC");
