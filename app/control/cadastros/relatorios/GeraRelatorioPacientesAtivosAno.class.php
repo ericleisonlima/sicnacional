@@ -18,15 +18,28 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
         $this->form->class = "tform";
 
         $ano = new TCombo( 'ano' );
+
+
+        TTransaction::open('dbsic');
+        $repository = new TRepository('vw_pacientes_ativos_anoRecord');
+
+        $criteria = new TCriteria;
+        $criteria->setProperty('order', 'ano');
         
-        $items = array();
-        $items['2017'] = '2017';
-        $items['2018'] = '2018';
-     
+        $cadastros = $repository->load($criteria);
+  
+        foreach ($cadastros as $object) {
+            $items['TODOS'] = 'TODOS';
+            $items[$object->ano] = $object->ano;
+        }
+
         $ano->addItems($items);
+        TTransaction::close(); 
         
         $ano->setDefaultOption( "..::SELECIONE::.." );
 
+       /* var_dump($_SESSION);
+        exit();*/
 
         $this->form->addFields([new TLabel("Ano") ],[$ano]);
 
@@ -35,16 +48,15 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
         $ano->addValidation('Ano', new TRequiredValidator);
 
         //Criacao do navedor de paginas do datagrid
-        /*$this->pageNavigation = new TPageNavigation();
-        $this->pageNavigation->setAction( new TAction( [ $this, "onGenerate" ] ) );*/
+        $this->pageNavigation = new TPageNavigation();
+        $this->pageNavigation->setAction( new TAction( [ $this, "onGenerate" ] ) ); 
 
 
         // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
-        //$container->add( new TXMLBreadCrumb( "menu.xml", __CLASS__ ) );
         $container->add( $this->form );
-        //$container->add( $this->pageNavigation );
+        $container->add( $this->pageNavigation );
         // Adicionando o container com o form a pagina
         parent::add( $container );
     }
@@ -56,8 +68,8 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
 
     try
         {            
-            $this->form->validate();
-            //new RelatorioRevendedoraPDF();         
+            
+            new RelatorioPessoasAtivasAnoPDF();         
         }  
         catch( Exception $e )
         {
