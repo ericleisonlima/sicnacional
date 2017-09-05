@@ -1,3 +1,4 @@
+
 <?php
 
 ini_set('display_errors', 1);
@@ -96,7 +97,7 @@ class DoencaBaseDetalhe extends TPage
 
         $container = new TVBox();
         $container->style = "width: 90%";
-        // $container->add(new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
+        //$container->add( new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
         $container->add( $this->form );
         $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
         $container->add( $this->pageNavigation );
@@ -261,3 +262,4 @@ class DoencaBaseDetalhe extends TPage
         parent::show();
     }
 }
+

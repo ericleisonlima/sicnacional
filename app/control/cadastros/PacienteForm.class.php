@@ -1,3 +1,4 @@
+
 <?php
 
 class PacienteForm extends TPage
@@ -73,7 +74,7 @@ class PacienteForm extends TPage
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'id');
-        $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+        //$criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         
         $cadastros = $repository->load($criteria);
   
@@ -144,7 +145,7 @@ class PacienteForm extends TPage
       
         $container = new TVBox();
         $container->style = "width: 90%";
-        // $container->add(new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
+        //$container->add( new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
         $container->add( $this->form );
         parent::add( $container );
 
@@ -189,4 +190,5 @@ class PacienteForm extends TPage
             new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
+
 }
