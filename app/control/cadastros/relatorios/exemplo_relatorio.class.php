@@ -281,4 +281,4 @@ $file = "app/reports/RelatorioBancoSementesPDF".$_SESSION['servidor_id'].".pdf";
 //abrir pdf
 $pdf->Output($file);
 $pdf->openFile($file);
-?>
+?>  

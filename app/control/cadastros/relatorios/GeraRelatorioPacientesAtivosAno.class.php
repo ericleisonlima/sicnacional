@@ -43,26 +43,26 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
 
         $this->form->addFields([new TLabel("Ano") ],[$ano]);
 
-        $this->form->addAction( "Gerar", new TAction( [ $this, "onGenerate" ] ), "fa:table blue" );
+        $this->form->addAction( "Gerar", new TAction(array('PessoasAtivasGrafico', 'onShow')), "fa:table blue" );
         
         $ano->addValidation('Ano', new TRequiredValidator);
 
         //Criacao do navedor de paginas do datagrid
-        $this->pageNavigation = new TPageNavigation();
-        $this->pageNavigation->setAction( new TAction( [ $this, "onGenerate" ] ) ); 
+       /* $this->pageNavigation = new TPageNavigation();
+        $this->pageNavigation->setAction( new TAction( [ $this, "onGenerate" ] ) ); */
 
 
         // Criacao do container que recebe o formulario
         $container = new TVBox();
         $container->style = "width: 90%";
         $container->add( $this->form );
-        $container->add( $this->pageNavigation );
+       // $container->add( $this->pageNavigation );
         // Adicionando o container com o form a pagina
         parent::add( $container );
     }
 
     
-    function onGenerate()
+    /*function onGenerate()
 
     {
 
@@ -79,7 +79,7 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
             TTransaction::rollback();
        
         }
-    }
+    }*/
 }
 
 ?>
