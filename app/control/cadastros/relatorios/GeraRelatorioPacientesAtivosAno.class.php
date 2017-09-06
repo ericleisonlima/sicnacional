@@ -38,12 +38,10 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
         
         $ano->setDefaultOption( "..::SELECIONE::.." );
 
-       /* var_dump($_SESSION);
-        exit();*/
 
         $this->form->addFields([new TLabel("Ano") ],[$ano]);
 
-        $this->form->addAction( "Gerar", new TAction(array('PessoasAtivasGrafico', 'onShow')), "fa:table blue" );
+        $this->form->addAction( "Gerar", new TAction(array('PessoasAtivasGrafico', 'show')), "fa:table blue" );
         
         $ano->addValidation('Ano', new TRequiredValidator);
 
@@ -62,24 +60,11 @@ class  GeraRelatorioPacientesAtivosAno  extends TPage
     }
 
     
-    /*function onGenerate()
+    function onReload()
 
     {
 
-    try
-        {            
-            
-            new RelatorioPessoasAtivasAnoPDF();         
-        }  
-        catch( Exception $e )
-        {
-        
-            new TMessage( 'error', $e->getMessage() );
-        
-            TTransaction::rollback();
-       
-        }
-    }*/
+    }
 }
 
 ?>
