@@ -9,8 +9,8 @@ include_once 'app/lib/FusionCharts/FusionCharts.php';
 class SituacaoClinicaGrafico extends TPage
 {
 
-    private $tipo;
-    private $quantidade;
+    private $situacao;
+    private $resultados_anual;
 
     private $table;
 
@@ -39,7 +39,7 @@ class SituacaoClinicaGrafico extends TPage
 
         echo
         "<div style='font-size: 15px; text-shadow: 0 1px 1px #000000;'>
-                <h2 align='center' ><span style='color: blue;'>TIPOS SANGUINEOS</span></h2>
+                <h2 align='center' ><span style='color: blue;'>SITUAÇÃO CLINICA</span></h2>
         </div> <br>";
 
         
@@ -55,7 +55,7 @@ class SituacaoClinicaGrafico extends TPage
         $repository = new TRepository('vw_situacao_clinicaRecord');
         $criteria = new TCriteria; 
         //$criteria->add(new TFilter('ano', '=', $_REQUEST['ano']));
-        $criteria->setProperty('order', 'situacao_clinica');
+        $criteria->setProperty('order', 'situacao');
 
         $cadastros = $repository->load($criteria);
 
@@ -63,7 +63,7 @@ class SituacaoClinicaGrafico extends TPage
 
         if ($cadastros) {
             foreach ($cadastros as $item) {
-                $strXML .= "<set label='" . $item->tipo . "' value='" . $item->quantidade . "' />";
+                $strXML .= "<set label='" . $item->Situacao . "' value='" . $item->Resultados_Anual . "' />";
             }
         }
 
