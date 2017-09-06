@@ -43,7 +43,7 @@ class RelatorioMedMaisUtilizadoPDF extends FPDF {
 
         TTransaction::open('dbsic');
 
-        $repository = new TRepository('vw_medicamentos_por_anoRecord');
+        $repository = new TRepository('VwMedicamentosMaisUtilizadosRecord');
         
         $criteria = new TCriteria;
         $criteria->add(new TFilter('ano', '=', $ano ));

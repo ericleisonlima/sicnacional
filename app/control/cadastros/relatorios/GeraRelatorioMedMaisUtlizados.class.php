@@ -21,7 +21,7 @@ class  GeraRelatorioMedMaisUtilizados  extends TPage
 
 
         TTransaction::open('dbsic');
-        $repository = new TRepository('vw_medicamentos_por_anoRecord');
+        $repository = new TRepository('VwMedicamentosMaisUtilizadosRecord');
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'ano');
