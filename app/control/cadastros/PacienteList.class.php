@@ -170,7 +170,7 @@ class PacienteList extends TPage
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-           // $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+            $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
 
             $objects = $repository->load( $criteria, FALSE );
 
