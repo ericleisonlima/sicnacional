@@ -166,12 +166,17 @@ class PacienteList extends TPage
             $limit = 10;
 
 
+
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
             $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
 
             $objects = $repository->load( $criteria, FALSE );
+
+
+            
+
 
             $this->datagrid->clear();
 
@@ -182,6 +187,8 @@ class PacienteList extends TPage
                 {
                      $object->datadiagnostico = TDate::date2br( $object->datadiagnostico );
                     $this->datagrid->addItem( $object );
+
+                   
                 }
             }
             $criteria->resetProperties();
@@ -214,7 +221,8 @@ class PacienteList extends TPage
                     $param[ "order" ] = "id";
                     $param[ "direction" ] = "asc";
                 }
-                $limit = 10;
+
+                                $limit = 10;
                 $criteria = new TCriteria();
                 $criteria->setProperties( $param );
                 $criteria->setProperty( "limit", $limit );
