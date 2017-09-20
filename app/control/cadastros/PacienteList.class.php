@@ -169,7 +169,7 @@ class PacienteList extends TPage
             $criteria = new TCriteria();
             $criteria->setProperties( $param );
             $criteria->setProperty( "limit", $limit );
-            $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+           // $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
 
             $objects = $repository->load( $criteria, FALSE );
 
@@ -222,10 +222,8 @@ class PacienteList extends TPage
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
                 }
-                else
-                {
-                    // new TMessage( "error", "O valor informado não é valido para um " . strtoupper( $data->opcao ) . "." );
-                }
+
+
                 $objects = $repository->load( $criteria, FALSE );
                 $this->datagrid->clear();
                 if ( $objects )
@@ -275,7 +273,7 @@ class PacienteList extends TPage
         try
         {
             TTransaction::open( "dbsic" );
-            $object = new ClientesRecord( $param[ "key" ] );
+            $object = new PacienteRecord( $param[ "key" ] );
             $object->delete();
             TTransaction::close();
             $this->onReload();
