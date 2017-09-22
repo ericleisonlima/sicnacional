@@ -2,7 +2,7 @@
 
 // Revisado 18.05.17
 
-class CidForm extends TPage
+class CidForm extends TWindow
 {
     private $form;
 

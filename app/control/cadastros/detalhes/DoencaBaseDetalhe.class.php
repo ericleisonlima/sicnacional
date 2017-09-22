@@ -1,11 +1,11 @@
 
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_erros', 1);
+//error_reporting(E_ALL);
 
-class DoencaBaseDetalhe extends TPage
+class DoencaBaseDetalhe extends TWindow
 {
     private $form;
     private $datagrid;
@@ -21,13 +21,15 @@ class DoencaBaseDetalhe extends TPage
         $this->form->class = "tform";
 
         $id = new THidden( "id" );
-        //$cid_id = new TCombo("cid_id");
-        $paciente_id = new TLabel( "paciente_id" );
+        $paciente_id = new THidden("paciente_id");
+        $cid_id = new THidden("cid_id");        
 
-        $cid_id   = new  TDBSeekButton('cid_id', 'dbsic', 'form_list_doeca_base', 'CidRecord', 'nome', 'cid_id', 'cid_id_name');
-        $cid_id_name = new TEntry('cid_id_name');
-
-
+        $cid_codigo = new TDBMultiSearch('cid_codigo', 'dbsic', 'CidRecord', 'id', 'nome', 'nome');
+        $cid_codigo->style = "text-transform: uppercase;";
+        $cid_codigo->setProperty('placeholder', '...........    ...::::::: DIGITE A DOENÇA OU CID :::::::..............');
+        $cid_codigo->setMinLength(1);
+        $cid_codigo->setMaxSize(1);
+        $cid_codigo->setSize('40%');
 
         $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
         TTransaction::open('dbsic');
@@ -44,9 +46,10 @@ class DoencaBaseDetalhe extends TPage
 
         $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
 
-        $this->form->addFields( [ new TLabel( "CID:" ), $cid_id, $cid_id_name ] );
+        $this->form->addFields( [ new TLabel( "CID" ),  $cid_codigo  ] );
 
-        $this->form->addFields( [ $id ] );
+        $this->form->addFields( [ $id, $cid_id ] );
+
 
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
@@ -70,15 +73,6 @@ class DoencaBaseDetalhe extends TPage
         $order_cidid = new TAction( [ $this, "onReload" ] );
         $order_cidid->setParameter( "order", "id" );
         $column_cidid->setAction( $order_cidid );
-
-
-        $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
-        $action_edit->setButtonClass( "btn btn-default" );
-        $action_edit->setLabel( "Editar" );
-        $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
-        $action_edit->setField( "id" );
-        $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction( $action_edit );
 
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
@@ -114,7 +108,9 @@ class DoencaBaseDetalhe extends TPage
 
             $object = $this->form->getData( "DoencaBaseRecord" );
             $object->paciente_id =  filter_input(INPUT_GET, 'fk');
+            $object->cid_id = key($object->cid_codigo);
             unset($object->cid_id_name);
+            unset($object->paciente_nome);
             $object->store();
 
 
@@ -129,33 +125,6 @@ class DoencaBaseDetalhe extends TPage
         {
             TTransaction::rollback();
             new TMessage( "error", "Ocorreu um erro ao tentar salvar o registro!<br><br>" . $ex->getMessage() );
-        }
-    }
-
-    public function onEdit( $param = NULL )
-    {
-        try
-        {
-            if( isset( $param[ "key" ] ) )
-            {
-                $key = $param['key'];
-                TTransaction::open( "dbsic" );
-                $object = new DoencaBaseRecord( $key );
-                $cidnome = new CidRecord($object->cid_id);
-                $object->cid_id_name = $cidnome->nome;
-
-                TTransaction::close();
-
-                $this->onReload($param);
-
-                $this->form->setData( $object );
-
-            }
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
         }
     }
 
