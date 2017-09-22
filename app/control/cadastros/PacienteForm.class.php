@@ -74,7 +74,7 @@ class PacienteForm extends TPage
 
         $criteria = new TCriteria;
         $criteria->setProperty('order', 'id');
-        //$criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
+        $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         
         $cadastros = $repository->load($criteria);
   
@@ -160,7 +160,7 @@ class PacienteForm extends TPage
 
             $object = $this->form->getData( "PacienteRecord" );
             $object->store();
-            
+
             TTransaction::close();
             $action = new TAction( [ "PacienteList", "onReload" ] );
             new TMessage( "info", "Registro salvo com sucesso!", $action );
