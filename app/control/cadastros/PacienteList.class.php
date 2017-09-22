@@ -58,7 +58,6 @@ class PacienteList extends TPage
         $order_tiposanguineo->setParameter( "order", "tiposanguineo" );
         $column_tiposanguineo->setAction( $order_tiposanguineo );
 
-
         $action_edit = new TDataGridAction( [ "PacienteForm", "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
@@ -154,6 +153,7 @@ class PacienteList extends TPage
         try
         {
 
+   
             TTransaction::open( "dbsic" );
 
 
@@ -177,7 +177,6 @@ class PacienteList extends TPage
 
             
 
-
             $this->datagrid->clear();
 
 
@@ -188,6 +187,7 @@ class PacienteList extends TPage
                      $object->datadiagnostico = TDate::date2br( $object->datadiagnostico );
                     $this->datagrid->addItem( $object );
 
+                  
                    
                 }
             }
