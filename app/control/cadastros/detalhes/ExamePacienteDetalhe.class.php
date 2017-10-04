@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_erros', 1);
 error_reporting(E_ALL);
 
-class ExamePacienteDetalhe extends TStandardList{
+class ExamePacienteDetalhe extends TWindow{
     protected $form;
     protected $datagrid;
     protected $pageNavigation;

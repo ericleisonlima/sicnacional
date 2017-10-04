@@ -138,7 +138,7 @@ class PacienteList extends TPage
         $action_avaliacao->setImage( "fa:user-md white fa-lg" );
         $action_avaliacao->setField( "id" );
         $action_avaliacao->setFk( "id" );
-        //$action_avaliacao->setDid( "paciente_id" );
+        $action_avaliacao->setDid( "paciente_id" );
         $action_avaliacao->setUseButton(TRUE);
         $this->datagrid->addQuickAction( "Atender", $action_avaliacao, 'id');
 

@@ -1,5 +1,5 @@
 <?php
-class UsoMedicamentoDetalhe extends TStandardList{
+class UsoMedicamentoDetalhe extends TWindow{
     protected $form;
     protected $datagrid;
     protected $pageNavigation;

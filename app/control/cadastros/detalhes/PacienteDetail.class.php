@@ -28,27 +28,29 @@ class PacienteDetail extends TPage
         //$descricaotratamento    = new TText( "descricaotratamento" );
 
         $paciente_id            = new THidden( "paciente_id" );
-        $paciente_id->setValue(filter_input(INPUT_GET, 'key'));
-
-        //$paciente_nome->setSize("60%");
-        //$exameclinico->setSize("90%");
-        //$examescomplementares->setSize("90%");
-        //$descricaotratamento->setSize("90%");
-        //$dataclassificacao->setSize("45%");
-
-        //$fk = filter_input( INPUT_GET, "fk" );
-        //$did = filter_input( INPUT_GET, "did" );
-
-        //$id->setValue ($fk);
-      
+        $paciente_id->setValue(filter_input(INPUT_GET, 'fk'));
 
         TTransaction::open('dbsic');
-        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'key' ) );
+        $tempVisita = new PacienteRecord( filter_input( INPUT_GET, 'fk' ) );
         if( $tempVisita ){
             $paciente_nome = new TLabel( $tempVisita->nome );
             $paciente_nome->setEditable(FALSE);
         }
         TTransaction::close(); 
+
+        $paciente_nome->setSize("60%");
+        //$exameclinico->setSize("90%");
+        //$examescomplementares->setSize("90%");
+        //$descricaotratamento->setSize("90%");
+        //$dataclassificacao->setSize("45%");
+
+        $fk = filter_input( INPUT_GET, "fk" );
+        $did = filter_input( INPUT_GET, "did" );
+
+        //$id->setValue ($fk);
+      
+
+        
 
         //$dataclassificacao->setMask( "dd/mm/yyyy h:i:s" );
         //$dataclassificacao->setDatabaseMask("yyyy-mm-dd h:i:s");
@@ -56,61 +58,101 @@ class PacienteDetail extends TPage
         //$dataclassificacao->setValue( date( "d/m/Y h:i:s" ) );
         //$dataclassificacao->setEditable( false );
 
-        $paciente_nome->forceUpperCase();
+        // $paciente_nome->forceUpperCase();
 
         //$dataclassificacao->addValidation( TextFormat::set( "Data da Avaliação" ), new TRequiredValidator );
 
-        $this->form->addFields( [new TLabel('Paciente'), $paciente_nome] );
+        $this->form->addFields( [new TLabel('Paciente: '), $paciente_nome] );
         //$this->form->addFields( [ new TLabel( "Data: {$redstar}" ) ], [ $dataclassificacao ] );
         //$this->form->addFields( [ new TLabel( "Avaliação Médica:" ) ], [ $exameclinico ] );
 
          /*--- frame de Direcionamento ---*/
-        /*$frame2 = new TFrame;
+        $frame2 = new TFrame;
         $frame2->setLegend( "Ações para o Paciente" );
         $frame2->style .= ';margin:0%;width:90%';
 
-        $add_button2 = TButton::create("buttonmed", [ $this,"onError" ], null, null);
-        $onSaveFrame2 = new TAction( [ 'PrescreverMedicacaoDetail', "onReload" ] );
+        $add_button2 = TButton::create("buttondoen", [ $this,"onError" ], null, null);
+        $onSaveFrame2 = new TAction( [ 'DoencaBaseDetalhe', "onReload" ] );
         $onSaveFrame2->setParameter( "fk", $fk );
         $onSaveFrame2->setParameter( "did", $did );
         $onSaveFrame2->setParameter( "frm", 1 );
         $add_button2->setAction( $onSaveFrame2 );
 
-        $add_button2->setLabel( "Prescrever Medicação" );
+        $add_button2->setLabel( "Doença Base" );
         $add_button2->class = 'btn btn-success';
         $add_button2->setImage( "fa:plus white" );
 
-        $add_button3 = TButton::create("buttonexam", [ $this,"onError" ], null, null);
-        $onSaveFrame3 = new TAction( [ 'SolicitarExameDetail', "onReload" ] );
+        $add_button3 = TButton::create("buttonparen", [ $this,"onError" ], null, null);
+        $onSaveFrame3 = new TAction( [ 'NutricaoParenteralDetalhe', "onReload" ] );
         $onSaveFrame3->setParameter( "fk", $fk );
         $onSaveFrame3->setParameter( "did", $did );
         $onSaveFrame3->setParameter( "frm", 1 );
         $add_button3->setAction( $onSaveFrame3 );
 
-        $add_button3->setLabel( "Solicitar Exame" );
+        $add_button3->setLabel( "Nutrição Parenteral" );
         $add_button3->class = 'btn btn-success';
         $add_button3->setImage( "fa:plus white" );
 
-        $add_button4 = TButton::create("buttonalt", [ $this,"onError" ], null, null);
-        $onSaveFrame4 = new TAction( [ 'PacientesAltaHospitalarList', "onReload" ] );
+        $add_button4 = TButton::create("buttonente", [ $this,"onError" ], null, null);
+        $onSaveFrame4 = new TAction( [ 'NutricaoEnteralFormDetalhe', "onReload" ] );
         $onSaveFrame4->setParameter( "fk", $fk );
         $onSaveFrame4->setParameter( "did", $did );
         $onSaveFrame4->setParameter( "frm", 1 );
         $add_button4->setAction( $onSaveFrame4 );
 
-        $add_button4->setLabel( "Alta Hospitalar" );
+        $add_button4->setLabel( "Nutrição Enteral" );
         $add_button4->class = 'btn btn-success';
         $add_button4->setImage( "fa:plus white" );
+
+        $add_button5 = TButton::create("buttonanamn", [ $this,"onError" ], null, null);
+        $onSaveFrame5 = new TAction( [ 'AnamneseFormDetalhe', "onReload" ] );
+        $onSaveFrame5->setParameter( "fk", $fk );
+        $onSaveFrame5->setParameter( "did", $did );
+        $onSaveFrame5->setParameter( "frm", 1 );
+        $add_button5->setAction( $onSaveFrame5 );
+
+        $add_button5->setLabel( "Anamnese" );
+        $add_button5->class = 'btn btn-success';
+        $add_button5->setImage( "fa:plus white" );
+
+        $add_button6 = TButton::create("buttonmed", [ $this,"onError" ], null, null);
+        $onSaveFrame6 = new TAction( [ 'UsoMedicamentoDetalhe', "onReload" ] );
+        $onSaveFrame6->setParameter( "fk", $fk );
+        $onSaveFrame6->setParameter( "did", $did );
+        $onSaveFrame6->setParameter( "frm", 1 );
+        $add_button6->setAction( $onSaveFrame6 );
+
+        $add_button6->setLabel( "Medicamento" );
+        $add_button6->class = 'btn btn-success';
+        $add_button6->setImage( "fa:plus white" );
+
+        $add_button7 = TButton::create("buttonexame", [ $this,"onError" ], null, null);
+        $onSaveFrame7 = new TAction( [ 'ExamePacienteDetalhe', "onReload" ] );
+        $onSaveFrame7->setParameter( "fk", $fk );
+        $onSaveFrame7->setParameter( "did", $did );
+        $onSaveFrame7->setParameter( "frm", 1 );
+        $add_button7->setAction( $onSaveFrame7 );
+
+        $add_button7->setLabel( "Exame" );
+        $add_button7->class = 'btn btn-success';
+        $add_button7->setImage( "fa:plus white" );
+
 
         $this->form->addField( $add_button2 );
         $this->form->addField( $add_button3 );
         $this->form->addField( $add_button4 );
+        $this->form->addField( $add_button5 );
+        $this->form->addField( $add_button6 );
+        $this->form->addField( $add_button7 );
 
         $this->form->addContent( [ $frame2 ] );
         $hbox2 = new THBox;
         $hbox2->add( $add_button2 );
         $hbox2->add( $add_button3 );
         $hbox2->add( $add_button4 );
+        $hbox2->add( $add_button5 );
+        $hbox2->add( $add_button6 );
+        $hbox2->add( $add_button7 );
         $hbox2->style = 'margin: 0%';
         $vbox2 = new TVBox;
         $vbox2->style='width:100%';
@@ -545,11 +587,12 @@ class PacienteDetail extends TPage
 
         return isset( $object ) ? $object : null;
     }
+    */
 
     public function onError()
     {
-        $action = new TAction( [ "PacientesClassificacaoRiscoList", "onReload" ] );
+        $action = new TAction( [ "PacienteDetail", "onReload" ] );
 
         new TMessage( "error", "Uma instabilidade momentâneo no sistema impediu a ação, tente novamente mais tarde.", $action );
-    }*/
+    }
 }

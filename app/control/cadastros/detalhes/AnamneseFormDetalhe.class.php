@@ -4,7 +4,7 @@
 //ini_set('display_startup_erros', 1);
 //error_reporting(E_ALL);
 
-class AnamneseFormDetalhe extends TStandardList{
+class AnamneseFormDetalhe extends TWindow{
 
     protected $form;
     protected $datagrid;
