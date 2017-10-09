@@ -180,6 +180,7 @@ class PacienteForm extends TPage
                 TTransaction::open( "dbsic" );
                 $object = new PacienteRecord( $param[ "key" ] );
                 $object->nascimento = TDate::date2br( $object->nascimento );
+                $object->datadiagnostico = TDate::date2br( $object->datadiagnostico );
                 $this->form->setData( $object );
                 TTransaction::close();
             }
