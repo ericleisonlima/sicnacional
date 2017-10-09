@@ -35,7 +35,7 @@ class PacienteList extends TPage
         $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
         $this->form->addAction( "Novo", new TAction( [ "PacienteForm", "onEdit" ] ), "bs:plus-sign green" );
 
-        $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
+        $this->datagrid = new BootstrapDatagridWrapper( new CustomDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
         $this->datagrid->setHeight( 320 );
@@ -131,6 +131,16 @@ class PacienteList extends TPage
         $action_group->addAction($action_obito);
 
         $this->datagrid->addActionGroup($action_group);
+
+
+        $action_avaliacao = new CustomDataGridAction( [ "PacienteDetail", "onReload" ] );
+        $action_avaliacao->setButtonClass( "btn btn-primary" );
+        $action_avaliacao->setImage( "fa:user-md white fa-lg" );
+        $action_avaliacao->setField( "id" );
+        $action_avaliacao->setFk( "id" );
+        $action_avaliacao->setDid( "paciente_id" );
+        $action_avaliacao->setUseButton(TRUE);
+        $this->datagrid->addQuickAction( "Atender", $action_avaliacao, 'id');
 
         $this->datagrid->createModel();
 

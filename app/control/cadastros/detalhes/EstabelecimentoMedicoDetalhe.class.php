@@ -2,7 +2,7 @@
 
 // Revisado 18.05.17
 
-class EstabelecimentoMedicoDetalhe extends TStandardList{
+class EstabelecimentoMedicoDetalhe extends TWindow{
     protected $form;
     protected $datagrid; // listing
     protected $pageNavigation;

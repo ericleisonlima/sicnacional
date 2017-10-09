@@ -1,6 +1,6 @@
 <?php
 
-class NutricaoParenteralDetalhe extends TStandardList{
+class NutricaoParenteralDetalhe extends TWindow{
     protected $form;
 
     protected $datagrid; 
