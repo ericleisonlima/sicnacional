@@ -55,8 +55,13 @@ class DoencaBaseDetalhe extends TWindow
         $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
+        
+        $voltar = new TAction(array('PacienteDetail','onReload'));
+        $voltar->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+
+
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
-        $this->form->addAction('Voltar para Pacientes',new TAction(array('PacienteList','onReload')),'fa:table blue');
+        $this->form->addAction('Voltar para Pacientes',$voltar,'fa:table blue');
 
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";

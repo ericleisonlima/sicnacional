@@ -191,7 +191,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
             $param['id'] = $cadastro->id;
             $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('NutricaoEnteralFormDetalhe','onReload', $param);
+            TApplication::gotoPage('PacienteDetail','onReload', $param);
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);

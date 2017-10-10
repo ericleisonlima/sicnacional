@@ -13,8 +13,6 @@ class UsoMedicamentoDetalhe extends TWindow{
         $this->form = new BootstrapFormBuilder('form_uso_medicamento');
         $this->form->setFormTitle('Medicação Ministrada');
         
-        parent::setDatabase('dbsic');
-        parent::setActiveRecord('UsoMedicamentoRecord');
         
         $id                                 = new THidden('id');
         $paciente_id                        = new THidden('paciente_id'); 
@@ -87,8 +85,14 @@ class UsoMedicamentoDetalhe extends TWindow{
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
+        $voltar = new TAction(array('PacienteDetail','onReload'));        
+        $voltar->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+        $voltar->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+        $voltar->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
+
+
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
-        $this->form->addAction('Voltar para Pacientes',new TAction(array('PacienteList','onReload')),'fa:table blue');
+        $this->form->addAction('Voltar para Pacientes', $voltar ,'fa:table blue');
 
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
@@ -171,7 +175,7 @@ class UsoMedicamentoDetalhe extends TWindow{
             $param['id'] = $cadastro->id;
             $param['fk'] = $cadastro->paciente_id;
             new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-            TApplication::gotoPage('UsoMedicamentoDetalhe','onReload', $param); 
+            TApplication::gotoPage('PacienteDetail','onReload', $param); 
 
         }catch (Exception $e){
             $object = $this->form->getData($this->activeRecord);
@@ -179,6 +183,53 @@ class UsoMedicamentoDetalhe extends TWindow{
             TTransaction::rollback();
         }
     }
+
+    public function onDelete( $param = NULL )
+    {
+        if( isset( $param[ "key" ] ) )
+        {
+
+            $action1 = new TAction( [ $this, "Delete" ] );
+            $action2 = new TAction( [ $this, "onReload" ] );
+
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
+
+        }
+    }
+
+    function Delete( $param = NULL )
+    {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new UsoMedicamentoRecord( $param[ "key" ] );
+            $object->delete();
+            TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
+
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
+        }
+    }
+
 
     public function onReload( $param = NULL ){
         try{

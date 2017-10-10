@@ -18,9 +18,6 @@ class AnamneseFormDetalhe extends TWindow{
         
         $this->form = new BootstrapFormBuilder('form_detail_anamnese');
         $this->form->setFormTitle('Detalhamento de Anamnese');
-
-        parent::setDatabase('dbsic');
-        parent::setActiveRecord('AnamneseRecord');
         
         $id = new THidden('id');
         $paciente_id = new THidden('paciente_id'); 
@@ -41,6 +38,7 @@ class AnamneseFormDetalhe extends TWindow{
         TTransaction::open('dbsic');
         $repository = new TRepository('EstabelecimentoMedicoRecord');
         $criteria = new TCriteria;
+        $criteria->add(new TFilter('medico_id', '=', TSession::getValue('medico_id')));
         $criteria->setProperty('order', 'id');
         $cadastros = $repository->load($criteria);
         foreach ($cadastros as $object) {
@@ -134,8 +132,12 @@ class AnamneseFormDetalhe extends TWindow{
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
 
+        $voltar = new TAction(array('PacienteDetail','onReload'));
+        $voltar->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
-        $this->form->addAction('Voltar para Paciente',new TAction(array('PacienteList','onReload')),'fa:table blue');
+        $this->form->addAction('Voltar para Paciente', $voltar,'fa:table blue');
+
 
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
@@ -266,6 +268,52 @@ class AnamneseFormDetalhe extends TWindow{
         TTransaction::rollback();
     }
 }
+
+public function onDelete( $param = NULL )
+    {
+        if( isset( $param[ "key" ] ) )
+        {
+
+            $action1 = new TAction( [ $this, "Delete" ] );
+            $action2 = new TAction( [ $this, "onReload" ] );
+
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
+
+        }
+    }
+    
+    function Delete( $param = NULL )
+    {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new AnamneseRecord( $param[ "key" ] );
+            $object->delete();
+            TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
+
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
+        }
+    }
 
 public function onReload( $param = NULL ){
     try{

@@ -72,7 +72,7 @@ class PacienteList extends TPage
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
 
-        $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
+       /* $action_doencabase = new TDataGridAction( [ "DoencaBaseDetalhe", "onReload" ] );
         $action_doencabase->setButtonClass( "btn btn-default" );
         $action_doencabase->setLabel( "Doenca Base" );
         $action_doencabase->setImage( "fa:heart-o fa-fw" );
@@ -130,7 +130,7 @@ class PacienteList extends TPage
         $action_group->addAction($action_uso_med);
         $action_group->addAction($action_obito);
 
-        $this->datagrid->addActionGroup($action_group);
+        $this->datagrid->addActionGroup($action_group);*/
 
 
         $action_avaliacao = new CustomDataGridAction( [ "PacienteDetail", "onReload" ] );
@@ -138,7 +138,7 @@ class PacienteList extends TPage
         $action_avaliacao->setImage( "fa:user-md white fa-lg" );
         $action_avaliacao->setField( "id" );
         $action_avaliacao->setFk( "id" );
-        $action_avaliacao->setDid( "paciente_id" );
+        $action_avaliacao->setDid( "id" );
         $action_avaliacao->setUseButton(TRUE);
         $this->datagrid->addQuickAction( "Atender", $action_avaliacao, 'id');
 
