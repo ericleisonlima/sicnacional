@@ -1,11 +1,26 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
+
+
 class PacienteDetail extends TPage
 {
     private $form;
+    private $form2;
     private $datagrid;
     private $pageNavigation;
     private $loaded;
+
+    private $framegrid1;
+    private $framegrid2;
+    private $framegrid3;
+    private $framegrid4;
+    private $framegrid5;
+    private $framegrid6;
+    private $framegrid7;
+
 
     public function __construct()
     {
@@ -16,6 +31,11 @@ class PacienteDetail extends TPage
         $this->form = new BootstrapFormBuilder( "form_list_atendimento" );
         $this->form->setFormTitle( "Registro do Paciente" );
         $this->form->class = "tform";
+
+        $this->form2 = new BootstrapFormBuilder( "form_paciente_relatorio" );
+        $this->form2->setFormTitle( "Relatorio Paciente" );
+        $this->form2->class = "tform";
+
 
         $id                     = new THidden( "id" );
         
@@ -48,9 +68,6 @@ class PacienteDetail extends TPage
         $did = filter_input( INPUT_GET, "did" );
 
         //$id->setValue ($fk);
-      
-
-        
 
         //$dataclassificacao->setMask( "dd/mm/yyyy h:i:s" );
         //$dataclassificacao->setDatabaseMask("yyyy-mm-dd h:i:s");
@@ -66,10 +83,10 @@ class PacienteDetail extends TPage
         //$this->form->addFields( [ new TLabel( "Data: {$redstar}" ) ], [ $dataclassificacao ] );
         //$this->form->addFields( [ new TLabel( "Avaliação Médica:" ) ], [ $exameclinico ] );
 
-         /*--- frame de Direcionamento ---*/
-        $frame2 = new TFrame;
-        $frame2->setLegend( "Ações para o Paciente" );
-        $frame2->style .= ';margin:0%;width:90%';
+        /*--- frame de Direcionamento ---*/
+        $frame = new TFrame;
+        $frame->setLegend( "Ações para o Paciente" );
+        $frame->style .= ';margin:0%;width:90%';
 
         $add_button2 = TButton::create("buttondoen", [ $this,"onError" ], null, null);
         $onSaveFrame2 = new TAction( [ 'DoencaBaseDetalhe', "onReload" ] );
@@ -137,7 +154,6 @@ class PacienteDetail extends TPage
         $add_button7->class = 'btn btn-success';
         $add_button7->setImage( "fa:plus white" );
 
-
         $this->form->addField( $add_button2 );
         $this->form->addField( $add_button3 );
         $this->form->addField( $add_button4 );
@@ -145,105 +161,85 @@ class PacienteDetail extends TPage
         $this->form->addField( $add_button6 );
         $this->form->addField( $add_button7 );
 
-        $this->form->addContent( [ $frame2 ] );
-        $hbox2 = new THBox;
-        $hbox2->add( $add_button2 );
-        $hbox2->add( $add_button3 );
-        $hbox2->add( $add_button4 );
-        $hbox2->add( $add_button5 );
-        $hbox2->add( $add_button6 );
-        $hbox2->add( $add_button7 );
-        $hbox2->style = 'margin: 0%';
-        $vbox2 = new TVBox;
-        $vbox2->style='width:100%';
-        $vbox2->add( $hbox2 );
-        $frame2->add( $vbox2 );
-        /*--------------------------------------*/
+        $this->form->addContent( [ $frame ] );
 
-        /*--- frame de Diagnostico ---*/
-       /* $frame1 = new TFrame;
-        $frame1->setLegend( "Diagnóstico" );
+        $hbox = new THBox;
+        $hbox->add( $add_button2 );
+        $hbox->add( $add_button3 );
+        $hbox->add( $add_button4 );
+        $hbox->add( $add_button5 );
+        $hbox->add( $add_button6 );
+        $hbox->add( $add_button7 );
+
+        $hbox->style = 'margin: 0%';
+        $vbox = new TVBox;
+        $vbox->style='width:100%';
+        $vbox->add( $hbox );
+        $frame->add( $vbox );
+
+
+
+        $frame1 = new TFrame;
+        $frame1->setLegend( "Nutrição Parenteral" );
         $frame1->style .= ';margin:0%;width:90%';
 
-        $criteria3 = new TCriteria;
-        $cid_codigo = new TDBMultiSearch('cid_id', 'database', 'VwCidRecord', 'id', 'nomecid', 'nomecid', $criteria3);
-        $cid_codigo->style = "text-transform: uppercase;";
-        $cid_codigo->setProperty('placeholder', '..............::::::: DIGITE A DOENÇA OU CID :::::::..............');
-        $cid_codigo->setMinLength(1);
-        $cid_codigo->setMaxSize(1);
+        $page1 = new TLabel( "Nutrição Parenteral", '#7D78B6', 12, 'bi');
+        $page1->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
+        $this->form2->appendPage( "Nutrição Parenteral" );
+        $this->form2->addContent( [ $page1 ] );
 
-        //$cid_codigo->addValidation( TextFormat::set( "Diagnóstico" ), new TRequiredValidator );
-
-
-        /*$add_button1 = TButton::create(
-            "add1", [ $this,"onError" ], null, null
-            );
-        $onSaveFrame1 = new TAction( [ $this, "onSaveFrames" ] );
-        $onSaveFrame1->setParameter( "fk", $fk );
-        $onSaveFrame1->setParameter( "did", $did );
-        $onSaveFrame1->setParameter( "frm", 1 );
-
-        $cid_codigo->setSize("100%");
-        $add_button1->setAction( $onSaveFrame1 );
-        $add_button1->setLabel( "Adicionar" );
-        $add_button1->setImage( "fa:plus green" );
-        $this->form->addContent( [ $frame1 ] );
-        $this->form->addField( $cid_codigo );
-        $this->form->addField( $add_button1 );
         $this->framegrid1 = new TQuickGrid();
         $this->framegrid1->setHeight('0%');
         $this->framegrid1->makeScrollable();
         $this->framegrid1->style='width: 100%';
         $this->framegrid1->id = 'framegrid1';
         $this->framegrid1->disableDefaultClick();
-        $remove_action1 = new TDataGridAction( [ $this, "onDeleteFrames" ] );
-        $remove_action1->setParameter( "fk", $fk );
-        $remove_action1->setParameter( "did", $did );
-        $remove_action1->setParameter( "frm", 1 );
-        $this->framegrid1->addQuickAction( "Remover", $remove_action1, "id", "fa:trash red", "0%" );
-        $this->framegrid1->addQuickColumn( "Patologia", 'cid_codnome', 'left', '100%');
-        $this->framegrid1->createModel();
-        $hbox1 = new THBox;
-        $hbox1->add( $cid_codigo );
-        $hbox1->add( $add_button1 );
-        $hbox1->style = 'margin: 0%';
-        $vbox1 = new TVBox;
-        $vbox1->style='width:100%';
-        $vbox1->add( $hbox1 );
-        $vbox1->add( $this->framegrid1 );
-        $frame1->add( $vbox1 );
-        /*--------------------------------------*/
-
-       /* $this->form->addFields( [ $id, $bau_id, $paciente_id, $profissional_id ] );
-
-        $onSave = new TAction( [ $this, "onSave" ] );
-        $onSave->setParameter( "fk", $fk );
-        $onSave->setParameter( "did", $did );
-
-        $onReload = new TAction( [ "PacientesAtendimentoList", "onReload" ] );
-        $onReload->setParameter( "did", $did );
-
-        $this->form->addAction( "Salvar", $onSave, "fa:floppy-o" );
-        $this->form->addAction( "Voltar", $onReload, "fa:table blue" );
 
         $this->datagrid = new BootstrapDatagridWrapper( new CustomDataGrid() );
         $this->datagrid->datatable = "true";
         $this->datagrid->style = "width: 100%";
-        $this->datagrid->setHeight( '100%' );
+        $this->datagrid->setHeight( 320 );
+        
+        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
+        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
+        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
+        $column_tipoparenteral = new TDataGridColumn('tipoparenteral', 'Tipo Parenteral', 'center');
+        $column_tipoparenteraloutros = new TDataGridColumn('tipoparenteraloutros', 'Tipo Parenteral Outros', 'center');
+        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'center');
+        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diário', 'center');
+        $column_volumenpt = new TDataGridColumn('volumenpt', 'Volume NPT', 'left');
+        $column_tempoinfusao = new TDataGridColumn('tempoinfusao', 'Tempo Infusão', 'left');
+        $column_frequencia = new TDataGridColumn('frequencia', 'frequencia', 'left');
+        $column_acessovenosolp = new TDataGridColumn('acessovenosolp', 'acessovenosolp', 'left');
+        $column_acessovenosolpqual = new TDataGridColumn('acessovenosolpqual', 'acessovenosolpqual', 'left');
+        $column_numerodeacessovenoso = new TDataGridColumn('numerodeacessovenoso', 'numerodeacessovenoso', 'left');
+        $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 'apresentouinfeccaoacessovenoso', 'left');
+        $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'vezesinfeccaoacessovenoso', 'left');
 
-        $column_2 = new TDataGridColumn( "responsavel_nome", "Responsável", "left" );
-        $column_3 = new TDataGridColumn( "dataatendimento", "Data", "left" );
+        $this->datagrid->addColumn($column_inicio);
+        $this->datagrid->addColumn($column_fim);
+        $this->datagrid->addColumn($column_tipoparenteral);
+        $this->datagrid->addColumn($column_tipoparenteraloutros);
+        $this->datagrid->addColumn($column_totalcalorias);
+        $this->datagrid->addColumn($column_percentualdiario);
+        $this->datagrid->addColumn($column_percentualdiario);
+        $this->datagrid->addColumn($column_acessovenosolp);
+        $this->datagrid->addColumn($column_frequencia);
+        $this->datagrid->addColumn($column_acessovenosolp);
+        $this->datagrid->addColumn($column_acessovenosolpqual);
+        $this->datagrid->addColumn($column_numerodeacessovenoso);
+        $this->datagrid->addColumn($column_apresentouinfeccaoacessovenoso);
+        $this->datagrid->addColumn($column_vezesinfeccaoacessovenoso);
 
-        $this->datagrid->addColumn( $column_2 );
-        $this->datagrid->addColumn( $column_3 );
-
-        $action_edit = new CustomDataGridAction( [ $this, "onEdit" ] );
+        
+       /*$action_edit = new CustomDataGridAction( [ $this, "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
         $action_edit->setField( "id" );
         $action_edit->setParameter( "fk", $fk );
         $action_edit->setParameter( "did", $did );
+        $action_edit->setParameter( "page", $page );
         $this->datagrid->addAction( $action_edit );
 
         $action_del = new CustomDataGridAction( [ $this, "onDelete" ] );
@@ -253,30 +249,209 @@ class PacienteDetail extends TPage
         $action_del->setField( "id" );
         $action_del->setParameter( "fk", $fk );
         $action_del->setParameter( "did", $did );
-        $this->datagrid->addAction( $action_del );
+        $action_del->setParameter( "page", $page );
+        $this->datagrid->addAction( $action_del );*/
 
-        $action_presc = new CustomDataGridAction( [ "PrescreverMedicacaoDetail", "onReload" ] );
-        $action_presc->setButtonClass( "btn btn-primary" );
-        $action_presc->setImage( "fa:user-md white fa-lg" );
-        $action_presc->setField( "id" );
-        $action_presc->setFk( "bau_id" );
-        $action_presc->setDid( "paciente_id" );
-        $action_presc->setUseButton(TRUE);
-        $this->datagrid->addQuickAction( "Prescrever Medicação", $action_presc, 'id');
+        $this->framegrid1->createModel();
 
-        $this->datagrid->createModel();
+        $vbox1 = new TVBox;
+        $vbox1->style='width:100%';     
+        $vbox1->add( $this->framegrid1 );
+        $frame1->add( $vbox1 );
 
+        //--------------------------------------------------------------------------------------------------------------------------
+
+
+        $frame2 = new TFrame;
+        $frame2->setLegend( "Doença Base" );
+        $frame2->style .= ';margin:0%;width:90%';
+
+        $page2 = new TLabel( "Doença Base", '#7D78B6', 12, 'bi');
+        $page2->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
+        $this->form2->appendPage( "Doença Base" );
+        $this->form2->addContent( [ $page2 ] );
+
+        $this->framegrid2 = new TQuickGrid();
+        $this->framegrid2->setHeight('0%');
+        $this->framegrid2->makeScrollable();
+        $this->framegrid2->style='width: 100%';
+        $this->framegrid2->id = 'framegrid1';
+        $this->framegrid2->disableDefaultClick();
+
+        $this->datagrid = new BootstrapDatagridWrapper( new CustomDataGrid() );
+        $this->datagrid->datatable = "true";
+        $this->datagrid->style = "width: 100%";
+        $this->datagrid->setHeight( 320 );
+        
+        $column_cidid = new TDataGridColumn( "cid_id", "CID", "left" );
+        $column_cid_id_name = new TDataGridColumn( "cid_nome", "Doença", "left" );
+
+
+        $this->datagrid->addColumn( $column_cidid );
+        $this->datagrid->addColumn( $column_cid_id_name );
+
+        $order_cidid = new TAction( [ $this, "onReload" ] );
+        $order_cidid->setParameter( "order", "id" );
+        $column_cidid->setAction( $order_cidid );
+
+      /*  $action_del = new TDataGridAction( [ $this, "onDelete" ] );
+        $action_del->setButtonClass( "btn btn-default" );
+        $action_del->setLabel( "Deletar" );
+        $action_del->setImage( "fa:trash-o red fa-lg" );
+        $action_del->setField( "id" );
+        $action_del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->datagrid->addAction( $action_del );*/
+
+
+        $this->framegrid2->createModel();
+
+        $vbox2 = new TVBox;
+        $vbox2->style='width:100%';
+        //$vbox1->add( $hbox1 );
+        $vbox2->add( $this->framegrid2 );
+        $frame2->add( $vbox2 );
+
+
+        //--------------------------------------------------------------------------------------------------------------------------
+
+        
+        $frame3 = new TFrame;
+        $frame3->setLegend( "Nutrição Enteral" );
+        $frame3->style .= ';margin:0%;width:90%';
+
+        $page2 = new TLabel( "Nutrição Enteral", '#7D78B6', 12, 'bi');
+        $page2->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
+        $this->form2->appendPage( "Nutrição Enteral" );
+        $this->form2->addContent( [ $page2 ] );
+
+        $this->framegrid3 = new TQuickGrid();
+        $this->framegrid3->setHeight('0%');
+        $this->framegrid3->makeScrollable();
+        $this->framegrid3->style='width: 100%';
+        $this->framegrid3->id = 'framegrid1';
+        $this->framegrid3->disableDefaultClick();
+
+        $this->datagrid = new BootstrapDatagridWrapper( new CustomDataGrid() );
+        $this->datagrid->datatable = "true";
+        $this->datagrid->style = "width: 100%";
+        $this->datagrid->setHeight( 320 );
+        
+        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
+        $column_name2 = new TDataGridColumn('tipo_nutricao_nome', 'Tipo Nutrição', 'left');
+        $column_name3 = new TDataGridColumn('administracao_nutricao_nome', 'Administração Nutrição', 'left');
+        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
+        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
+        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
+        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diario', 'left');
+       
+        $this->datagrid->addColumn($column_name);
+        $this->datagrid->addColumn($column_name2);
+        $this->datagrid->addColumn($column_name3);
+        $this->datagrid->addColumn($column_inicio);
+        $this->datagrid->addColumn($column_fim);
+        
+        /*$action_edit = new TDataGridAction(array('NutricaoEnteralFormDetalhe', 'onEdit'));
+        $action_edit->setButtonClass('btn btn-default');
+        $action_edit->setLabel('Editar');
+        $action_edit->setImage('fa:pencil-square-o blue fa-lg');
+        $action_edit->setField('id');
+        $this->datagrid->addAction($action_edit);
+        
+        $action_del = new TDataGridAction(array($this, 'onDelete'));
+        $action_del->setButtonClass('btn btn-default');
+        $action_del->setLabel(_t('Delete'));
+        $action_del->setImage('fa:trash-o red fa-lg');
+        $action_del->setField('id');
+        $this->datagrid->addAction($action_del);*/
+
+        $this->framegrid3->createModel();
+
+        $vbox3 = new TVBox;
+        $vbox3->style='width:100%';
+        //$vbox1->add( $hbox1 );
+        $vbox3->add( $this->framegrid3 );
+        $frame3->add( $vbox3 );
+
+
+
+        //-------------------------------------------------------------------------------------------------------------------------
+
+
+        $frame3 = new TFrame;
+        $frame3->setLegend( "Nutrição Enteral" );
+        $frame3->style .= ';margin:0%;width:90%';
+
+        $page2 = new TLabel( "Nutrição Enteral", '#7D78B6', 12, 'bi');
+        $page2->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
+        $this->form2->appendPage( "Nutrição Enteral" );
+        $this->form2->addContent( [ $page2 ] );
+
+        $this->framegrid3 = new TQuickGrid();
+        $this->framegrid3->setHeight('0%');
+        $this->framegrid3->makeScrollable();
+        $this->framegrid3->style='width: 100%';
+        $this->framegrid3->id = 'framegrid1';
+        $this->framegrid3->disableDefaultClick();
+
+        $this->datagrid = new BootstrapDatagridWrapper( new CustomDataGrid() );
+        $this->datagrid->datatable = "true";
+        $this->datagrid->style = "width: 100%";
+        $this->datagrid->setHeight( 320 );
+        
+        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
+        $column_name2 = new TDataGridColumn('tipo_nutricao_nome', 'Tipo Nutrição', 'left');
+        $column_name3 = new TDataGridColumn('administracao_nutricao_nome', 'Administração Nutrição', 'left');
+        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
+        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
+        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
+        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diario', 'left');
+
+        $this->datagrid->addColumn($column_name);
+        $this->datagrid->addColumn($column_name2);
+        $this->datagrid->addColumn($column_name3);
+        $this->datagrid->addColumn($column_inicio);
+        $this->datagrid->addColumn($column_fim);
+        
+       /* $action_edit = new TDataGridAction(array('NutricaoEnteralFormDetalhe', 'onEdit'));
+        $action_edit->setButtonClass('btn btn-default');
+        $action_edit->setLabel('Editar');
+        $action_edit->setImage('fa:pencil-square-o blue fa-lg');
+        $action_edit->setField('id');
+        $this->datagrid->addAction($action_edit);
+        
+        $action_del = new TDataGridAction(array($this, 'onDelete'));
+        $action_del->setButtonClass('btn btn-default');
+        $action_del->setLabel(_t('Delete'));
+        $action_del->setImage('fa:trash-o red fa-lg');
+        $action_del->setField('id');
+        $this->datagrid->addAction($action_del);*/
+
+        $this->framegrid3->createModel();
+
+        $vbox3 = new TVBox;
+        $vbox3->style='width:100%';
+        //$vbox1->add( $hbox1 );
+        $vbox3->add( $this->framegrid3 );
+        $frame3->add( $vbox3 );
+
+
+        //---------------------------------------------------------------------------------------------------------------------------
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-        */
+        
 
         $container = new TVBox();
 
-        $container->style = "width: 100%";
-        $container->add( $this->form );
-       // $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
+        $container->style = "width: 100%";  
+        $container->add( $this->form ); 
+        $container->add( $this->form2 );  
+
+
+
         $container->add( $this->pageNavigation );
+
+
 
         parent::add( $container );
 
