@@ -177,16 +177,16 @@ class PacienteDetail extends TPage
         $vbox->add( $hbox );
         $frame->add( $vbox );
 
-
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         $frame1 = new TFrame;
         $frame1->setLegend( "Nutrição Parenteral" );
         $frame1->style .= ';margin:0%;width:90%';
 
-        $page1 = new TLabel( "Nutrição Parenteral", '#7D78B6', 12, 'bi');
-        $page1->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
+        $page = new TLabel( "Nutrição Parenteral", '#7D78B6', 12, 'bi');
+        $page->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
         $this->form2->appendPage( "Nutrição Parenteral" );
-        $this->form2->addContent( [ $page1 ] );
+        $this->form2->addContent( [ $page ] );
 
         $this->framegrid1 = new TQuickGrid();
         $this->framegrid1->setHeight('0%');
@@ -251,11 +251,11 @@ class PacienteDetail extends TPage
         $action_del->setParameter( "did", $did );
         $action_del->setParameter( "page", $page );
         $this->datagrid->addAction( $action_del );*/
-
         $this->framegrid1->createModel();
 
         $vbox1 = new TVBox;
-        $vbox1->style='width:100%';     
+        $vbox1->style='width:100%';
+        //$vbox1->add( $hbox1 );
         $vbox1->add( $this->framegrid1 );
         $frame1->add( $vbox1 );
 
@@ -319,10 +319,10 @@ class PacienteDetail extends TPage
         $frame3->setLegend( "Nutrição Enteral" );
         $frame3->style .= ';margin:0%;width:90%';
 
-        $page2 = new TLabel( "Nutrição Enteral", '#7D78B6', 12, 'bi');
-        $page2->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
+        $page3 = new TLabel( "Nutrição Enteral", '#7D78B6', 12, 'bi');
+        $page3->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
         $this->form2->appendPage( "Nutrição Enteral" );
-        $this->form2->addContent( [ $page2 ] );
+        $this->form2->addContent( [ $page3 ] );
 
         $this->framegrid3 = new TQuickGrid();
         $this->framegrid3->setHeight('0%');
@@ -377,9 +377,9 @@ class PacienteDetail extends TPage
         //-------------------------------------------------------------------------------------------------------------------------
 
 
-        $frame3 = new TFrame;
-        $frame3->setLegend( "Nutrição Enteral" );
-        $frame3->style .= ';margin:0%;width:90%';
+        $frame4 = new TFrame;
+        $frame4->setLegend( "Nutrição Enteral" );
+        $frame4->style .= ';margin:0%;width:90%';
 
         $page2 = new TLabel( "Nutrição Enteral", '#7D78B6', 12, 'bi');
         $page2->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
