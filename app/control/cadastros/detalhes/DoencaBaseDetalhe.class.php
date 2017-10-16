@@ -15,10 +15,12 @@ class DoencaBaseDetalhe extends TWindow
     public function __construct()
     {
         parent::__construct();
+        parent::SetSize(0.800,0.800);
 
         $this->form = new BootstrapFormBuilder( "form_list_doeca_base" );
         $this->form->setFormTitle( "Detalhamento das Doenças Base" );
         $this->form->class = "tform";
+      
 
         $id = new THidden( "id" );
         $paciente_id = new THidden("paciente_id");

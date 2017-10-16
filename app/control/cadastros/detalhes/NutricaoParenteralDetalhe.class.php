@@ -11,6 +11,7 @@ class NutricaoParenteralDetalhe extends TWindow{
 
     function __construct(){
         parent::__construct();
+        parent::SetSize(0.800,0.800);
         
         $this->form = new BootstrapFormBuilder('form_nutricao_parenteral');
         $this->form->setFormTitle('Nutrição Parenteral');
@@ -126,36 +127,8 @@ class NutricaoParenteralDetalhe extends TWindow{
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',$voltar ,'fa:table blue');
-
-        $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
-        $this->datagrid->style = 'width: 100%';
-        $this->datagrid->setHeight(320);
-        
-        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
-        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
-        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
-        $column_tipoparenteral = new TDataGridColumn('tipoparenteral', 'Tipo Parenteral', 'center');
-        $column_tipoparenteraloutros = new TDataGridColumn('tipoparenteraloutros', 'Tipo Parenteral Outros', 'center');
-        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'center');
-        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diário', 'center');
-        $column_volumenpt = new TDataGridColumn('volumenpt', 'Volume NPT', 'left');
-        $column_tempoinfusao = new TDataGridColumn('tempoinfusao', 'Tempo Infusão', 'left');
-        $column_frequencia = new TDataGridColumn('frequencia', 'frequencia', 'left');
-        $column_acessovenosolp = new TDataGridColumn('acessovenosolp', 'acessovenosolp', 'left');
-        $column_acessovenosolpqual = new TDataGridColumn('acessovenosolpqual', 'acessovenosolpqual', 'left');
-        $column_numerodeacessovenoso = new TDataGridColumn('numerodeacessovenoso', 'numerodeacessovenoso', 'left');
-        $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 'apresentouinfeccaoacessovenoso', 'left');
-        $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'vezesinfeccaoacessovenoso', 'left');
-
-        $this->datagrid->addColumn($column_inicio);
-        $this->datagrid->addColumn($column_fim);
-        $this->datagrid->addColumn($column_tipoparenteral);
-        $this->datagrid->addColumn($column_totalcalorias);
-        $this->datagrid->addColumn($column_volumenpt);
-        $this->datagrid->addColumn($column_tempoinfusao);
-        
-        $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
+       /* $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
         $action_edit->setButtonClass( "btn btn-default" );
         $action_edit->setLabel( "Editar" );
         $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
@@ -169,18 +142,17 @@ class NutricaoParenteralDetalhe extends TWindow{
         $action_del->setImage('fa:trash-o red fa-lg');
         $action_del->setField('id');
         $action_del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction($action_del);
+        $this->datagrid->addAction($action_del);*/
         
-        $this->datagrid->createModel();
+
         
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
-        $this->pageNavigation->setWidth($this->datagrid->getWidth());
+
 
         $container = new TVBox;
         $container->style = 'width: 90%';
         $container->add($this->form);
-        $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
 
         parent::add($container);
@@ -225,22 +197,7 @@ class NutricaoParenteralDetalhe extends TWindow{
             }
     }
 
-    function onEdit( $param ){
-        try{
-            if( isset( $param[ "key" ] ) ){
-                TTransaction::open( "dbsic" );
-                $object = new NutricaoParenteralRecord( $param[ "key" ] );
-                $this->form->setData( $object );
-                TTransaction::close();
-            }
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
-        }
 
-    }
     public function onSave($param){
         try{
 
@@ -264,97 +221,8 @@ class NutricaoParenteralDetalhe extends TWindow{
         }
     }
 
-    public function onDelete( $param = NULL )
-    {
-        if( isset( $param[ "key" ] ) )
-        {
-
-            $action1 = new TAction( [ $this, "Delete" ] );
-            $action2 = new TAction( [ $this, "onReload" ] );
-
-            $action1->setParameter( "key", $param[ "key" ] );
-            $action1->setParameter( "fk", $param[ "fk" ] );
-
-            $action2->setParameter( "key", $param[ "key" ] );
-            $action2->setParameter( "fk", $param[ "fk" ] );
-            
-            //$action2->setParameter();         
-            
-//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-            
-            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
-
-        }
-    }
-    function Delete( $param = NULL )
-    {
-        try
-        {
-            TTransaction::open( "dbsic" );
-            $object = new NutricaoParenteralRecord( $param[ "key" ] );
-            $object->delete();
-            TTransaction::close();
-            
-            $action = new TAction( [ $this, "onReload" ] );
-            $action->setParameter( "key", $param[ "key" ] );
-            $action->setParameter( "fk", $param[ "fk" ] );
-
-            new TMessage("info", "Registro apagado com sucesso!", $action);
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage("error", $ex->getMessage());
-        }
-    }
-
-
     public function onReload( $param = NULL ){
-        try{
-
-            TTransaction::open( "dbsic" );
-
-            $repository = new TRepository( "NutricaoParenteralRecord" );
-            if ( empty( $param[ "order" ] ) )
-            {
-                $param[ "order" ] = "id";
-                $param[ "direction" ] = "asc";
-            }
-            $limit = 10;
-            
-            $criteria = new TCriteria();
-            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
-            $criteria->setProperties( $param );
-            $criteria->setProperty( "limit", $limit );
-            
-            $objects = $repository->load( $criteria, FALSE );
-
-            $this->datagrid->clear();
-            if ( !empty( $objects ) ){
-
-                foreach ( $objects as $object ){
-
-                    $object->datainicio = TDate::date2br($object->datainicio);
-                    $object->datafim = TDate::date2br($object->datafim);
-                    $this->datagrid->addItem( $object );
-                }
-            }
-            $criteria->resetProperties();
-
-            $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
-            $this->pageNavigation->setLimit($limit);
-
-            TTransaction::close();
-            $this->loaded = true;
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", $ex->getMessage() );
-        }
+       
     }
 
     

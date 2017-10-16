@@ -14,6 +14,7 @@ class ExamePacienteDetalhe extends TWindow{
 
     function __construct(){
         parent::__construct();
+        parent::SetSize(0.800,0.800);
         
         $this->form = new BootstrapFormBuilder('form_exame_paciente');
         $this->form->setFormTitle('Exames Realizados');
@@ -62,6 +63,7 @@ class ExamePacienteDetalhe extends TWindow{
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+        $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
 
         $voltar = new TAction(array('PacienteDetail','onReload'));        
         $voltar->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
@@ -72,22 +74,8 @@ class ExamePacienteDetalhe extends TWindow{
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes', $voltar,'fa:table blue');
 
-        $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
-        $this->datagrid->style = 'width: 100%';
-        $this->datagrid->setHeight(320);
-        
-        $column_1 = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
-        $column_2 = new TDataGridColumn('exame_nome', 'Exame', 'left');
-        $column_3 = new TDataGridColumn('valor', 'Valor', 'left');
-        $column_4 = new TDataGridColumn('dataexame', 'Data do Exame', 'left');
-
-        $this->datagrid->addColumn($column_1);
-        $this->datagrid->addColumn($column_2);
-        $this->datagrid->addColumn($column_3);
-        $this->datagrid->addColumn($column_4);
-        
-        $edit = new TDataGridAction( [ $this, "onEdit" ] );
+        /*$edit = new TDataGridAction( [ $this, "onEdit" ] );
         $edit->setButtonClass( "btn btn-default" );
         $edit->setLabel( "Editar" );
         $edit->setImage( "fa:pencil-square-o blue fa-lg" );
@@ -101,38 +89,16 @@ class ExamePacienteDetalhe extends TWindow{
         $del->setImage('fa:trash-o red fa-lg');
         $del->setField('id');
         $del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction($del);
-        
-        $this->datagrid->createModel();
-        
-        $this->pageNavigation = new TPageNavigation;
-        $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
-        $this->pageNavigation->setWidth($this->datagrid->getWidth());
+        $this->datagrid->addAction($del);*/
 
         $container = new TVBox;
         $container->style = 'width: 90%';
         $container->add($this->form);
-        $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
 
         parent::add($container);
     }
-    function onEdit( $param ){
-        try{
-            if( isset( $param[ "key" ] ) ){
-                TTransaction::open( "dbsic" );
-                $object = new ExamePacienteRecord( $param[ "key" ] );
-                $this->form->setData( $object );
-                TTransaction::close();
-            }
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
-        }
-
-    }
+ 
     public function onSave(){
         try{
 
@@ -156,94 +122,10 @@ class ExamePacienteDetalhe extends TWindow{
         }
     }
 
-     public function onDelete( $param = NULL )
-    {
-        if( isset( $param[ "key" ] ) )
-        {
 
-            $action1 = new TAction( [ $this, "Delete" ] );
-            $action2 = new TAction( [ $this, "onReload" ] );
-
-            $action1->setParameter( "key", $param[ "key" ] );
-            $action1->setParameter( "fk", $param[ "fk" ] );
-
-            $action2->setParameter( "key", $param[ "key" ] );
-            $action2->setParameter( "fk", $param[ "fk" ] );
-            
-            //$action2->setParameter();         
-            
-//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-            
-            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
-
-        }
-    }
-    function Delete( $param = NULL )
-    {
-        try
-        {
-            TTransaction::open( "dbsic" );
-            $object = new ExamePacienteRecord( $param[ "key" ] );
-            $object->delete();
-            TTransaction::close();
-            
-            $action = new TAction( [ $this, "onReload" ] );
-            $action->setParameter( "key", $param[ "key" ] );
-            $action->setParameter( "fk", $param[ "fk" ] );
-
-            new TMessage("info", "Registro apagado com sucesso!", $action);
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage("error", $ex->getMessage());
-        }
+    public function onReload () {
     }
 
-    public function onReload( $param = NULL ){
-        try{
-
-            TTransaction::open( "dbsic" );
-
-            $repository = new TRepository( "ExamePacienteRecord" );
-            if ( empty( $param[ "order" ] ) )
-            {
-                $param[ "order" ] = "id";
-                $param[ "direction" ] = "asc";
-            }
-            $limit = 10;
-            
-            $criteria = new TCriteria();
-            $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
-            $criteria->setProperties( $param );
-            $criteria->setProperty( "limit", $limit );
-            
-            $objects = $repository->load( $criteria, FALSE );
-
-            $this->datagrid->clear();
-            if ( !empty( $objects ) ){
-                foreach ( $objects as $object ){
-                    $object->dataexame = TDate::date2br($object->dataexame);
-                    $this->datagrid->addItem( $object );
-                }
-            }
-            $criteria->resetProperties();
-
-            $count = $repository->count($criteria);
-            $this->pageNavigation->setCount($count); 
-            $this->pageNavigation->setProperties($param); 
-            $this->pageNavigation->setLimit($limit);
-
-            TTransaction::close();
-            $this->loaded = true;
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage( "error", $ex->getMessage() );
-        }
-    }
         
     
 }

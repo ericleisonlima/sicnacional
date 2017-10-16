@@ -13,6 +13,7 @@ class TipoMedicamentoDetalhe extends TPage
     public function __construct()
     {
         parent::__construct();
+        parent::SetSize(0.800,0.800);
 
         $this->form = new BootstrapFormBuilder( "form_list_cadastro_tipo_medicamento" );
         $this->form->setFormTitle( "Formulário de Cadastro dos Tipos de Medicamentos" );

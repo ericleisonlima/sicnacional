@@ -13,6 +13,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
 
    public function __construct(){
         parent::__construct();
+        parent::SetSize(0.800,0.800);
         
         $this->form = new BootstrapFormBuilder('form_detail_nutricao_enteral');
         $this->form->setFormTitle('Detalhamento de Nutrição Enteral');

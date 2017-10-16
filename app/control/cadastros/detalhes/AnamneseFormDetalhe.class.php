@@ -15,6 +15,7 @@ class AnamneseFormDetalhe extends TWindow{
 
     public function __construct(){
         parent::__construct();
+        parent::SetSize(0.800,0.800);
         
         $this->form = new BootstrapFormBuilder('form_detail_anamnese');
         $this->form->setFormTitle('Detalhamento de Anamnese');
