@@ -59,6 +59,9 @@ class PacienteDetail extends TPage
             $municipio = new TLabel( $tempVisita->municipio );         
             $datadiagnostico = new TLabel( TDate::date2br($tempVisita->datadiagnostico) );
             $estabelecimento = new TLabel( $tempVisita->estabelecimento_nome );
+
+            var_dump($tempVisita);
+            exit();
  
         }
         TTransaction::close(); 
@@ -355,7 +358,9 @@ class PacienteDetail extends TPage
 
         //-------------------------------------------------------------------------------------------------------------------------
 
-
+        /*$frame4 = new TFrame;
+        $frame4->setLegend( "Doença Base" );
+        $frame->style .= ';margin:0%;width:90%';*/
  
          $page4 = new TLabel( "Anamnese", '#7D78B6', 12, 'bi');
          $page4->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
@@ -402,6 +407,7 @@ class PacienteDetail extends TPage
          $vbox4->style='width:100%';
          //$vbox1->add( $hbox1 );
          $vbox4->add( $this->datagrid );
+
      
             //---------------------------------------------------------------------------------------------------------------------------
  
@@ -502,13 +508,14 @@ class PacienteDetail extends TPage
          $vbox6 = new TVBox;
          $vbox6->style='width:100%';
          //$vbox1->add( $hbox1 );
-         $vbox6->add( TPanelGroup::pack( NULL, $this->datagrid ) );
+         $vbox6->add( $this->datagrid );
 
         //---------------------------------------------------------------------------------------------------------------------------
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
         $this->pageNavigation->setWidth( $this->datagrid->getWidth() );
-        
+
+      
 
         $container = new TVBox();
 
@@ -516,8 +523,9 @@ class PacienteDetail extends TPage
         $container->add( $this->form ); 
         $container->add( $this->form2 );
 
-       // $container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
+       // $container->add( $this->datagrid );
 
+        //$container->add( TPanelGroup::pack( NULL, $this->datagrid ) );
 
 
 
