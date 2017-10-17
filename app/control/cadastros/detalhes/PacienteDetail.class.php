@@ -174,6 +174,15 @@ class PacienteDetail extends TPage
         $this->framegrid1->addColumn( $column_cidid );
         $this->framegrid1->addColumn( $column_cid_id_name );
 
+
+        $delDoenca = new TDataGridAction( [ $this, "onDeleteDoenca" ] );
+        $delDoenca->setButtonClass( "btn btn-default" );
+        $delDoenca->setLabel( "Deletar" );
+        $delDoenca->setImage( "fa:trash-o red fa-lg" );
+        $delDoenca->setField( "id" );
+        $delDoenca->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid1->addAction( $delDoenca );
+
         $this->framegrid1->createModel();
 
         $this->form2->addContent( [ $this->framegrid1 ] );
@@ -221,6 +230,22 @@ class PacienteDetail extends TPage
         $this->framegrid2->addColumn($column_apresentouinfeccaoacessovenoso);
         $this->framegrid2->addColumn($column_vezesinfeccaoacessovenoso);
 
+        $editParenteral = new TDataGridAction( [ 'NutricaoParenteralDetalhe', "onEdit" ] );
+        $editParenteral->setButtonClass( "btn btn-default" );
+        $editParenteral->setLabel( "Editar" );
+        $editParenteral->setImage( "fa:pencil-square-o blue fa-lg" );
+        $editParenteral->setField( "id" );
+        $editParenteral->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid2->addAction( $editParenteral );
+
+        $delParenteral = new TDataGridAction(array($this, 'onDeleteParenteral'));
+        $delParenteral->setButtonClass('btn btn-default');
+        $delParenteral->setLabel(_t('Delete'));
+        $delParenteral->setImage('fa:trash-o red fa-lg');
+        $delParenteral->setField('id');
+        $delParenteral->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid2->addAction($delParenteral);
+
         $this->framegrid2->createModel();
 
         $this->form2->addContent( [ $this->framegrid2 ] );
@@ -244,6 +269,20 @@ class PacienteDetail extends TPage
         $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
         $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
         $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diario', 'left');
+
+        $editEnteral = new TDataGridAction(array( 'NutricaoEnteralFormDetalhe', 'onEdit'));
+        $editEnteral->setButtonClass('btn btn-default');
+        $editEnteral->setLabel('Editar');
+        $editEnteral->setImage('fa:pencil-square-o blue fa-lg');
+        $editEnteral->setField('id');
+        $this->framegrid3->addAction($editEnteral);
+        
+        $delEnteral = new TDataGridAction(array($this, 'onDeleteEnteral'));
+        $delEnteral->setButtonClass('btn btn-default');
+        $delEnteral->setLabel(_t('Delete'));
+        $delEnteral->setImage('fa:trash-o red fa-lg');
+        $delEnteral->setField('id');
+        $this->framegrid3->addAction($delEnteral);
 
         $this->framegrid3->addColumn($column_name);
         $this->framegrid3->addColumn($column_name2);
@@ -279,6 +318,22 @@ class PacienteDetail extends TPage
         $this->framegrid4->addColumn($column_estomia);
         $this->framegrid4->addColumn($column_transplantado);
 
+        $editAnamnese = new TDataGridAction( [ 'AnamneseFormDetalhe', "onEdit" ] );
+        $editAnamnese->setButtonClass( "btn btn-default" );
+        $editAnamnese->setLabel( "Editar" );
+        $editAnamnese->setImage( "fa:pencil-square-o blue fa-lg" );
+        $editAnamnese->setField( "id" );
+        $editAnamnese->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid4->addAction( $editAnamnese );
+        
+        $delAnamnese = new TDataGridAction(array($this, 'onDeleteAnamnese'));
+        $delAnamnese->setButtonClass('btn btn-default');
+        $delAnamnese->setLabel(_t('Delete'));
+        $delAnamnese->setImage('fa:trash-o red fa-lg');
+        $delAnamnese->setField('id');
+        $delAnamnese->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid4->addAction($delAnamnese);
+
         $this->framegrid4->createModel();
 
         $this->form2->addContent( [ $this->framegrid4 ] );
@@ -310,6 +365,25 @@ class PacienteDetail extends TPage
         $this->framegrid5->addColumn($column_5);
         $this->framegrid5->addColumn($column_6);
         $this->framegrid5->addColumn($column_7);
+
+        $editMedicamento = new TDataGridAction( [ 'UsoMedicamentoDetalhe', "onEdit" ] );
+        $editMedicamento->setButtonClass( "btn btn-default" );
+        $editMedicamento->setLabel( "Editar" );
+        $editMedicamento->setImage( "fa:pencil-square-o blue fa-lg" );
+        $editMedicamento->setField( "id" );
+        $editMedicamento->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid5->addAction( $editMedicamento );
+
+        $delMedicamento = new TDataGridAction(array($this, 'onDeletedelMedicamento'));
+        $delMedicamento->setButtonClass('btn btn-default');
+        $delMedicamento->setLabel(_t('Delete'));
+        $delMedicamento->setImage('fa:trash-o red fa-lg');
+        $delMedicamento->setField('id');
+        $delMedicamento->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid5->addAction($delMedicamento);
+
+       
+        
         
         $this->framegrid5->createModel();
 
@@ -335,7 +409,22 @@ class PacienteDetail extends TPage
         $this->framegrid6->addColumn($column_2);
         $this->framegrid6->addColumn($column_3);
         $this->framegrid6->addColumn($column_4);
-        
+                
+        $editExame = new TDataGridAction( [ "ExamePacienteDetalhe", "onEdit" ] );
+        $editExame->setButtonClass( "btn btn-default" );
+        $editExame->setLabel( "Editar" );
+        $editExame->setImage( "fa:pencil-square-o blue fa-lg" );
+        $editExame->setField( "id" );
+        $editExame->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid6->addAction( $editExame );
+
+        $delExame = new TDataGridAction(array($this, 'onDeleteExame'));
+        $delExame->setButtonClass('btn btn-default');
+        $delExame->setLabel(_t('Delete'));
+        $delExame->setImage('fa:trash-o red fa-lg');
+        $delExame->setField('id');
+        $delExame->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $this->framegrid6->addAction($delExame);
         
         $this->framegrid6->createModel();
 
@@ -358,73 +447,6 @@ class PacienteDetail extends TPage
 
     }
 
-/*
-
-    public function onEdit( $param = null )
-    {
-        try {
-
-            if ( isset( $param[ "key" ] ) ) {
-                TTransaction::open( "database" );
-
-                $object = new BauAtendimentoRecord( $param[ "key" ] );
-                $object->dataatendimento = TDate::date2br($object->dataatendimento) . ' ' . substr($object->dataatendimento, 11, strlen($object->dataatendimento));
-
-                $this->onReload( $param );
-                $this->form1->setData( $object );
-                TTransaction::close();
-
-            }
-
-        } catch ( Exception $ex ) {
-
-            TTransaction::rollback();
-
-            new TMessage( "error", "Ocorreu um erro ao tentar carregar o registro para edição!<br><br>" . $ex->getMessage() );
-
-        }
-    }
-
-    public function onDelete( $param = null )
-    {
-        if( isset( $param[ "key" ] ) ) {
-
-            $param = [
-            "key" => $param[ "key" ],
-            "fk"  => $param[ "fk" ],
-            "did"  => $param[ "did" ]
-            ];
-
-            $action1 = new TAction( [ $this, "Delete" ] );
-            $action2 = new TAction( [ $this, "onReload" ] );
-
-            $action1->setParameters( $param );
-            $action2->setParameters( $param );
-
-            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
-        }
-    }
-
-    public function Delete( $param = null )
-    {
-        try {
-
-            TTransaction::open( "database" );
-            $object = new BauAtendimentoRecord( $param[ "key" ] );
-            $object->delete();
-            TTransaction::close();
-
-            $this->onReload( $param );
-
-            new TMessage( "info", "O Registro foi apagado com sucesso!" );
-
-        } catch ( Exception $ex ) {
-            TTransaction::rollback();
-            new TMessage( "error", $ex->getMessage() );
-
-        }
-    }
-*/
     public function onDoencaBase( $param )
     {
         try
@@ -758,171 +780,325 @@ class PacienteDetail extends TPage
         $this->onExame($param);
         
 
-
-     
-
     }
 
+    //--------------------------------------------------------------$$Deletes / Edits-------------------------------------------------------------------------------------------
 
-
-
-
- /*   public function onClear()
+     public function onDeleteDoenca( $param = NULL )
     {
-        $this->form1->clear();
+        if( isset( $param[ "key" ] ) )
+        {
+
+            $action1 = new TAction( [ $this, "DeleteDoenca" ] );
+            $action2 = new TAction( [ $this, "onDoencaBase" ] );
+
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
+
+        }
     }
-
-    public function onSaveFrames( $param = null )
+    function DeleteDoenca( $param = NULL )
     {
-        try {
-
-            $object = $this->unSetFields( $param );
-            $object->cid_id = key($object->cid_id);
-
-            TTransaction::open( "database" );
-
-            if ( isset( $object ) ) {
-                $object->store();
-            } else {
-                $this->onError();
-            }
-
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new DoencaBaseRecord( $param[ "key" ] );
+            $object->delete();
             TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
 
-            $this->onReload($param);
-
-        } catch ( Exception $ex ) {
-
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
             TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
+        }
+    }
+    public function show()
+    {
+        $this->onReload();
 
-            new TMessage( "error", $ex->getMessage() );
+        parent::show();
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public function onDeleteParenteral( $param = NULL )
+    {
+        if( isset( $param[ "key" ] ) )
+        {
+
+
+            $action1 = new TAction( [ $this, "DeleteParenteral" ] );
+            $action2 = new TAction( [ $this, "onNutricaoParenteral" ] );
+
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+            //$action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            //$action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
 
         }
     }
-
-    public function onDeleteFrames( $param = null ){
-        try {
-
-            TTransaction::open( "database" );
-
-
-            $object = $this->getFrameItem( $param );
-
-            if ( isset( $object ) ) {
-                $object->delete();
-            } else {
-                $this->onError();
-            }
-
+    
+    function DeleteParenteral( $param = NULL )
+    {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new NutricaoEnteralRecord( $param[ "key" ] );
+            $object->delete();
             TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
 
-            $this->onReload( $param );
-
-        } catch ( Exception $ex ) {
-
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
             TTransaction::rollback();
-
-            new TMessage( "error", $ex->getMessage() );
-
+            new TMessage("error", $ex->getMessage());
         }
     }
 
-    public function onReloadFrames( $param = null )
+
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+     public function onDeleteEnteral( $param = NULL )
     {
-        try {
+        if( isset( $param[ "key" ] ) )
+        {
 
-            TTransaction::open('database');
 
-            $object = new PacienteRecord( $param[ "did" ] );
+            $action1 = new TAction( [ $this, "DeleteEnteral" ] );
+            $action2 = new TAction( [ $this, "onNutricaoEnteral" ] );
 
-            if ( isset( $object ) ) {
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
 
-                foreach ( $object->getComorbidades() as $comorbidade ) {
-                    $this->framegrid1->addItem( $comorbidade );
-                }
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+            //$action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            //$action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
 
-            }
-
+        }
+    }
+    
+    function DeleteEnteral( $param = NULL )
+    {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new NutricaoEnteralRecord( $param[ "key" ] );
+            $object->delete();
             TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
 
-        } catch( Exception $ex ) {
-
-            new TMessage( "error", $ex->getMessage() );
-
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
         }
     }
 
-    public function unSetFields( $param = null )
+
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    
+
+    public function onDeleteAnamnese( $param = NULL )
     {
-        switch ( $param[ "frm" ] ) {
+        if( isset( $param[ "key" ] ) )
+        {
 
-            case 1:
 
-            $object = $this->form1->getData( "BauComorbidadesRecord" );
-                //unset( $object->medicamento_id );
-                //unset( $object->principioativo_id );
+            $action1 = new TAction( [ $this, "DeleteAnamnese" ] );
+            $action2 = new TAction( [ $this, "onAnamnese" ] );
 
-            break;
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
 
-            case 2:
-
-            $object = $this->form1->getData( "BauUsoMedicacoesRecord" );
-            unset( $object->cid_id );
-            unset( $object->principioativo_id );
-
-            break;
-
-            case 3:
-
-            $object = $this->form1->getData( "BauAlergiaMedicamentosaRecord" );
-            unset( $object->cid_id );
-            unset( $object->medicamento_id );
-
-            break;
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
 
         }
-
-        if ( isset( $object ) ) {
-
-            unset( $object->id );
-            unset( $object->profissional_id );
-            unset( $object->paciente_nome );
-            unset( $object->dataatendimento );
-            unset( $object->exameclinico );
-            unset( $object->examescomplementares );
-            unset( $object->descricaotratamento );
-
-            return $object;
-
-        } else {
-
-            return null;
-
-        }
-
     }
-
-    public function getFrameItem( $param = null )
+    
+    function DeleteAnamnese( $param = NULL )
     {
-        switch ( $param[ "frm" ] ) {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new AnamneseRecord( $param[ "key" ] );
+            $object->delete();
+            TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
 
-            case 1:
-            $object = new BauComorbidadesRecord( $param[ "key" ] );
-            break;
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
+        }
+    }
 
-            case 2:
-            $object = new BauUsoMedicacoesRecord( $param[ "key" ] );
-            break;
 
-            case 3:
-            $object = new BauAlergiaMedicamentosaRecord( $param[ "key" ] );
-            break;
+
+
+
+    
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+   
+    public function onDeletedelMedicamento( $param = NULL )
+    {
+        if( isset( $param[ "key" ] ) )
+        {
+
+
+            $action1 = new TAction( [ $this, "DeleteMedicamento" ] );
+            $action2 = new TAction( [ $this, "onMedicamento" ] );
+
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
 
         }
-
-        return isset( $object ) ? $object : null;
     }
-    */
+    
+    function DeleteMedicamento( $param = NULL )
+    {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new UsoMedicamentoRecord( $param[ "key" ] );
+            $object->delete();
+            TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
+
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
+        }
+    }
+
+   
+
+        
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ public function onDeleteExame( $param = NULL )
+    {
+        if( isset( $param[ "key" ] ) )
+        {
+
+
+            $action1 = new TAction( [ $this, "DeleteExame" ] );
+            $action2 = new TAction( [ $this, "onExame" ] );
+
+            $action1->setParameter( "key", $param[ "key" ] );
+            $action1->setParameter( "fk", $param[ "fk" ] );
+
+            $action2->setParameter( "key", $param[ "key" ] );
+            $action2->setParameter( "fk", $param[ "fk" ] );
+            
+            //$action2->setParameter();         
+            
+//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+            
+            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
+
+        }
+    }
+    
+    function DeleteExame( $param = NULL )
+    {
+        try
+        {
+            TTransaction::open( "dbsic" );
+            $object = new ExamePacienteRecord( $param[ "key" ] );
+            $object->delete();
+            TTransaction::close();
+            
+            $action = new TAction( [ $this, "onReload" ] );
+            $action->setParameter( "key", $param[ "key" ] );
+            $action->setParameter( "fk", $param[ "fk" ] );
+
+            new TMessage("info", "Registro apagado com sucesso!", $action);
+        }
+        catch ( Exception $ex )
+        {
+            TTransaction::rollback();
+            new TMessage("error", $ex->getMessage());
+        }
+    }
+
+   
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public function onError()
     {

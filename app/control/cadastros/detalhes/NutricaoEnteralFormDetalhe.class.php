@@ -100,26 +100,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Paciente',new TAction(array('PacienteList','onReload')),'fa:table blue');
 
-        $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
-        
-        $this->datagrid->style = 'width: 100%';
-        $this->datagrid->setHeight(320);
-        
-        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
-        $column_name2 = new TDataGridColumn('tipo_nutricao_nome', 'Tipo Nutrição', 'left');
-        $column_name3 = new TDataGridColumn('administracao_nutricao_nome', 'Administração Nutrição', 'left');
-        $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
-        $column_fim = new TDataGridColumn('datafim', 'Fim', 'left');
-        $column_totalcalorias = new TDataGridColumn('totalcalorias', 'Total Calorias', 'left');
-        $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diario', 'left');
-       
-        $this->datagrid->addColumn($column_name);
-        $this->datagrid->addColumn($column_name2);
-        $this->datagrid->addColumn($column_name3);
-        $this->datagrid->addColumn($column_inicio);
-        $this->datagrid->addColumn($column_fim);
-        
-        $action_edit = new TDataGridAction(array('NutricaoEnteralFormDetalhe', 'onEdit'));
+       /* $action_edit = new TDataGridAction(array('NutricaoEnteralFormDetalhe', 'onEdit'));
         $action_edit->setButtonClass('btn btn-default');
         $action_edit->setLabel('Editar');
         $action_edit->setImage('fa:pencil-square-o blue fa-lg');
@@ -131,19 +112,15 @@ class NutricaoEnteralFormDetalhe extends TWindow{
         $action_del->setLabel(_t('Delete'));
         $action_del->setImage('fa:trash-o red fa-lg');
         $action_del->setField('id');
-        $this->datagrid->addAction($action_del);
-        
-        $this->datagrid->createModel();
+        $this->datagrid->addAction($action_del);*/
         
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
-        $this->pageNavigation->setWidth($this->datagrid->getWidth());
  
         $container = new TVBox;
         $container->style = 'width: 90%';
         // $container->add(new TXMLBreadCrumb( "menu.xml", "PacienteList" ) );
         $container->add($this->form);
-        $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
 
         parent::add($container);
@@ -172,6 +149,30 @@ class NutricaoEnteralFormDetalhe extends TWindow{
             TTransaction::rollback();
         }
     }
+
+    public function onEdit($param) {
+
+        TTransaction::open('dbsic');
+        
+        if (isset($param['key'])) {
+
+            $key = $param['key'];
+            $object = new NutricaoEnteralRecord($key);
+
+            $object->dataregistro = TDate::date2br($object->dataregistro);
+            $object->datacirurgia = TDate::date2br($object->datacirurgia);
+            $object->datatransplante = TDate::date2br($object->datatransplante);
+            $this->form->setData($object);
+            
+        } else {
+            $this->form->clear();
+        }
+        TTransaction::close();
+
+    }
+
+ 
+
 
     public function onReload( $param = NULL ){
 }

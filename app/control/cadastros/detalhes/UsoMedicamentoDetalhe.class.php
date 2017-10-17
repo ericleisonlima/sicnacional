@@ -93,24 +93,7 @@ class UsoMedicamentoDetalhe extends TWindow{
 
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
-        $this->form->addAction('Voltar para Pacientes', $voltar ,'fa:table blue');
-        
-        /*$edit = new TDataGridAction( [ $this, "onEdit" ] );
-        $edit->setButtonClass( "btn btn-default" );
-        $edit->setLabel( "Editar" );
-        $edit->setImage( "fa:pencil-square-o blue fa-lg" );
-        $edit->setField( "id" );
-        $edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction( $edit );
-
-        $del = new TDataGridAction(array($this, 'onDelete'));
-        $del->setButtonClass('btn btn-default');
-        $del->setLabel(_t('Delete'));
-        $del->setImage('fa:trash-o red fa-lg');
-        $del->setField('id');
-        $del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction($del);*/
-  
+        $this->form->addAction('Voltar para Pacientes', $voltar ,'fa:table blue'); 
 
         $container = new TVBox;
         $container->style = 'width: 90%';
@@ -143,11 +126,31 @@ class UsoMedicamentoDetalhe extends TWindow{
         }
     }
 
+      public function onEdit($param) {
 
-
-    public function onReload( ){
- 
-    }
+        TTransaction::open('dbsic');
         
+        if (isset($param['key'])) {
+
+            $key = $param['key'];
+            $object = new UsoMedicamentoRecord($key);
+
+            $object->dataregistro = TDate::date2br($object->dataregistro);
+            $object->datacirurgia = TDate::date2br($object->datacirurgia);
+            $object->datatransplante = TDate::date2br($object->datatransplante);
+            $this->form->setData($object);
+            
+        } else {
+            $this->form->clear();
+        }
+        TTransaction::close();
+
+    }
+
+    public function onReload( $param = NULL ){
+       
+    }
+
+  
     
 }

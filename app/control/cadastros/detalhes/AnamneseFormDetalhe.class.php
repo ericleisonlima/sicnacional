@@ -139,75 +139,18 @@ class AnamneseFormDetalhe extends TWindow{
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Paciente', $voltar,'fa:table blue');
 
-
-        $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         
-        $this->datagrid->style = 'width: 100%';
-        $this->datagrid->setHeight(320);
-        
-        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
-        $column_peso = new TDataGridColumn('peso', 'Peso ', 'left');
-        $column_comprintdel = new TDataGridColumn('comprimentointestinodelgado', ' Comprimento do Intestino Delgado', 'left');
-        $column_estomia = new TDataGridColumn('estomia', 'Estomia', 'left');
-        $column_transplantado = new TDataGridColumn('transplantado', 'Transplantado', 'left');
-        
-        $this->datagrid->addColumn($column_name);
-        $this->datagrid->addColumn($column_peso);
-        $this->datagrid->addColumn($column_comprintdel);
-        $this->datagrid->addColumn($column_estomia);
-        $this->datagrid->addColumn($column_transplantado);
-        
-        $edit = new TDataGridAction( [ $this, "onEdit" ] );
-        $edit->setButtonClass( "btn btn-default" );
-        $edit->setLabel( "Editar" );
-        $edit->setImage( "fa:pencil-square-o blue fa-lg" );
-        $edit->setField( "id" );
-        $edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction( $edit );
-        
-        $del = new TDataGridAction(array($this, 'onDelete'));
-        $del->setButtonClass('btn btn-default');
-        $del->setLabel(_t('Delete'));
-        $del->setImage('fa:trash-o red fa-lg');
-        $del->setField('id');
-        $del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction($del);
-        
-        $this->datagrid->createModel();
+       
         
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
-        $this->pageNavigation->setWidth($this->datagrid->getWidth());
-
         $container = new TVBox;
         $container->style = 'width: 90%';
         $container->add($this->form);
-        $container->add(TPanelGroup::pack('', $this->datagrid));
         $container->add($this->pageNavigation);
 
         parent::add($container);
         
-    }
-
-    function onEdit($param) {
-
-        TTransaction::open('dbsic');
-        
-        if (isset($param['key'])) {
-
-            $key = $param['key'];
-            $object = new AnamneseRecord($key);
-
-            $object->dataregistro = TDate::date2br($object->dataregistro);
-            $object->datacirurgia = TDate::date2br($object->datacirurgia);
-            $object->datatransplante = TDate::date2br($object->datatransplante);
-            $this->form->setData($object);
-            
-        } else {
-            $this->form->clear();
-        }
-        TTransaction::close();
-
     }
 
     public static function onChangeRadio($param){
@@ -270,99 +213,31 @@ class AnamneseFormDetalhe extends TWindow{
     }
 }
 
-public function onDelete( $param = NULL )
-    {
-        if( isset( $param[ "key" ] ) )
-        {
+public function onEdit($param) {
 
-            $action1 = new TAction( [ $this, "Delete" ] );
-            $action2 = new TAction( [ $this, "onReload" ] );
+        TTransaction::open('dbsic');
+        
+        if (isset($param['key'])) {
 
-            $action1->setParameter( "key", $param[ "key" ] );
-            $action1->setParameter( "fk", $param[ "fk" ] );
+            $key = $param['key'];
+            $object = new AnamneseRecord($key);
 
-            $action2->setParameter( "key", $param[ "key" ] );
-            $action2->setParameter( "fk", $param[ "fk" ] );
+            $object->dataregistro = TDate::date2br($object->dataregistro);
+            $object->datacirurgia = TDate::date2br($object->datacirurgia);
+            $object->datatransplante = TDate::date2br($object->datatransplante);
+            $this->form->setData($object);
             
-            //$action2->setParameter();         
-            
-//            $action1->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-//            $action2->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
-            
-            new TQuestion( "Deseja realmente apagar o registro?", $action1, $action2 );
-
+        } else {
+            $this->form->clear();
         }
+        TTransaction::close();
+
     }
-    
-    function Delete( $param = NULL )
-    {
-        try
-        {
-            TTransaction::open( "dbsic" );
-            $object = new AnamneseRecord( $param[ "key" ] );
-            $object->delete();
-            TTransaction::close();
-            
-            $action = new TAction( [ $this, "onReload" ] );
-            $action->setParameter( "key", $param[ "key" ] );
-            $action->setParameter( "fk", $param[ "fk" ] );
 
-            new TMessage("info", "Registro apagado com sucesso!", $action);
-        }
-        catch ( Exception $ex )
-        {
-            TTransaction::rollback();
-            new TMessage("error", $ex->getMessage());
-        }
-    }
+
 
 public function onReload( $param = NULL ){
-    try{
 
-        TTransaction::open( "dbsic" );
-
-        $repository = new TRepository( "AnamneseRecord" );
-        if ( empty( $param[ "order" ] ) )
-        {
-            $param[ "order" ] = "id";
-            $param[ "direction" ] = "asc";
-        }
-        $limit = 10;
-
-        $criteria = new TCriteria();
-        $criteria->add(new TFilter('paciente_id', '=', filter_input(INPUT_GET, 'fk')));
-        $criteria->setProperties( $param );
-        $criteria->setProperty( "limit", $limit );
-
-        $objects = $repository->load( $criteria, FALSE );
-
-        $this->datagrid->clear();
-
-        if ( !empty( $objects ) ){
-
-            foreach ( $objects as $object ){
-
-                $object->dataregistro = TDate::date2br($object->dataregistro);
-                $object->datacirurgia = TDate::date2br($object->datacirurgia);
-                $object->datatransplante = TDate::date2br($object->datatransplante);
-                $this->datagrid->addItem( $object );
-            }
-        }
-        $criteria->resetProperties();
-
-        $count = $repository->count($criteria);
-        $this->pageNavigation->setCount($count); 
-        $this->pageNavigation->setProperties($param); 
-        $this->pageNavigation->setLimit($limit);
-
-        TTransaction::close();
-        $this->loaded = true;
-    }
-    catch ( Exception $ex )
-    {
-        TTransaction::rollback();
-        new TMessage( "error", $ex->getMessage() );
-    }
 }
 
 

@@ -128,24 +128,6 @@ class NutricaoParenteralDetalhe extends TWindow{
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',$voltar ,'fa:table blue');
         
-       /* $action_edit = new TDataGridAction( [ $this, "onEdit" ] );
-        $action_edit->setButtonClass( "btn btn-default" );
-        $action_edit->setLabel( "Editar" );
-        $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
-        $action_edit->setField( "id" );
-        $action_edit->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction( $action_edit );
-
-        $action_del = new TDataGridAction(array($this, 'onDelete'));
-        $action_del->setButtonClass('btn btn-default');
-        $action_del->setLabel(_t('Delete'));
-        $action_del->setImage('fa:trash-o red fa-lg');
-        $action_del->setField('id');
-        $action_del->setParameter('fk', filter_input(INPUT_GET, 'fk'));
-        $this->datagrid->addAction($action_del);*/
-        
-
-        
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
 
@@ -219,6 +201,27 @@ class NutricaoParenteralDetalhe extends TWindow{
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }
+    }
+
+      public function onEdit($param) {
+
+        TTransaction::open('dbsic');
+        
+        if (isset($param['key'])) {
+
+            $key = $param['key'];
+            $object = new NutricaoParenteralRecord($key);
+
+            $object->dataregistro = TDate::date2br($object->dataregistro);
+            $object->datacirurgia = TDate::date2br($object->datacirurgia);
+            $object->datatransplante = TDate::date2br($object->datatransplante);
+            $this->form->setData($object);
+            
+        } else {
+            $this->form->clear();
+        }
+        TTransaction::close();
+
     }
 
     public function onReload( $param = NULL ){
