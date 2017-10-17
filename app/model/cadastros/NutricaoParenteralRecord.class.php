@@ -6,6 +6,7 @@ class NutricaoParenteralRecord extends TRecord
     const IDPOLICY =  'max';
     
     private $paciente;
+
     function get_paciente_nome(){
 
         if (empty ($this->paciente)){
@@ -15,4 +16,6 @@ class NutricaoParenteralRecord extends TRecord
         return $this->paciente->nome;
 
     }
+
+    
 }

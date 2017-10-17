@@ -60,13 +60,12 @@ class DoencaBaseDetalhe extends TWindow
         
         $voltar = new TAction(array('PacienteDetail','onReload'));
         $voltar->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+        
 
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
         $this->form->addAction('Voltar para Pacientes',$voltar,'fa:table blue');
 
-
-        $this->datagrid->createModel();
 
         $this->pageNavigation = new TPageNavigation();
         $this->pageNavigation->setAction( new TAction( [ $this, "onReload" ] ) );
@@ -81,6 +80,7 @@ class DoencaBaseDetalhe extends TWindow
 
         parent::add( $container );
     }
+
     public function onSave( $param = NULL )
     {
         try

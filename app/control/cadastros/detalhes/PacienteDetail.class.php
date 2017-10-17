@@ -58,6 +58,8 @@ class PacienteDetail extends TPage
         $fk = filter_input( INPUT_GET, "fk" );
         $did = filter_input( INPUT_GET, "did" );
 
+        $this->form1->addAction( "Voltar para Pacientes", new TAction( [ "PacienteList", "onReload" ] ), "fa:table blue" );
+
         $this->form1->addFields( [new TLabel('Paciente: '), $paciente_nome, ('Data Diagnostico: '), $datadiagnostico] );
         $this->form1->addFields( [new TLabel('Tipo Sanguineo: '), $tiposanguineo, ('Fator Sanguineo: '), $fatorsanguineo] );       
         $this->form1->addFields( [new TLabel('Estabelecimento: '), $estabelecimento, ('Municipio: '), $municipio] );
@@ -208,12 +210,13 @@ class PacienteDetail extends TPage
         $column_percentualdiario = new TDataGridColumn('percentualdiario', 'Percentual Diário', 'center');
         $column_volumenpt = new TDataGridColumn('volumenpt', 'Volume NPT', 'left');
         $column_tempoinfusao = new TDataGridColumn('tempoinfusao', 'Tempo Infusão', 'left');
-        $column_frequencia = new TDataGridColumn('frequencia', 'frequencia', 'left');
-        $column_acessovenosolp = new TDataGridColumn('acessovenosolp', 'acessovenosolp', 'left');
-        $column_acessovenosolpqual = new TDataGridColumn('acessovenosolpqual', 'acessovenosolpqual', 'left');
-        $column_numerodeacessovenoso = new TDataGridColumn('numerodeacessovenoso', 'numerodeacessovenoso', 'left');
-        $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 'apresentouinfeccaoacessovenoso', 'left');
-        $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'vezesinfeccaoacessovenoso', 'left');
+        $column_frequencia = new TDataGridColumn('frequencia', 'Frequencia', 'left');
+        $column_acessovenosolp = new TDataGridColumn('acessovenosolp', 'Acesso Venoso lp', 'left');
+        $column_acessovenosolpqual = new TDataGridColumn('acessovenosolpqual', 'Qual. Acesso Venoso', 'left');
+        $column_numerodeacessovenoso = new TDataGridColumn('numerodeacessovenoso', 'Nº Acesso Venoso', 'left');
+        $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 
+            'Infecção Venosa', 'left');
+        $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'Qtd invecção Venosa', 'left');
 
         $this->framegrid2->addColumn($column_inicio);
         $this->framegrid2->addColumn($column_fim);
@@ -262,7 +265,6 @@ class PacienteDetail extends TPage
         $this->framegrid3->style = "width: 100%";
         $this->framegrid3->setHeight( 320 );
 
-        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_name2 = new TDataGridColumn('tipo_nutricao_nome', 'Tipo Nutrição', 'left');
         $column_name3 = new TDataGridColumn('administracao_nutricao_nome', 'Administração Nutrição', 'left');
         $column_inicio = new TDataGridColumn('datainicio', 'Início', 'left');
@@ -275,6 +277,8 @@ class PacienteDetail extends TPage
         $editEnteral->setLabel('Editar');
         $editEnteral->setImage('fa:pencil-square-o blue fa-lg');
         $editEnteral->setField('id');
+        $editEnteral->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+
         $this->framegrid3->addAction($editEnteral);
         
         $delEnteral = new TDataGridAction(array($this, 'onDeleteEnteral'));
@@ -282,9 +286,9 @@ class PacienteDetail extends TPage
         $delEnteral->setLabel(_t('Delete'));
         $delEnteral->setImage('fa:trash-o red fa-lg');
         $delEnteral->setField('id');
+        $editEnteral->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->framegrid3->addAction($delEnteral);
 
-        $this->framegrid3->addColumn($column_name);
         $this->framegrid3->addColumn($column_name2);
         $this->framegrid3->addColumn($column_name3);
         $this->framegrid3->addColumn($column_inicio);
@@ -306,13 +310,11 @@ class PacienteDetail extends TPage
         $this->framegrid4->style = "width: 100%";
         $this->framegrid4->setHeight( 320 );
 
-        $column_name = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_peso = new TDataGridColumn('peso', 'Peso ', 'left');
         $column_comprintdel = new TDataGridColumn('comprimentointestinodelgado', ' Comprimento do Intestino Delgado', 'left');
         $column_estomia = new TDataGridColumn('estomia', 'Estomia', 'left');
         $column_transplantado = new TDataGridColumn('transplantado', 'Transplantado', 'left');
 
-        $this->framegrid4->addColumn($column_name);
         $this->framegrid4->addColumn($column_peso);
         $this->framegrid4->addColumn($column_comprintdel);
         $this->framegrid4->addColumn($column_estomia);
@@ -350,7 +352,6 @@ class PacienteDetail extends TPage
         $this->framegrid5->style = "width: 100%";
         $this->framegrid5->setHeight( 320 );
 
-        $column_1 = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_2 = new TDataGridColumn('datainicio', 'Início', 'left');
         $column_3 = new TDataGridColumn('datafim', 'Fim', 'left');
         $column_4 = new TDataGridColumn('medicamento_nome', 'Medicamento', 'left');
@@ -358,7 +359,6 @@ class PacienteDetail extends TPage
         $column_6 = new TDataGridColumn('posologia', 'Posologia', 'left');
         $column_7 = new TDataGridColumn('observacao', 'Observações', 'left');
 
-        $this->framegrid5->addColumn($column_1);
         $this->framegrid5->addColumn($column_2);
         $this->framegrid5->addColumn($column_3);
         $this->framegrid5->addColumn($column_4);
@@ -400,12 +400,10 @@ class PacienteDetail extends TPage
         $this->framegrid6->style = "width: 100%";
         $this->framegrid6->setHeight( 320 );
 
-        $column_1 = new TDataGridColumn('paciente_nome', 'Paciente', 'left');
         $column_2 = new TDataGridColumn('exame_nome', 'Exame', 'left');
         $column_3 = new TDataGridColumn('valor', 'Valor', 'left');
         $column_4 = new TDataGridColumn('dataexame', 'Data do Exame', 'left');
 
-        $this->framegrid6->addColumn($column_1);
         $this->framegrid6->addColumn($column_2);
         $this->framegrid6->addColumn($column_3);
         $this->framegrid6->addColumn($column_4);
@@ -794,9 +792,12 @@ class PacienteDetail extends TPage
 
             $action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter( "fk", $param[ "fk" ] );
+            $action1->setParameter( "id", $param[ "id" ] );
+
 
             $action2->setParameter( "key", $param[ "key" ] );
             $action2->setParameter( "fk", $param[ "fk" ] );
+            $action2->setParameter( "id", $param[ "id" ] );
             
             //$action2->setParameter();         
             
@@ -819,6 +820,7 @@ class PacienteDetail extends TPage
             $action = new TAction( [ $this, "onReload" ] );
             $action->setParameter( "key", $param[ "key" ] );
             $action->setParameter( "fk", $param[ "fk" ] );
+            $action->setParameter( "id", $param[ "id" ] );
 
             new TMessage("info", "Registro apagado com sucesso!", $action);
         }
@@ -848,9 +850,12 @@ class PacienteDetail extends TPage
 
             $action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter( "fk", $param[ "fk" ] );
+            $action1->setParameter( "id", $param[ "id" ] );
 
             $action2->setParameter( "key", $param[ "key" ] );
             $action2->setParameter( "fk", $param[ "fk" ] );
+            $action2->setParameter( "id", $param[ "id" ] );
+
             
             //$action2->setParameter();         
             
@@ -867,13 +872,14 @@ class PacienteDetail extends TPage
         try
         {
             TTransaction::open( "dbsic" );
-            $object = new NutricaoEnteralRecord( $param[ "key" ] );
+            $object = new NutricaoParenteralRecord( $param[ "key" ] );
             $object->delete();
             TTransaction::close();
             
             $action = new TAction( [ $this, "onReload" ] );
             $action->setParameter( "key", $param[ "key" ] );
             $action->setParameter( "fk", $param[ "fk" ] );
+            $action->setParameter( "id", $param[ "id" ] );
 
             new TMessage("info", "Registro apagado com sucesso!", $action);
         }
@@ -899,9 +905,11 @@ class PacienteDetail extends TPage
 
             $action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter( "fk", $param[ "fk" ] );
+            $action1->setParameter( "id", $param[ "id" ] );
 
             $action2->setParameter( "key", $param[ "key" ] );
             $action2->setParameter( "fk", $param[ "fk" ] );
+            $action2->setParameter( "id", $param[ "id" ] );
             
             //$action2->setParameter();         
             
@@ -925,6 +933,7 @@ class PacienteDetail extends TPage
             $action = new TAction( [ $this, "onReload" ] );
             $action->setParameter( "key", $param[ "key" ] );
             $action->setParameter( "fk", $param[ "fk" ] );
+            $action->setParameter( "id", $param[ "id" ] );
 
             new TMessage("info", "Registro apagado com sucesso!", $action);
         }
@@ -952,9 +961,11 @@ class PacienteDetail extends TPage
 
             $action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter( "fk", $param[ "fk" ] );
+            $action1->setParameter( "id", $param[ "id" ] );
 
             $action2->setParameter( "key", $param[ "key" ] );
             $action2->setParameter( "fk", $param[ "fk" ] );
+            $action2->setParameter( "id", $param[ "id" ] );
             
             //$action2->setParameter();         
             
@@ -978,6 +989,7 @@ class PacienteDetail extends TPage
             $action = new TAction( [ $this, "onReload" ] );
             $action->setParameter( "key", $param[ "key" ] );
             $action->setParameter( "fk", $param[ "fk" ] );
+            $action->setParameter( "id", $param[ "id" ] );
 
             new TMessage("info", "Registro apagado com sucesso!", $action);
         }
@@ -1008,9 +1020,11 @@ class PacienteDetail extends TPage
 
             $action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter( "fk", $param[ "fk" ] );
+            $action1->setParameter( "id", $param[ "id" ] );
 
             $action2->setParameter( "key", $param[ "key" ] );
             $action2->setParameter( "fk", $param[ "fk" ] );
+            $action2->setParameter( "id", $param[ "id" ] );
             
             //$action2->setParameter();         
             
@@ -1034,6 +1048,7 @@ class PacienteDetail extends TPage
             $action = new TAction( [ $this, "onReload" ] );
             $action->setParameter( "key", $param[ "key" ] );
             $action->setParameter( "fk", $param[ "fk" ] );
+            $action->setParameter( "id", $param[ "id" ] );
 
             new TMessage("info", "Registro apagado com sucesso!", $action);
         }
@@ -1060,9 +1075,11 @@ class PacienteDetail extends TPage
 
             $action1->setParameter( "key", $param[ "key" ] );
             $action1->setParameter( "fk", $param[ "fk" ] );
+            $action1->setParameter( "id", $param[ "id" ] );
 
             $action2->setParameter( "key", $param[ "key" ] );
             $action2->setParameter( "fk", $param[ "fk" ] );
+            $action2->setParameter( "id", $param[ "id" ] );
             
             //$action2->setParameter();         
             
@@ -1086,6 +1103,7 @@ class PacienteDetail extends TPage
             $action = new TAction( [ $this, "onReload" ] );
             $action->setParameter( "key", $param[ "key" ] );
             $action->setParameter( "fk", $param[ "fk" ] );
+            $action->setParameter( "id", $param[ "id" ] );
 
             new TMessage("info", "Registro apagado com sucesso!", $action);
         }
