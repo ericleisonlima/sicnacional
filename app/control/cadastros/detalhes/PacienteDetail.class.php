@@ -218,7 +218,7 @@ class PacienteDetail extends TPage
             'Infecção Venosa', 'left');
         $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'Qtd infecção Venosa', 'left');
 
-        $this->framegrid2->addColumn($column_inicio);
+        $this->framegrid2->addColumn(($column_inicio));
         $this->framegrid2->addColumn($column_fim);
         $this->framegrid2->addColumn($column_tipoparenteral);
         $this->framegrid2->addColumn($column_tipoparenteraloutros);
@@ -531,6 +531,7 @@ class PacienteDetail extends TPage
             {
                 foreach ( $objects as $object )
                 {
+                        
                     $this->framegrid2->addItem( $object );
                 }
             }
