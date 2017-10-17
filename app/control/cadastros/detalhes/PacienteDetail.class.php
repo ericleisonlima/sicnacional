@@ -216,7 +216,7 @@ class PacienteDetail extends TPage
         $column_numerodeacessovenoso = new TDataGridColumn('numerodeacessovenoso', 'Nº Acesso Venoso', 'left');
         $column_apresentouinfeccaoacessovenoso = new TDataGridColumn('apresentouinfeccaoacessovenoso', 
             'Infecção Venosa', 'left');
-        $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'Qtd invecção Venosa', 'left');
+        $column_vezesinfeccaoacessovenoso = new TDataGridColumn('vezesinfeccaoacessovenoso', 'Qtd infecção Venosa', 'left');
 
         $this->framegrid2->addColumn($column_inicio);
         $this->framegrid2->addColumn($column_fim);
