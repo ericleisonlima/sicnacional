@@ -84,6 +84,8 @@ class NutricaoParenteralDetalhe extends TWindow{
         $apresentouinfeccaoacessovenoso->addItems(array('SIM'=>'SIM', 'NAO'=>'NÃO'));
 
         $apresentouinfeccaoacessovenoso->setLayout('horizontal');
+        $apresentouinfeccaoacessovenoso->setValue('NAO');
+
         $inicio->setSize('20%');
         $fim->setSize('20%');
 
@@ -197,7 +199,7 @@ class NutricaoParenteralDetalhe extends TWindow{
             TApplication::gotoPage('PacienteDetail','onReload', $param); 
 
         }catch (Exception $e){
-            //$object = $this->form->getData($this->activeRecord);
+            $cadastro = $this->form->getData($this->activeRecord);
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }
@@ -212,9 +214,8 @@ class NutricaoParenteralDetalhe extends TWindow{
             $key = $param['key'];
             $object = new NutricaoParenteralRecord($key);
 
-            $object->dataregistro = TDate::date2br($object->dataregistro);
-            $object->datacirurgia = TDate::date2br($object->datacirurgia);
-            $object->datatransplante = TDate::date2br($object->datatransplante);
+            $object->datainicio = TDate::date2br($object->datainicio);
+            $object->datafim = TDate::date2br($object->datafim);
             $this->form->setData($object);
             
         } else {

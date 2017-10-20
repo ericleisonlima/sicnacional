@@ -96,23 +96,15 @@ class NutricaoEnteralFormDetalhe extends TWindow{
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+        $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
+
+        $voltar->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
+        $voltar->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
+        $voltar->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
 
         $this->form->addAction('Salvar', $action, 'fa:floppy-o');
-        $this->form->addAction('Voltar para Paciente',new TAction(array('PacienteList','onReload')),'fa:table blue');
-
-       /* $action_edit = new TDataGridAction(array('NutricaoEnteralFormDetalhe', 'onEdit'));
-        $action_edit->setButtonClass('btn btn-default');
-        $action_edit->setLabel('Editar');
-        $action_edit->setImage('fa:pencil-square-o blue fa-lg');
-        $action_edit->setField('id');
-        $this->datagrid->addAction($action_edit);
-        
-        $action_del = new TDataGridAction(array($this, 'onDelete'));
-        $action_del->setButtonClass('btn btn-default');
-        $action_del->setLabel(_t('Delete'));
-        $action_del->setImage('fa:trash-o red fa-lg');
-        $action_del->setField('id');
-        $this->datagrid->addAction($action_del);*/
+        $this->form->addAction('Voltar para Pacientes',$voltar ,'fa:table blue');
+    
         
         $this->pageNavigation = new TPageNavigation;
         $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
@@ -127,7 +119,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
         
     }
 
-    public function onSave(){
+    public function onSave($param){
         try{
 
             TTransaction::open('dbsic');
@@ -144,7 +136,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
             TApplication::gotoPage('PacienteDetail','onReload', $param);
 
         }catch (Exception $e){
-            $object = $this->form->getData($this->activeRecord);
+            $cadastro = $this->form->getData($this->activeRecord);
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }
@@ -159,9 +151,8 @@ class NutricaoEnteralFormDetalhe extends TWindow{
             $key = $param['key'];
             $object = new NutricaoEnteralRecord($key);
 
-            $object->dataregistro = TDate::date2br($object->dataregistro);
-            $object->datacirurgia = TDate::date2br($object->datacirurgia);
-            $object->datatransplante = TDate::date2br($object->datatransplante);
+            $object->datainicio = TDate::date2br($object->datainicio);
+            $object->datafim = TDate::date2br($object->datafim);
             $this->form->setData($object);
             
         } else {
@@ -170,9 +161,6 @@ class NutricaoEnteralFormDetalhe extends TWindow{
         TTransaction::close();
 
     }
-
- 
-
 
     public function onReload( $param = NULL ){
 }

@@ -76,9 +76,9 @@ class AnamneseFormDetalhe extends TWindow{
         $estomia->setValue(1);
 
         $transplantado = new TRadioGroup('transplantado');
-        $transplantado->addItems(array('SIM'=>'SIM', 'NÃO'=>'NÃO'));
+        $transplantado->addItems(array('SIM'=>'SIM', 'NAO'=>'NÃO'));
         $transplantado->setLayout('horizontal');
-        $transplantado->setValue(1);
+        $transplantado->setValue('NAO');
         $acaoRadio2 = new TAction(array($this, 'onChangeRadio2'));
         $acaoRadio2->setParameter('form_detail_anamnese', $this->form->getName());
         $transplantado->setChangeAction($acaoRadio2);

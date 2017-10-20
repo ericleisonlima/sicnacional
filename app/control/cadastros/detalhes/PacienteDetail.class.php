@@ -286,7 +286,8 @@ class PacienteDetail extends TPage
         $delEnteral->setLabel(_t('Delete'));
         $delEnteral->setImage('fa:trash-o red fa-lg');
         $delEnteral->setField('id');
-        $editEnteral->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+        $delEnteral->setParameter('fk', filter_input(INPUT_GET, 'fk'));
+
         $this->framegrid3->addAction($delEnteral);
 
         $this->framegrid3->addColumn($column_name2);
@@ -382,9 +383,7 @@ class PacienteDetail extends TPage
         $delMedicamento->setParameter('fk', filter_input(INPUT_GET, 'fk'));
         $this->framegrid5->addAction($delMedicamento);
 
-       
-        
-        
+
         $this->framegrid5->createModel();
 
         $this->form2->addContent( [ $this->framegrid5 ] );
@@ -482,7 +481,7 @@ class PacienteDetail extends TPage
             }
             $criteria->resetProperties();
 
-            $count = $repository->count($criteria);
+            //$count = $repository->count($criteria);
             //$this->pageNavigation->setCount($count);
             //$this->pageNavigation->setProperties($param);
             //$this->pageNavigation->setLimit($limit);
@@ -532,12 +531,14 @@ class PacienteDetail extends TPage
                 foreach ( $objects as $object )
                 {
                         
+                    $object->datainicio = TDate::date2br($object->datainicio);
+                    $object->datafim = TDate::date2br($object->datafim);
                     $this->framegrid2->addItem( $object );
                 }
             }
             $criteria->resetProperties();
 
-            $count = $repository->count($criteria);
+            //$count = $repository->count($criteria);
             //$this->pageNavigation->setCount($count);
             //$this->pageNavigation->setProperties($param);
             //$this->pageNavigation->setLimit($limit);
@@ -585,13 +586,16 @@ class PacienteDetail extends TPage
             if ( !empty( $objects ) )
             {
                 foreach ( $objects as $object )
-                {
+                {   
+
+                    $object->datainicio = TDate::date2br($object->datainicio);
+                    $object->datafim = TDate::date2br($object->datafim);
                     $this->framegrid3->addItem( $object );
                 }
             }
             $criteria->resetProperties();
 
-            $count = $repository->count($criteria);
+            //$count = $repository->count($criteria);
             //$this->pageNavigation->setCount($count);
             //$this->pageNavigation->setProperties($param);
             //$this->pageNavigation->setLimit($limit);
@@ -603,7 +607,7 @@ class PacienteDetail extends TPage
         {
             TTransaction::rollback();
             new TMessage( "error", $ex->getMessage() );
-        }
+        }   
 
     }
 
@@ -640,12 +644,13 @@ class PacienteDetail extends TPage
             {
                 foreach ( $objects as $object )
                 {
+
                     $this->framegrid4->addItem( $object );
                 }
             }
             $criteria->resetProperties();
 
-            $count = $repository->count($criteria);
+            //$count = $repository->count($criteria);
             //$this->pageNavigation->setCount($count);
             //$this->pageNavigation->setProperties($param);
             //$this->pageNavigation->setLimit($limit);
@@ -694,12 +699,15 @@ class PacienteDetail extends TPage
             {
                 foreach ( $objects as $object )
                 {
+
+                    $object->datainicio = TDate::date2br($object->datainicio);
+                    $object->datafim = TDate::date2br($object->datafim);
                     $this->framegrid5->addItem( $object );
                 }
             }
             $criteria->resetProperties();
 
-            $count = $repository->count($criteria);
+            //$count = $repository->count($criteria);
             //$this->pageNavigation->setCount($count);
             //$this->pageNavigation->setProperties($param);
             //$this->pageNavigation->setLimit($limit);
@@ -748,12 +756,14 @@ class PacienteDetail extends TPage
             {
                 foreach ( $objects as $object )
                 {
+
+                    $object->dataexame = TDate::date2br($object->dataexame);
                     $this->framegrid6->addItem( $object );
                 }
             }
             $criteria->resetProperties();
 
-            $count = $repository->count($criteria);
+            //$count = $repository->count($criteria);
             //$this->pageNavigation->setCount($count);
             //$this->pageNavigation->setProperties($param);
             //$this->pageNavigation->setLimit($limit);
@@ -833,7 +843,7 @@ class PacienteDetail extends TPage
     }
     public function show()
     {
-        $this->onReload();
+        $this->onReload($param);
 
         parent::show();
     }

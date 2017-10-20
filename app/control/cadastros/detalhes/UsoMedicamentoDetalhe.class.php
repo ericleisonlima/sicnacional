@@ -135,8 +135,8 @@ class UsoMedicamentoDetalhe extends TWindow{
             $key = $param['key'];
             $object = new UsoMedicamentoRecord($key);
 
-            $object->dataregistro = TDate::date2br($object->dataregistro);
-            $object->datacirurgia = TDate::date2br($object->datacirurgia);
+            $object->datainicio = TDate::date2br($object->datainicio);
+            $object->datafim = TDate::date2br($object->datafim);
             $object->datatransplante = TDate::date2br($object->datatransplante);
             $this->form->setData($object);
             
