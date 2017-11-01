@@ -224,7 +224,6 @@ class PacienteDetail extends TPage
         $this->framegrid2->addColumn($column_tipoparenteraloutros);
         $this->framegrid2->addColumn($column_totalcalorias);
         $this->framegrid2->addColumn($column_percentualdiario);
-        $this->framegrid2->addColumn($column_percentualdiario);
         $this->framegrid2->addColumn($column_acessovenosolp);
         $this->framegrid2->addColumn($column_frequencia);
         $this->framegrid2->addColumn($column_acessovenosolp);
@@ -341,7 +340,7 @@ class PacienteDetail extends TPage
 
         $this->form2->addContent( [ $this->framegrid4 ] );
 
-        //-----------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------
 
         $page5 = new TLabel( "Medicamento", '#7D78B6', 12, 'bi');
         $page5->style='text-align:left;border-bottom:1px solid #c0c0c0;width:100%';
@@ -427,7 +426,7 @@ class PacienteDetail extends TPage
 
         $this->form2->addContent( [ $this->framegrid6 ] );
 
-        //-----------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 
         $container = new TVBox();
         $container->style = "width: 100%";  
@@ -841,7 +840,7 @@ class PacienteDetail extends TPage
             new TMessage("error", $ex->getMessage());
         }
     }
-    public function show()
+    public function show($param = null)
     {
         $this->onReload($param);
 
