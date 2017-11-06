@@ -33,7 +33,7 @@ class SystemUserList extends TStandardList
         
 
         // create the form fields
-        $id = new TEntry('id');
+        $id = new THidden('id');
         $name = new TEntry('name');
         $email = new TEntry('email');
         $active = new TCombo('active');
@@ -41,7 +41,7 @@ class SystemUserList extends TStandardList
         $active->addItems( [ 'Y' => _t('Yes'), 'N' => _t('No') ] );
         
         // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
+        $this->form->addFields( [new TLabel('')], [$id] );
         $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
         $this->form->addFields( [new TLabel(_t('Email'))], [$email] );
         $this->form->addFields( [new TLabel(_t('Active'))], [$active] );
@@ -66,7 +66,6 @@ class SystemUserList extends TStandardList
         
 
         // creates the datagrid columns
-        $column_id = new TDataGridColumn('id', 'Id', 'center', 50);
         $column_name = new TDataGridColumn('name', _t('Name'), 'left');
         $column_login = new TDataGridColumn('login', _t('Login'), 'left');
         $column_medico = new TDataGridColumn('medico_nome', 'Medico', 'left');
@@ -74,7 +73,6 @@ class SystemUserList extends TStandardList
         $column_active = new TDataGridColumn('active', _t('Active'), 'center');
         
         // add the columns to the DataGrid
-        $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_login);
         $this->datagrid->addColumn($column_medico);
@@ -93,10 +91,7 @@ class SystemUserList extends TStandardList
         });
         
         // creates the datagrid column actions
-        $order_id = new TAction(array($this, 'onReload'));
-        $order_id->setParameter('order', 'id');
-        $column_id->setAction($order_id);
-        
+    
         $order_name = new TAction(array($this, 'onReload'));
         $order_name->setParameter('order', 'name');
         $column_name->setAction($order_name);
