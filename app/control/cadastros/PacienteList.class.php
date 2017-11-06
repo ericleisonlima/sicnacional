@@ -73,7 +73,7 @@ class PacienteList extends TPage
         $this->datagrid->addAction( $action_del );
 
         $action_avaliacao = new CustomDataGridAction( [ "PacienteDetail", "onReload" ] );
-        $action_avaliacao->setButtonClass( "btn btn-primary" );
+        $action_avaliacao->setButtonClass( "btn btn-success" );
         $action_avaliacao->setImage( "fa:user-md white fa-lg" );
         $action_avaliacao->setField( "id" );
         $action_avaliacao->setFk( "id" );
