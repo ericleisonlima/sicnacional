@@ -54,7 +54,7 @@ class TDataGrid extends TTable
     {
         parent::__construct();
         $this->modelCreated = FALSE;
-        $this->defaultClick = TRUE;
+        $this->defaultClick = FALSE;
         $this->popover = FALSE;
         $this->groupColumn = NULL;
         $this->groupContent = NULL;
