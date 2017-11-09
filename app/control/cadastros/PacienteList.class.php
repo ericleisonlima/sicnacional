@@ -28,7 +28,7 @@ class PacienteList extends TPage
         $opcao->setSize( "38%" );
         $dados->setSize( "38%" );
 
-        $opcao->addItems( [ "nome" => "Nome"] );
+        $opcao->addItems( [ "paciente_nome" => "Nome"] );
         $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
         $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
 
@@ -51,7 +51,7 @@ class PacienteList extends TPage
         $this->datagrid->addColumn($column_data_diagnostico );
 
         $order_nome = new TAction( [ $this, "onReload" ] );
-        $order_nome->setParameter( "order", "nome" );
+        $order_nome->setParameter( "order", "paciente_nome" );
         $column_nome->setAction( $order_nome );
 
         $order_tiposanguineo = new TAction( [ $this, "onReload" ] );
@@ -157,6 +157,7 @@ class PacienteList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
+
     public function onSearch()
     {
         $data = $this->form->getData();
@@ -165,18 +166,18 @@ class PacienteList extends TPage
             if( !empty( $data->opcao ) && !empty( $data->dados ) )
             {
                 TTransaction::open( "dbsic" );
-                $repository = new TRepository( "PacienteRecord" );
+                $repository = new TRepository( "VwPacienteMedicoRecord" );
                 if ( empty( $param[ "order" ] ) )
                 {
                     $param[ "order" ] = "id";
                     $param[ "direction" ] = "asc";
                 }
 
-                                $limit = 10;
+                $limit = 10;
                 $criteria = new TCriteria();
                 $criteria->setProperties( $param );
                 $criteria->setProperty( "limit", $limit );
-                if( $data->opcao == "nome" && ( is_numeric( $data->dados ) ) )
+                if( $data->opcao == "paciente_nome" )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
                 }
@@ -191,12 +192,17 @@ class PacienteList extends TPage
                         $this->datagrid->addItem( $object );
                     }
                 }
+
                 $criteria->resetProperties();
+
                 $count = $repository->count( $criteria );
+
                 $this->pageNavigation->setCount( $count );
                 $this->pageNavigation->setProperties( $param );
                 $this->pageNavigation->setLimit( $limit );
+
                 TTransaction::close();
+
                 $this->form->setData( $data );
                 $this->loaded = true;
             }
@@ -214,6 +220,7 @@ class PacienteList extends TPage
             new TMessage( "error", $ex->getMessage() );
         }
     }
+
     public function onDelete( $param = NULL )
     {
         if( isset( $param[ "key" ] ) )
