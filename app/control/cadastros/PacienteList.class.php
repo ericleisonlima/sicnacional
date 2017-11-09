@@ -158,7 +158,7 @@ class PacienteList extends TPage
         }
     }
 
-    public function onSearch()
+    public function onSearch($param = NULL)
     {
         $data = $this->form->getData();
         try
@@ -167,7 +167,7 @@ class PacienteList extends TPage
             {
                 TTransaction::open( "dbsic" );
                 $repository = new TRepository( "VwPacienteMedicoRecord" );
-                if ( empty( $param[ "order" ] ) )
+                if ( empty( $param[ "order" ] ) && ( is_numeric( $data->dados ) ) )
                 {
                     $param[ "order" ] = "id";
                     $param[ "direction" ] = "asc";
