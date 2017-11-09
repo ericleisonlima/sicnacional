@@ -98,6 +98,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
         $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
 
+        $voltar = new TAction(array('PacienteDetail','onReload'));    
         $voltar->setParameter('id', '' . filter_input(INPUT_GET, 'id') . '');
         $voltar->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
         $voltar->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
