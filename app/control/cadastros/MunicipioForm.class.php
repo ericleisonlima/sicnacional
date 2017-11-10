@@ -39,6 +39,9 @@ class MunicipioForm extends TPage{
         $this->form->addFields( [ new TLabel( '' ) ], [ $id ] ); 
 
         $nome->addValidation( "Nome", new TRequiredValidator );
+        $codibge->addValidation( "Código IBGE", new TRequiredValidator );
+        $uf->addValidation( "Estado", new TRequiredValidator );
+
 
         $this->form->addAction('Voltar', new TAction( ["MunicipioList", 'onReload'] ), 'ico_back.png');
         $this->form->addAction( 'Salvar', new TAction( [$this, 'onSave'] ), 'fa:save' );

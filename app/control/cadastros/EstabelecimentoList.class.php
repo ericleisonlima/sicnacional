@@ -53,6 +53,13 @@ class EstabelecimentoList extends TPage{
         $order_nome->setParameter( "order", "nome" );
         $column_nome->setAction( $order_nome );
 
+        $action_edit = new TDataGridAction( [ "EstabelecimentoForm", "onEdit" ] );
+        $action_edit->setButtonClass( "btn btn-default" );
+        $action_edit->setLabel( "Editar" );
+        $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
+        $action_edit->setField( "id" );
+        $this->datagrid->addAction( $action_edit );
+
         $action_del = new TDataGridAction( [ $this, "onDelete" ] );
         $action_del->setButtonClass( "btn btn-default" );
         $action_del->setLabel( "Deletar" );
@@ -60,12 +67,7 @@ class EstabelecimentoList extends TPage{
         $action_del->setField( "id" );
         $this->datagrid->addAction( $action_del );
 
-        $action_edit = new TDataGridAction( [ "EstabelecimentoForm", "onEdit" ] );
-        $action_edit->setButtonClass( "btn btn-default" );
-        $action_edit->setLabel( "Editar" );
-        $action_edit->setImage( "fa:pencil-square-o blue fa-lg" );
-        $action_edit->setField( "id" );
-        $this->datagrid->addAction( $action_edit );
+ 
 
         $action_estab_med = new DataGridActionCustom( [ "EstabelecimentoMedicoDetalhe", "onReload" ] );
         $action_estab_med->setButtonClass( "btn btn-default" );

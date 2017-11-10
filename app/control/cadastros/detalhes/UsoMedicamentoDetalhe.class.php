@@ -1,4 +1,6 @@
 <?php
+
+
 class UsoMedicamentoDetalhe extends TWindow{
     protected $form;
     protected $datagrid;

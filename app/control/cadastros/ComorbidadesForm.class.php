@@ -27,7 +27,7 @@ class ComorbidadesForm extends TPage
 
         //Insercao dos campos no formulario
         $this->form->addFields( [ $id ] );
-        $this->form->addFields([new TLabel('Nome<font color=red>*</font>')], [$nome]);
+        $this->form->addFields(['Nome<font color=red>*</font>', $nome]);
 
         //Criacao dos botoes com sua determinada acoes no fomulario
         $this->form->addAction( "Salvar", new TAction( [ $this, "onSave" ] ), "fa:floppy-o" );

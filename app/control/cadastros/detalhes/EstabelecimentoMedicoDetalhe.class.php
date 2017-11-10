@@ -17,8 +17,9 @@ class EstabelecimentoMedicoDetalhe extends TWindow{
         $this->form->setFormTitle( "Formulário de Cadastro de Médicos nos Estabelecimentos" );
         $this->form->class = "tform";
 
-        parent::setDatabase('dbsic');
-        parent::setActiveRecord('EstabelecimentoMedicoRecord');
+        //parent::setDatabase('dbsic');
+        //parent::setActiveRecord('EstabelecimentoMedicoRecord');
+        parent::setSize(0.8,0.9);
 
         $id                         = new THidden( "id" );
         $estabelecimento_id         = new THidden( "estabelecimento_id" );

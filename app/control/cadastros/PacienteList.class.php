@@ -22,6 +22,7 @@ class PacienteList extends TPage
         $dados = new TEntry( "dados" );
 
         $opcao->setDefaultOption( "..::SELECIONE::.." );
+        $opcao->setValue( "paciente_nome" );
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
         // $dados->forceUpperCase();
 

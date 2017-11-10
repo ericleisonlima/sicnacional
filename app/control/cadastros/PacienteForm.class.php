@@ -37,7 +37,9 @@ class PacienteForm extends TPage
         $nome->forceUpperCase();
         $nome->setProperty( "title", "O campo é obrigatório" );
 
-        $items = array();
+        //------------------------------------------------------------------------------------------------------------------
+
+      /*  $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('MunicipioRecord');
 
@@ -51,7 +53,17 @@ class PacienteForm extends TPage
         }
 
         $municipio_id->addItems($items);
-        TTransaction::close(); 
+        TTransaction::close(); */
+
+        $municipio_id = new TDBMultiSearch('municipio_id', 'dbsic', 'MunicipioRecord', 'id', 'nome', 'nome');
+        $municipio_id->style = "text-transform: uppercase;";
+        $municipio_id->setProperty('placeholder', '....::::DIGITE O MUNICÍPIO::::....');
+        $municipio_id->setMinLength(1);
+        $municipio_id->setMaxSize(1);
+        $municipio_id->setSize('30%');
+
+
+        //-----------------------------------------------------------------------------------------------------------------
         $items = array();
         TTransaction::open('dbsic');
         $repository = new TRepository('CondicoesDiagnosticoRecord');
@@ -85,7 +97,7 @@ class PacienteForm extends TPage
         $estabelecimento_medico_id->addItems($items);
         TTransaction::close(); 
 
-        //----------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------
 
         $items = array();
         TTransaction::open('dbsic');
