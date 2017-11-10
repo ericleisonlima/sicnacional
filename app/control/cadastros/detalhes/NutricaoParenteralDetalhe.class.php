@@ -83,6 +83,17 @@ class NutricaoParenteralDetalhe extends TWindow{
 
         $apresentouinfeccaoacessovenoso->addItems(array('SIM'=>'SIM', 'NAO'=>'NÃO'));
 
+
+        $apresentouinfeccaoacessovenoso = new TRadioGroup('apresentouinfeccaoacessovenoso');
+        $apresentouinfeccaoacessovenoso->addItems(array('SIM'=>'SIM', 'NAO'=>'NÃO'));
+        $apresentouinfeccaoacessovenoso->setLayout('horizontal');
+        $acaoRadio = new TAction(array($this, 'onChangeRadio3'));
+        $acaoRadio->setParameter('form_nutricao_parenteral', $this->form->getName());
+        $apresentouinfeccaoacessovenoso->setChangeAction($acaoRadio);
+        $apresentouinfeccaoacessovenoso->setValue('SIM');
+
+
+
         $apresentouinfeccaoacessovenoso->setLayout('horizontal');
         $apresentouinfeccaoacessovenoso->setValue('NAO');
 
@@ -141,33 +152,6 @@ class NutricaoParenteralDetalhe extends TWindow{
 
         parent::add($container);
     }
-        public static function onChangeRadio2($param)
-   {
-       switch ($param['acessovenosolp'])
-       {
-           case 'SIM':
-           TEntry::clearField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
-           TEntry::clearField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
-           TEntry::clearField($param['form_nutricao_parenteral'], 'apresentouinfeccaoacessovenoso');
-           TEntry::clearField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');
-           TEntry::enableField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
-           TEntry::enableField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
-           TEntry::enableField($param['form_nutricao_parenteral'], 'apresentouinfeccaoacessovenoso');
-           TEntry::enableField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');
-           break;
-       
-           case 'NAO':
-           TEntry::clearField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
-           TEntry::clearField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
-           TEntry::clearField($param['form_nutricao_parenteral'], 'apresentouinfeccaoacessovenoso');     
-           TEntry::clearField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');     
-           TEntry::disableField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
-           TEntry::disableField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
-           TEntry::disableField($param['form_nutricao_parenteral'], 'apresentouinfeccaoacessovenoso');
-           TEntry::disableField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');
-           break;
-       }
-   }
 
     public static function onChangeRadio($param){
 
@@ -180,6 +164,44 @@ class NutricaoParenteralDetalhe extends TWindow{
             
             }
     }
+
+        public static function onChangeRadio2($param)
+   {
+       switch ($param['acessovenosolp'])
+       {
+           case 'SIM':
+           TEntry::clearField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
+           TEntry::clearField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
+           TEntry::enableField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
+           TEntry::enableField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
+           break;
+       
+           case 'NAO':
+           TEntry::clearField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
+           TEntry::clearField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');     
+           TEntry::disableField($param['form_nutricao_parenteral'], 'acessovenosolpqual');
+           TEntry::disableField($param['form_nutricao_parenteral'], 'numerodeacessovenoso');
+           break;
+       }
+   }
+
+     public static function onChangeRadio3($param)
+   {
+       switch ($param['apresentouinfeccaoacessovenoso'])
+       {
+           case 'SIM':
+           TEntry::clearField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');
+           TEntry::enableField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');
+           break;
+       
+           case 'NAO':    
+           TEntry::clearField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso'); 
+           TEntry::disableField($param['form_nutricao_parenteral'], 'vezesinfeccaoacessovenoso');
+           break;
+       }
+   }
+
+
 
 
     public function onSave($param){
