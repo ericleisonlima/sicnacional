@@ -32,7 +32,7 @@ class MunicipioList extends TPage{
         $this->form->addFields( [ new TLabel( 'Dados da busca:' )  ], [ $dados ] );
 
         $this->form->addAction( 'Buscar', new TAction( [$this, 'onSearch'] ), 'fa:search' );
-        $this->form->addAction( 'Novo', new TAction( ["MunicipioForm", 'onShow'] ), 'fa:save' );
+        $this->form->addAction( 'Novo', new TAction( ["MunicipioForm", 'onShow'] ), "bs:plus-sign green" );
 
         $this->datagrid = new BootstrapDatagridWrapper( new TDataGrid() );
         $this->datagrid->datatable = "true";
@@ -171,7 +171,7 @@ class MunicipioList extends TPage{
 
                 $repository = new TRepository( "MunicipioRecord" );
 
-                if ( empty( $param[ "order" ] ) )
+                if ( empty( $param[ "order" ] ) && ( is_numeric( $data->dados ) ) )
                 {
                     $param[ "order" ] = "id";
                     $param[ "direction" ] = "asc";
@@ -183,13 +183,9 @@ class MunicipioList extends TPage{
                 $criteria->setProperties( $param );
                 $criteria->setProperty( "limit", $limit );
 
-                if( $data->opcao == "nome" )
+                if( $data->opcao == "nome" ||  ( $data->opcao == "codibge" ) )
                 {
                     $criteria->add( new TFilter( $data->opcao, "LIKE", "%" . $data->dados . "%" ) );
-                }
-                else if ( ( $data->opcao == "cpf" || $data->opcao == "rg" ) && ( is_numeric( $data->dados ) ) )
-                {
-                    $criteria->add( new TFilter( $data->opcao, "LIKE", $data->dados . "%" ) );
                 }
                 else
                 {

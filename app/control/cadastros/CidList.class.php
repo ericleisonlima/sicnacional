@@ -26,6 +26,7 @@ class CidList extends TPage
 
         // Definicao de propriedades dos campos
         $opcao->setDefaultOption( "..::SELECIONE::.." );
+        $opcao->setValue('nome');
         $dados->setProperty( "title", "Informe os dados de acordo com a opção" );
         // $dados->forceUpperCase();
 
@@ -34,22 +35,20 @@ class CidList extends TPage
         $dados->setSize( "38%" );
 
         // Definicao das opções dos combos
-       // $opcao->addItems( [ "codigocid" => "Código", "nome" => "Nome" ] );
-       // $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
-        //$this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
+        $opcao->addItems( [ "codigocid" => "Código", "nome" => "Nome" ] );
+        $this->form->addFields( [ new TLabel( "Opção de filtro:" ) ], [ $opcao ] );
+        $this->form->addFields( [ new TLabel( "Dados da busca:" ) ], [ $dados ] );
 
 
         // Criacao dos botoes com sua determinada acoes no fomulario
-       // $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
-        $cid_codigo = new TDBMultiSearch('cid_codigo', 'dbsic', 'CidRecord', 'id', 'nome', 'nome');
+        $this->form->addAction( "Buscar", new TAction( [ $this, "onSearch" ] ), "fa:search" );
+        /*$cid_codigo = new TDBMultiSearch('cid_codigo', 'dbsic', 'CidRecord', 'id', 'nome', 'nome');
         $cid_codigo->style = "text-transform: uppercase;";
         $cid_codigo->setProperty('placeholder', '..............::::::: DIGITE A DOENÇA OU CID :::::::..............');
         $cid_codigo->setMinLength(1);
         $cid_codigo->setMaxSize(1);
-        $cid_codigo->setSize('40%');
+        $cid_codigo->setSize('40%');*/
 
-       //
-        $this->form->addFields( [ new TLabel( "Cid" ) ], [ $cid_codigo ] );
         $this->form->addAction( "Novo", new TAction( [ "CidForm", "onEdit" ] ), "bs:plus-sign green" );
 
         $this->form->addFields( [$id] );
@@ -155,7 +154,7 @@ class CidList extends TPage
         }
     }
 
-    /*public function onSearch()
+    public function onSearch()
     {
         $data = $this->form->getData();
         try
@@ -216,7 +215,7 @@ class CidList extends TPage
             $this->form->setData( $data );
             new TMessage( "error", $ex->getMessage() );
         }
-    }*/
+    }
 
     public function onDelete( $param = NULL )
     {
