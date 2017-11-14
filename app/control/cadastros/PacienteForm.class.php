@@ -55,12 +55,13 @@ class PacienteForm extends TPage
         $municipio_id->addItems($items);
         TTransaction::close(); */
 
-        $municipio_id = new TDBMultiSearch('municipio_id', 'dbsic', 'MunicipioRecord', 'id', 'nome', 'nome');
+        $municipio_id = new TDBCombo('municipio_id', 'dbsic', 'MunicipioRecord', 'id', 'nome', 'nome');
         $municipio_id->style = "text-transform: uppercase;";
         $municipio_id->setProperty('placeholder', '....::::DIGITE O MUNICÍPIO::::....');
-        $municipio_id->setMinLength(1);
-        $municipio_id->setMaxSize(1);
+        $municipio_id->setMinLength(3);
         $municipio_id->setSize('30%');
+        $municipio_id->enableSearch();
+
 
 
         //-----------------------------------------------------------------------------------------------------------------
@@ -171,6 +172,9 @@ class PacienteForm extends TPage
             TTransaction::open( "dbsic" );
 
             $object = $this->form->getData( "PacienteRecord" );
+
+            //$object->municipio_id = key($object->municipio_id);
+
             $object->store();
 
             TTransaction::close();
