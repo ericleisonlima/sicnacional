@@ -107,7 +107,7 @@ class NutricaoParenteralDetalhe extends TWindow{
 
         $inicio->addValidation( "Início", new TRequiredValidator );
         $tipoparenteral->addValidation( "Tipo Parenteral", new TRequiredValidator );
-        $volumenpt->addValidation( "Tipo da NTP", new TRequiredValidator );
+        $volumenpt->addValidation( "Volume da NTP", new TRequiredValidator );
         $acessovenosolp->addValidation( "Acesso Venoso", new TRequiredValidator );
         $apresentouinfeccaoacessovenoso->addValidation( "Apresentou Infecção no Acesso Venoso", new TRequiredValidator );
         
@@ -207,9 +207,11 @@ class NutricaoParenteralDetalhe extends TWindow{
     public function onSave($param){
         try{
 
+            $this->form->validate();
+
             TTransaction::open('dbsic');
             $cadastro = $this->form->getData('NutricaoParenteralRecord');
-            $this->form->validate();
+            
             $cadastro->store();
             TTransaction::close();
 
@@ -221,7 +223,8 @@ class NutricaoParenteralDetalhe extends TWindow{
             TApplication::gotoPage('PacienteDetail','onReload', $param); 
 
         }catch (Exception $e){
-            $cadastro = $this->form->getData($this->activeRecord);
+            
+            $cadastro = $this->form->getData('NutricaoParenteralRecord');
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }

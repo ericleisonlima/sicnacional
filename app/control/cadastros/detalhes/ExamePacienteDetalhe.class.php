@@ -99,7 +99,7 @@ class ExamePacienteDetalhe extends TWindow{
             TApplication::gotoPage('PacienteDetail','onReload', $param); 
 
         }catch (Exception $e){
-            $object = $this->form->getData($this->activeRecord);
+            $object = $this->form->getData('ExamePacienteRecord');
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }

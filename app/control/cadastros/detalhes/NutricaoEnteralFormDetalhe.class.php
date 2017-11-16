@@ -137,7 +137,7 @@ class NutricaoEnteralFormDetalhe extends TWindow{
             TApplication::gotoPage('PacienteDetail','onReload', $param);
 
         }catch (Exception $e){
-            $cadastro = $this->form->getData($this->activeRecord);
+            $cadastro = $this->form->getData('NutricaoEnteralRecord');
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }

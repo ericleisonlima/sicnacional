@@ -53,6 +53,9 @@ class DoencaBaseDetalhe extends TWindow
         $this->form->addFields( [ $id, $cid_id ] );
 
 
+        $cid_id->addValidation( "CID", new TRequiredValidator );
+
+
         $action = new TAction(array($this, 'onSave'));
         $action->setParameter('key', '' . filter_input(INPUT_GET, 'key') . '');
         $action->setParameter('fk', '' . filter_input(INPUT_GET, 'fk') . '');
@@ -105,6 +108,7 @@ class DoencaBaseDetalhe extends TWindow
         }
         catch ( Exception $ex )
         {
+            
             TTransaction::rollback();
             new TMessage( "error", "Ocorreu um erro ao tentar salvar o registro!<br><br>" . $ex->getMessage() );
         }

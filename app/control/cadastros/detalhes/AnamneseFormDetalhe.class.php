@@ -207,7 +207,7 @@ class AnamneseFormDetalhe extends TWindow{
         TApplication::gotoPage('AnamneseFormDetalhe','onReload', $param); 
 
     }catch (Exception $e){
-        $object = $this->form->getData($this->activeRecord);
+        $object = $this->form->getData('AnamneseRecord');
         new TMessage('error', $e->getMessage());
         TTransaction::rollback();
     }
