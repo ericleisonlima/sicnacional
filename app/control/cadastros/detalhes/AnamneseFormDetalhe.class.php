@@ -111,7 +111,7 @@ class AnamneseFormDetalhe extends TWindow{
         $transplantado->addValidation( "Transplantado", new TRequiredValidator );
 
         $this->form->addFields( [new TLabel('Paciente'),$paciente_nome] );
-        $this->form->addFields( [new TLabel('Estabelecimento Medico')], [$estabelecimento_medico_id] );
+        $this->form->addFields( [new TLabel('Estabelecimento Medico<font color=red><b>*</b></font>')], [$estabelecimento_medico_id] );
         $this->form->addFields( [new TLabel('Data do Registro <font color=red><b>*</b></font>')], [$dataregistro ] );
         $this->form->addFields( [new TLabel('Data da Cirurgia')], [$datacirurgia] );
         $this->form->addFields( [new TLabel('Peso <font color=red><b>*</b></font>')], [$peso] );
@@ -204,7 +204,7 @@ class AnamneseFormDetalhe extends TWindow{
         $param['id'] = $cadastro->id;
         $param['fk'] = $cadastro->paciente_id;
         new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
-        TApplication::gotoPage('AnamneseFormDetalhe','onReload', $param); 
+        TApplication::gotoPage('PacienteDetail','onReload', $param); 
 
     }catch (Exception $e){
         $object = $this->form->getData('AnamneseRecord');

@@ -53,7 +53,7 @@ class DoencaBaseDetalhe extends TWindow
         $this->form->addFields( [ $id, $cid_id ] );
 
 
-        $cid_id->addValidation( "CID", new TRequiredValidator );
+        $cid_codigo->addValidation( "CID", new TRequiredValidator );
 
 
         $action = new TAction(array($this, 'onSave'));
