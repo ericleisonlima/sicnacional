@@ -1,9 +1,9 @@
 
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_erros', 1);
+//error_reporting(E_ALL);
 
 class PacienteForm extends TPage
 {
@@ -14,11 +14,11 @@ class PacienteForm extends TPage
        
         $this->form = new BootstrapFormBuilder( "form_cadastro_paciente" );
         $this->form->setFormTitle( "Cadastro de Paciente" );
-        $this->form->class = "tform";
+        $this->form->class = "form_cadastro_pacienteform_cadastro_paciente";
 
         $notebook = new BootstrapNotebookWrapper(new TNotebook);
         $this->form->add($notebook);
-
+        
         $page1 = new TTable;
         $page2 = new TTable;
         $page1->style = 'padding: 10px';
@@ -50,7 +50,7 @@ class PacienteForm extends TPage
 
         $qtd_cirurgia               = new TEntry("qtd_cirurgia");
         $peso_habitual              = new TEntry("peso_habitual");
-        $altura                 = new TEntry("altura"); 
+        $altura                     = new TEntry("altura"); 
         $descricao_cirurgia         = new TText("descricao_cirurgia");
         $tiposanguineo              = new TCombo( "tiposanguineo" ); 
         $fatorsanguineo             = new TCombo( "fatorsanguineo" );
@@ -82,6 +82,7 @@ class PacienteForm extends TPage
 
         $empregado->addItems(array('S'=>'Sim', 'N'=>'Não'));
         $empregado->setLayout('horizontal'); 
+        $empregado->setValue('sim');
 
         ##--Mascaras--##
 
@@ -219,6 +220,10 @@ class PacienteForm extends TPage
             $acaoalcoolista->setParameter('formName', $this->form->getName());
             $tipo_alcoolista->setChangeAction($acaoalcoolista);
 
+            $acaoemprego = new TAction(array($this, 'onChangeEmprego'));
+            $acaoemprego->setParameter('formName', $this->form->getName());
+            $empregado->setChangeAction($acaoemprego);
+
 
         ##--container--##
       
@@ -313,28 +318,49 @@ class PacienteForm extends TPage
         {
             case 'SIM':
             
-            TCombo::clearField($param['formName'], 'data_fim_alcoolista');
-            TCombo::disableField($param['formName'], 'data_fim_alcoolista');
+            TCombo::clearField($param['form_cadastro_paciente'], 'data_fim_alcoolista');
+            TCombo::disableField($param['form_cadastro_paciente'], 'data_fim_alcoolista');
             
-            TCombo::enableField($param['formName'], 'data_inicio_alcoolista');
+            TCombo::enableField($param['form_cadastro_paciente'], 'data_inicio_alcoolista');
             
             break;
         
             case 'NAO':
             
-            TCombo::clearField($param['formName'], 'data_fim_alcoolista');
-            TCombo::disableField($param['formName'], 'data_inicio_alcoolista');
+            TCombo::clearField($param['form_cadastro_paciente'], 'data_fim_alcoolista');
+            TCombo::disableField($param['form_cadastro_paciente'], 'data_inicio_alcoolista');
 
-            TCombo::clearField($param['formName'], 'data_fim_alcoolista');
-            TCombo::disableField($param['formName'], 'data_inicio_alcoolista'); 
+            TCombo::clearField($param['form_cadastro_paciente'], 'data_fim_alcoolista');
+            TCombo::disableField($param['form_cadastro_paciente'], 'data_inicio_alcoolista'); 
              
             break;
 
             case 'EX-ALCOOLISTA':
             
-            TCombo::enableField($param['formName'], 'data_inicio_alcoolista');    
-            TCombo::enableField($param['formName'], 'data_fim_alcoolista');    
+            TCombo::enableField($param['form_cadastro_paciente'], 'data_inicio_alcoolista');    
+            TCombo::enableField($param['form_cadastro_paciente'], 'data_fim_alcoolista');    
  
+            break;
+
+        }
+    }
+
+     public static function onChangeEmprego($param)
+    {
+        switch ($param['empregado'])
+        {
+            case 'SIM':
+            
+            TCombo::enableField($param['form_cadastro_paciente'], 'profissao');
+            
+            break;
+        
+            case 'NAO':
+            
+            TCombo::clearField($param['form_cadastro_paciente'], 'profissao');
+            TCombo::disableField($param['form_cadastro_paciente'], 'profissao');
+
+             
             break;
 
         }

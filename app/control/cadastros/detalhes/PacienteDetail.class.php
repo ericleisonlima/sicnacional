@@ -1,8 +1,8 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_erros', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
+error_reporting(E_ALL);
 
 
 class PacienteDetail extends TPage
@@ -46,9 +46,17 @@ class PacienteDetail extends TPage
             $municipio = new TLabel( $tempVisita->municipio );         
             $datadiagnostico = new TLabel( TDate::date2br($tempVisita->data_diagnostico) );
             $estabelecimento = new TLabel( $tempVisita->estabelecimento);
+            $peso_habitual = new TLabel($tempVisita->peso_habitual);
 
         }
         TTransaction::close(); 
+
+        $this->frame = new TElement('div');
+        $this->frame->id = 'photo_frame';
+        $this->frame->style = 'width: 800px; height:auto; min-height:250px; border:2px solid gray; padding:2px;';
+
+        $image = new TImage('app/images/tabela_obesidade.png');
+        $this->frame->add($image);
 
         $paciente_nome->setSize("25%");
         $datadiagnostico->setSize("20%");
@@ -63,6 +71,10 @@ class PacienteDetail extends TPage
         $this->form1->addFields( [new TLabel('Paciente: '), $paciente_nome, ('Data Diagnostico: '), $datadiagnostico] );
         $this->form1->addFields( [new TLabel('Tipo Sanguineo: '), $tiposanguineo, ('Fator Sanguineo: '), $fatorsanguineo] );       
         $this->form1->addFields( [new TLabel('Estabelecimento: '), $estabelecimento, ('Municipio: '), $municipio] );
+        $this->form1->addFields( [new TLabel('Peso Habitual(Kg): '), $peso_habitual]);
+        $this->form1->addFields( [null, $image]);
+
+
 
         /*--- frame de Direcionamento ---*/
         $frame = new TFrame;
